@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="efolder" target="17" />
+      <module name="efolder" target="17.0.4.1" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

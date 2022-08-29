@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.efolder.EfolderApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.592 s - in com.example.efolder.EfolderApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.143 s - in com.example.efolder.EfolderApplicationTests

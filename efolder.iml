@@ -129,5 +129,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.thetransactioncompany:cors-filter:2.10" level="project" />
+    <orderEntry type="library" name="Maven: com.thetransactioncompany:java-property-utils:1.16" level="project" />
   </component>
 </module>

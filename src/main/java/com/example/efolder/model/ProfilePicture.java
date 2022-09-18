@@ -1,12 +1,11 @@
 package com.example.efolder.model;
 
-import com.example.efolder.model.enums.FileCategory;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.IOException;
+
 
 @Getter
 @Entity
@@ -34,5 +33,21 @@ public class ProfilePicture {
     @Setter
     @Column(name = "content")
     protected byte[] content;
+
+    @Builder
+    public ProfilePicture(MultipartFile file, UserInfo owner){
+        this.id = null;
+        this.name = file.getOriginalFilename();
+        this.user = owner;
+        this.size = file.getSize();
+        try {
+            this.content = file.getBytes();
+        } catch (IOException e) {
+            this.content = null;
+            e.getCause();
+            e.printStackTrace();
+
+        }
+    }
 
 }

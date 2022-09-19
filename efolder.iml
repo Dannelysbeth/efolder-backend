@@ -15,7 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="efolder" value="9fd1dd16-24a8-49df-8b37-81c439a641b4" />
+          <factory-entry name="efolder" value="ad45ff3e-c153-4c3b-ad8b-61621b2b35d4" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>

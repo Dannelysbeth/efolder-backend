@@ -3,17 +3,21 @@ package com.example.efolder.model;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.persistence.*;
+import java.io.File;
 import java.io.IOException;
 
 
+@Builder
 @Getter
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name="profile_pictures")
 public class ProfilePicture {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long id;
 
@@ -34,20 +38,22 @@ public class ProfilePicture {
     @Column(name = "content")
     protected byte[] content;
 
-    @Builder
-    public ProfilePicture(MultipartFile file, UserInfo owner){
-        this.id = null;
-        this.name = file.getOriginalFilename();
-        this.user = owner;
-        this.size = file.getSize();
-        try {
-            this.content = file.getBytes();
-        } catch (IOException e) {
-            this.content = null;
-            e.getCause();
-            e.printStackTrace();
+//    @Builder
+//    public ProfilePicture(MultipartFile file, UserInfo owner){
+//        if(!checkIfValidPicture(file))
+//        this.id = null;
+//        this.name = file.getOriginalFilename();
+//        this.user = owner;
+//        this.size = file.getSize();
+//        try {
+//            this.content = file.getBytes();
+//        } catch (IOException e) {
+//            this.content = null;
+//            e.getCause();
+//            e.printStackTrace();
+//
+//        }
+//    }
 
-        }
-    }
 
 }

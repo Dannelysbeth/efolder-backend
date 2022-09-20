@@ -6,6 +6,7 @@ import com.example.efolder.model.dto.requests.AddProfilePictureRequest;
 import com.example.efolder.model.dto.respones.ProfilePictureResponse;
 import com.example.efolder.service.definition.ProfilePictureService;
 import com.example.efolder.service.definition.UserInfoService;
+import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -15,11 +16,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/profilePicture")
 public class ProfilePictureController {
     private final ProfilePictureService profilePictureService;
+    private final UserService userService;
     private final UserInfoService userInfoService;
 
     @PreAuthorize("permitAll()")
@@ -34,12 +40,32 @@ public class ProfilePictureController {
 
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
     @PostMapping("/upload")
-    public ResponseEntity<ProfilePictureResponse> uploadMyProfilePicture(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ProfilePictureResponse> uploadMyProfilePicture(@RequestParam("file") MultipartFile file) throws IOException {
         UserInfo loggedUser = userInfoService.getLoggedUser();
         ProfilePicture profilePicture = new AddProfilePictureRequest().profilePictureRequest(file, loggedUser);
         return ResponseEntity.accepted().body(ProfilePictureResponse.builder()
                 .profilePicture(profilePictureService.saveProfilePicture(profilePicture))
                 .build());
     }
+
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
+    @PostMapping("/upload/{username}")
+    public ResponseEntity<ProfilePictureResponse> uploadUsersProfilePicture(@PathVariable String username, @RequestParam("file") MultipartFile file) throws IOException {
+        UserInfo userInfo = userInfoService.getUser(username);
+        ProfilePicture profilePicture = new AddProfilePictureRequest().profilePictureRequest(file, userInfo);
+        return ResponseEntity.accepted().body(ProfilePictureResponse.builder()
+                .profilePicture(profilePictureService.saveProfilePicture(profilePicture))
+                .build());
+    }
+
+//    private boolean checkIfValidPicture(MultipartFile file){
+//        String filepath = file.getOriginalFilename();
+//        File f = new File(filepath);
+//        String mimetype= new MimetypesFileTypeMap().getContentType(f);
+//        String type = mimetype.split("/")[0];
+//        if(type.equals("image"))
+//            return true;
+//        return false;
+//    }
 
 }

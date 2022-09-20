@@ -16,10 +16,6 @@ public class Address {
     @Column(name = "user_id", nullable = false)
     private Long id;
 
-    //    @OneToOne
-//    @MapsId
-//    @JoinColumn(name = "id")
-//    @OneToOne(mappedBy = "address")
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")

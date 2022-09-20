@@ -26,6 +26,11 @@ public class UserInfo extends User {
     @PrimaryKeyJoinColumn
     private Employment employment;
 
+    @Setter
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private ProfilePicture profilePicture;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teamLeader")
     private Collection<Team> teams = new ArrayList<>();
 
@@ -63,6 +68,7 @@ public class UserInfo extends User {
     @Builder
     public UserInfo(String username, String password, Address address,
                     Employment employment,
+                    ProfilePicture profilePicture,
                     Collection<Team> teams,
                     Collection<Employment> hrPeoplePull,
                     String firstname,
@@ -75,6 +81,7 @@ public class UserInfo extends User {
         this.password = password;
         this.employment = employment;
         this.address = address;
+        this.profilePicture = profilePicture;
         this.teams = teams;
         this.hrPeoplePull = hrPeoplePull;
         this.firstname = firstname;

@@ -47,12 +47,13 @@ public class UserController {
         ).collect(Collectors.toList()));
     }
 
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping("/superAdmin")
-    public ResponseEntity<UserRolesResponse>saveUser(@RequestBody User user){
+    public ResponseEntity<UserRolesResponse>saveUser(@RequestBody CreateUserRequest userRequest){
+        UserInfo user = userRequest.userRequest(userService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/superAdmin('"+user.getUsername()+"')").toUriString());
         return ResponseEntity.created(uri).body(UserRolesResponse.builder()
-                .user(userService.saveUser(user))
+                .user(userInfoService.createSuperAdmin(user))
                 .build());
     }
 
@@ -62,7 +63,7 @@ public class UserController {
         UserInfo userInfo = userRequest.userRequest(userService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+userInfo.getUsername()+"')").toUriString());
         return ResponseEntity.created(uri).body(UserInfoResponse.builder()
-                .user(userInfoService.saveUser(userInfo))
+                .user(userInfoService.createEmployeeUser(userInfo))
                 .build());
     }
 

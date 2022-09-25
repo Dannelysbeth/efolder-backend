@@ -49,20 +49,6 @@ public class CreateUserRequest {
     @JsonProperty("repeatPassword")
     private String repeatPassword;
 
-//    /**
-//     * Checks whether the username exists or not
-//     * @param userService the pool that will be searched for usernames
-//     * @param username the searched username
-//     * @return true if the username is already taken
-//     */
-//    private boolean checkIfUsernameExists(UserService userService, String username){
-//        for(User u: userService.getAllUsers()){
-//            if(u.getUsername().equals(username))
-//                return true;
-//        }
-//        return false;
-//    }
-
     /**
      * Generates a username for given name and lastname
      * @param userService

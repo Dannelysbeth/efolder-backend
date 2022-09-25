@@ -2,6 +2,7 @@ package com.example.efolder.service.implementation;
 
 import com.example.efolder.exceptions.EmailExistsException;
 import com.example.efolder.exceptions.UserNotFoundException;
+import com.example.efolder.model.Role;
 import com.example.efolder.model.UserInfo;
 import com.example.efolder.repository.UserInfoRepository;
 import com.example.efolder.repository.UserRepository;
@@ -24,6 +25,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final RoleService roleService;
     private final UserService userService;
 
+    private boolean emailExistsInDatabase(UserInfo user){
+        if(userInfoRepository.existsByEmail(user.getEmail()))
+            return true;
+        return false;
+    }
+
     @Override
     public UserInfo getUser(String username) {
         return userInfoRepository.findByUsername(username)
@@ -32,11 +39,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfo saveUser(UserInfo user) {
-        if(userInfoRepository.existsByEmail(user.getEmail()))
-            throw new EmailExistsException();
-        user.addRole(roleService.getRole("ROLE_REGULAR_EMPLOYEE"));
-        user = (UserInfo) userService.saveUser(user);
         return userInfoRepository.save(user);
+    }
+
+    @Override
+    public UserInfo createEmployeeUser(UserInfo user) {
+        if(emailExistsInDatabase(user)){
+            throw new EmailExistsException();
+        }
+        return saveUser(addRegularEmployeeRole(user));
+
     }
 
     @Override
@@ -54,6 +66,38 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo userInfo;
         userInfo = user;
         return userInfoRepository.save(userInfo);
+    }
+
+    @Override
+    public UserInfo createSuperAdmin(UserInfo user) {
+        if(emailExistsInDatabase(user)){
+            throw new EmailExistsException();
+        }
+        return addSuperAdminRole(user);
+    }
+
+    @Override
+    public UserInfo addSuperAdminRole(UserInfo user) {
+        user.addRole(roleService.getRole("ROLE_SUPER_ADMIN"));
+        return saveUser(user);
+    }
+
+    @Override
+    public UserInfo addRegularEmployeeRole(UserInfo user) {
+        user.addRole(roleService.getRole("ROLE_REGULAR_EMPLOYEE"));
+        return saveUser(user);
+    }
+
+    @Override
+    public UserInfo addManagerRole(UserInfo user) {
+        user.addRole(roleService.getRole("ROLE_MANAGER"));
+        return saveUser(user);
+    }
+
+    @Override
+    public UserInfo addHRAdminRole(UserInfo user) {
+        user.addRole(roleService.getRole("ROLE_HR_ADMIN"));
+        return saveUser(user);
     }
 
 }

@@ -6,6 +6,7 @@ import com.example.efolder.service.definition.UserService;
 import lombok.Data;
 
 @Data
+//TODO doubleRoleCheck
 public class RoleToUserRequest {
     private String username;
     private String roleName;

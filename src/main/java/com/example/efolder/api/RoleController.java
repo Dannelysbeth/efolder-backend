@@ -59,10 +59,13 @@ public class RoleController {
 
     @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping("/addRole")
-    public ResponseEntity<User>addRoleToUser(@RequestBody RoleToUserRequest roleToUserRequest){
+    public ResponseEntity<UserRolesResponse>addRoleToUser(@RequestBody RoleToUserRequest roleToUserRequest){
         User user = roleToUserRequest.addRoleToUserRequest(userService, roleService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+user.getUsername()).toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(UserRolesResponse.builder()
+                .user(userService.saveUser(user))
+                .build()
+        );
     }
 
 }

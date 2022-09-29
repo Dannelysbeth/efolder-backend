@@ -6,3 +6,4 @@ Fix login page and CORS policy
 Correct the roles. 
 Make sure that user cannot have the same rule multiple times
 Work on Frontend
+CORD policy ASAP!!! 

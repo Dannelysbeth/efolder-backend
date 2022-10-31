@@ -50,6 +50,7 @@ com\example\efolder\model\dto\respones\EmploymentResponse.class
 com\example\efolder\model\Document$DocumentBuilder.class
 com\example\efolder\model\ProfilePicture$ProfilePictureBuilder.class
 com\example\efolder\repository\UserRepository.class
+com\example\efolder\exceptions\NotValidDocumentExtensionException.class
 com\example\efolder\model\dto\respones\UserInfoResponse.class
 com\example\efolder\model\dto\requests\RoleToUserRequest.class
 com\example\efolder\service\definition\EmploymentService.class
@@ -58,6 +59,7 @@ com\example\efolder\service\definition\DocumentService.class
 com\example\efolder\service\definition\ProfilePictureService.class
 com\example\efolder\exceptions\DocumentCreationFailureException.class
 com\example\efolder\model\dto\respones\TeamResponse$TeamResponseBuilder.class
+com\example\efolder\exceptions\NotValidPictureException.class
 com\example\efolder\service\implementation\EmploymentImpl.class
 com\example\efolder\model\dto\respones\TeamResponse.class
 com\example\efolder\model\dto\requests\ChangeEmploymentRequest.class
@@ -69,6 +71,7 @@ com\example\efolder\service\implementation\DocumentServiceImpl.class
 com\example\efolder\model\dto\requests\CreateUserRequest.class
 com\example\efolder\service\implementation\ProfilePictureServiceImpl.class
 com\example\efolder\model\dto\requests\RoleRequest.class
+com\example\efolder\exceptions\UserHasRoleException.class
 com\example\efolder\repository\AddressRepository.class
 com\example\efolder\security\filters\CustomAuthorizationFilter.class
 com\example\efolder\repository\EmploymentRepository.class

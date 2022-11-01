@@ -2,7 +2,7 @@ package com.example.efolder.api;
 
 import com.example.efolder.model.Document;
 import com.example.efolder.model.User;
-import com.example.efolder.model.dto.requests.AddDocumentARequest;
+import com.example.efolder.model.dto.requests.AddDocumentRequest;
 import com.example.efolder.model.dto.respones.DocumentResponse;
 import com.example.efolder.service.definition.DocumentService;
 import com.example.efolder.service.definition.UserService;
@@ -55,7 +55,7 @@ public class DocumentController {
     @PostMapping("/A/upload")
     public ResponseEntity<DocumentResponse> uploadMyAFile(@RequestParam("file") MultipartFile file) {
         User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentARequest().documentRequest(file, loggedUser, "A");
+        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "A");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());    }
@@ -64,7 +64,7 @@ public class DocumentController {
     @PostMapping("/B/upload")
     public ResponseEntity<DocumentResponse> uploadMyBFile(@RequestParam("file") MultipartFile file) {
         User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentARequest().documentRequest(file, loggedUser, "B");
+        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "B");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());    }
@@ -73,7 +73,7 @@ public class DocumentController {
     @PostMapping("/C/upload")
     public ResponseEntity<DocumentResponse> uploadMyCFile(@RequestParam("file") MultipartFile file) {
         User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentARequest().documentRequest(file, loggedUser, "C");
+        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "C");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());    }
@@ -82,7 +82,7 @@ public class DocumentController {
     @PostMapping("/D/upload")
     public ResponseEntity<DocumentResponse> uploadMyDFile(@RequestParam("file") MultipartFile file) {
         User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentARequest().documentRequest(file, loggedUser, "D");
+        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "D");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());    }
@@ -91,7 +91,7 @@ public class DocumentController {
     @PostMapping("/{username}/A/upload")
     public ResponseEntity<DocumentResponse> uploadAFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
         User user = userService.getUser(username);
-        Document document = new AddDocumentARequest().documentRequest(file, user, "A");
+        Document document = new AddDocumentRequest().documentRequest(file, user, "A");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());    }
@@ -100,7 +100,7 @@ public class DocumentController {
     @PostMapping("/{username}/B/upload")
     public ResponseEntity<DocumentResponse> uploadBFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
         User user = userService.getUser(username);
-        Document document = new AddDocumentARequest().documentRequest(file, user, "B");
+        Document document = new AddDocumentRequest().documentRequest(file, user, "B");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());    }
@@ -109,7 +109,7 @@ public class DocumentController {
     @PostMapping("/{username}/C/upload")
     public ResponseEntity<DocumentResponse> uploadCFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
         User user = userService.getUser(username);
-        Document document = new AddDocumentARequest().documentRequest(file, user, "C");
+        Document document = new AddDocumentRequest().documentRequest(file, user, "C");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());
@@ -119,7 +119,7 @@ public class DocumentController {
     @PostMapping("/{username}/D/upload")
     public ResponseEntity<DocumentResponse> uploadDFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
         User user = userService.getUser(username);
-        Document document = new AddDocumentARequest().documentRequest(file, user, "D");
+        Document document = new AddDocumentRequest().documentRequest(file, user, "D");
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());

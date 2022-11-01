@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,4 +21,7 @@ public class Role {
     @Column(name = "id", nullable = false)
     private Long id;
     private String roleName;
+
+//    @ManyToMany(mappedBy = "roles")
+//    private Set<User> employees = new HashSet<>();
 }

@@ -33,13 +33,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     private boolean emailExistsInDatabase(User user){
         return userRepository.existsByEmail(user.getEmail()) ? true : false;
-//            return true;
-//        return false;
+    }
+    private User setEncodedPassword(User user){
+        return user;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
         log.info("User {} found in database", username);
         Collection<SimpleGrantedAuthority> authorities =  new ArrayList<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
@@ -60,10 +62,10 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User createRegularEmployee(User user) {
-        if(emailExistsInDatabase(user)){
+        if(emailExistsInDatabase(user))
             throw new EmailExistsException();
-        }
-        addRoleToUser(user.getUsername(), "ROLE_REGULAR_EMPLOYEE");
+        user.addRole(roleRepository.findByRoleName("ROLE_REGULAR_EMPLOYEE")
+                .orElseThrow(RoleNotFoundException::new));
         return saveUser(user);
     }
 
@@ -101,7 +103,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User updateUser(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override

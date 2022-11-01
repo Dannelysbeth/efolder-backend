@@ -6,9 +6,7 @@ import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 
 @Getter
@@ -81,8 +79,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    protected Collection<Role> roles = new ArrayList<>();
+//    @ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name="users_roles",
+            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
+            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")}
+    )
+    private Set<Role> roles = new HashSet<>();;
 
     public User(String firstname, String lastname, String username, String password, String email){
         this.firstname = firstname;
@@ -98,6 +101,7 @@ public class User {
                     ProfilePicture profilePicture,
                     Collection<Team> teams,
                     Collection<Employment> hrPeoplePull,
+                    Collection<Document> documents,
                     String firstname,
                     String middleName,
                     String lastname,
@@ -111,6 +115,7 @@ public class User {
         this.profilePicture = profilePicture;
         this.teams = teams;
         this.hrPeoplePull = hrPeoplePull;
+        this.documents = documents;
         this.firstname = firstname;
         this.middleName = middleName;
         this.lastname = lastname;

@@ -24,7 +24,7 @@ public class ProfilePicture {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
-    private UserInfo user;
+    private User user;
 
     @Setter
     @Column(name = "name")

@@ -1,6 +1,6 @@
 package com.example.efolder.model.dto.respones;
 
-import com.example.efolder.model.UserInfo;
+import com.example.efolder.model.User;
 import com.example.efolder.model.enums.Gender;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class UserInfoResponse {
     private String password;
 
     @Builder
-    UserInfoResponse(UserInfo user){
+    UserInfoResponse(User user){
         this.id = user.getId();
         this.username = user.getUsername();
         this.firstname = user.getFirstname();

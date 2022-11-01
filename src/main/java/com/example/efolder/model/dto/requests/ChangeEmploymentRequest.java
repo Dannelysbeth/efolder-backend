@@ -2,7 +2,7 @@ package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.model.Employment;
 import com.example.efolder.service.definition.TeamService;
-import com.example.efolder.service.definition.UserInfoService;
+import com.example.efolder.service.definition.UserService;
 import lombok.Data;
 
 
@@ -16,15 +16,15 @@ public class ChangeEmploymentRequest {
 
     private String positionDescription;
 
-    private Employment setParamsIfNull(Employment employment, TeamService teamService, UserInfoService userInfoService){
+    private Employment setParamsIfNull(Employment employment, TeamService teamService, UserService userService){
         employment.setTeam(teamName!=null ? teamService.getTeam(teamName) : employment.getTeam());
-        employment.setHrManager(hrManager!=null ? userInfoService.getUser(hrManager) : employment.getHrManager());
+        employment.setHrManager(hrManager!=null ? userService.getUser(hrManager) : employment.getHrManager());
         employment.setPositionName(positionName!=null ? positionName : employment.getPositionName());
         employment.setPositionDescription(positionDescription!=null ? positionDescription : employment.getPositionDescription());
         return employment;
     }
 
-    public Employment employmentRequest(Employment employment, TeamService teamService, UserInfoService userInfoService){
-        return setParamsIfNull(employment, teamService, userInfoService);
+    public Employment employmentRequest(Employment employment, TeamService teamService, UserService userService){
+        return setParamsIfNull(employment, teamService, userService);
     }
 }

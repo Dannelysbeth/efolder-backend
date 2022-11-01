@@ -1,7 +1,6 @@
 package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.model.Team;
-import com.example.efolder.service.definition.UserInfoService;
 import com.example.efolder.service.definition.UserService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,7 @@ public class CreateTeamRequest {
     @JsonProperty("teamLeader")
     private String teamLeaderUsername;
 
-    public Team teamRequest(UserInfoService userService){
+    public Team teamRequest(UserService userService){
         return Team.builder()
                 .id(null)
                 .name(name)

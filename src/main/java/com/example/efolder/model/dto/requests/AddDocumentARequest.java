@@ -2,7 +2,7 @@ package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.exceptions.NotValidDocumentExtensionException;
 import com.example.efolder.model.Document;
-import com.example.efolder.model.UserInfo;
+import com.example.efolder.model.User;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +17,7 @@ public class AddDocumentARequest {
                 || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOCX")
                 || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".ODT");
     }
-    public Document documentRequest(MultipartFile file, UserInfo owner, String fileCategory){
+    public Document documentRequest(MultipartFile file, User owner, String fileCategory){
         if(checkDocumentExtension(file))
             return Document.builder()
                     .owner(owner)

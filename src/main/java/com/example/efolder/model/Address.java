@@ -19,7 +19,7 @@ public class Address {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
-    private UserInfo user;
+    private User user;
 
     @Setter
     @Column(name = "country")

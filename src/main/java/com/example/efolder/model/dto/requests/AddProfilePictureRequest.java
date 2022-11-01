@@ -2,7 +2,7 @@ package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.exceptions.NotValidPictureException;
 import com.example.efolder.model.ProfilePicture;
-import com.example.efolder.model.UserInfo;
+import com.example.efolder.model.User;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +21,7 @@ public class AddProfilePictureRequest {
         String type = mimetype.split("/")[0];
         return type.equals("image");
     }
-    public ProfilePicture profilePictureRequest(MultipartFile file, UserInfo owner) throws IOException {
+    public ProfilePicture profilePictureRequest(MultipartFile file, User owner) throws IOException {
         if(!checkIfValidPicture(file))
             throw new NotValidPictureException();
         else{

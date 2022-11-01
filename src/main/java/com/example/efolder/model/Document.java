@@ -24,7 +24,7 @@ public class Document {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
-    protected UserInfo owner;
+    protected User owner;
 
     @Setter
     @Column(name = "name")
@@ -48,7 +48,7 @@ public class Document {
     protected FileCategory fileCategory;
 
     @Builder
-    public Document(MultipartFile file, UserInfo owner, Date uploadTime, String fileCategory){
+    public Document(MultipartFile file, User owner, Date uploadTime, String fileCategory){
         this.id = null;
         this.name = file.getOriginalFilename();
         this.owner = owner;

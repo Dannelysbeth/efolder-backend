@@ -1,13 +1,11 @@
 package com.example.efolder.api;
 
-import com.example.efolder.model.UserInfo;
 import com.example.efolder.model.dto.requests.ChangePasswordRequest;
 import com.example.efolder.model.dto.requests.CreateUserRequest;
 import com.example.efolder.model.dto.requests.RoleToUserRequest;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.respones.UserInfoResponse;
 import com.example.efolder.model.dto.respones.UserRolesResponse;
-import com.example.efolder.service.definition.UserInfoService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +24,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
-    private final UserInfoService userInfoService;
-
     @Secured("ROLE_SUPER_ADMIN")
     @GetMapping("/all")
     public ResponseEntity<List<UserRolesResponse>>getAllUsers(){
@@ -40,7 +36,7 @@ public class UserController {
     @Secured("ROLE_SUPER_ADMIN")
     @GetMapping("/employee/all")
     public ResponseEntity<List<UserInfoResponse>>getAllEmployees(){
-        return ResponseEntity.ok().body(userInfoService.getAllUsers().stream().map(
+        return ResponseEntity.ok().body(userService.getAllUsers().stream().map(
                 user -> UserInfoResponse.builder()
                         .user(user)
                         .build()
@@ -50,20 +46,20 @@ public class UserController {
     @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping("/superAdmin")
     public ResponseEntity<UserRolesResponse>saveUser(@RequestBody CreateUserRequest userRequest){
-        UserInfo user = userRequest.userRequest(userService);
+        User user = userRequest.userRequest(userService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/superAdmin('"+user.getUsername()+"')").toUriString());
         return ResponseEntity.created(uri).body(UserRolesResponse.builder()
-                .user(userInfoService.createSuperAdmin(user))
+                .user(userService.createSuperAdmin(user))
                 .build());
     }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
     @PostMapping()
     public ResponseEntity<UserInfoResponse>create(@RequestBody CreateUserRequest userRequest){
-        UserInfo userInfo = userRequest.userRequest(userService);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+userInfo.getUsername()+"')").toUriString());
+        User user = userRequest.userRequest(userService);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+user.getUsername()+"')").toUriString());
         return ResponseEntity.created(uri).body(UserInfoResponse.builder()
-                .user(userInfoService.createEmployeeUser(userInfo))
+                .user(userService.createRegularEmployee(user))
                 .build());
     }
 

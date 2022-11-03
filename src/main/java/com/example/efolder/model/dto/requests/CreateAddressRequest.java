@@ -1,7 +1,7 @@
 package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.model.Address;
-import com.example.efolder.model.UserInfo;
+import com.example.efolder.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -26,10 +26,10 @@ public class CreateAddressRequest {
 
     private String flatNumber;
 
-    public Address addressRequest(UserInfo userInfo) {
+    public Address addressRequest(User user) {
         return Address.builder()
-                .user(userInfo)
-                .id(userInfo.getId())
+                .user(user)
+                .id(user.getId())
                 .country(country)
                 .city(city)
                 .buildingNumber(buildingNumber)

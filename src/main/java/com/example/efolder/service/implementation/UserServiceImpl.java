@@ -1,5 +1,6 @@
 package com.example.efolder.service.implementation;
 
+import com.example.efolder.exceptions.EmailExistsException;
 import com.example.efolder.exceptions.RoleNotFoundException;
 import com.example.efolder.exceptions.UserNotFoundException;
 import com.example.efolder.model.User;
@@ -30,9 +31,17 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private boolean emailExistsInDatabase(User user){
+        return userRepository.existsByEmail(user.getEmail()) ? true : false;
+    }
+    private User setEncodedPassword(User user){
+        return user;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
         log.info("User {} found in database", username);
         Collection<SimpleGrantedAuthority> authorities =  new ArrayList<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
@@ -49,6 +58,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public User createRegularEmployee(User user) {
+        if(emailExistsInDatabase(user))
+            throw new EmailExistsException();
+        user.addRole(roleRepository.findByRoleName("ROLE_REGULAR_EMPLOYEE")
+                .orElseThrow(RoleNotFoundException::new));
+        return saveUser(user);
     }
 
     @Override
@@ -81,6 +99,36 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         }
         username = principal.toString();
         return getUser(username);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User createSuperAdmin(User user) {
+        return null;
+    }
+
+    @Override
+    public User addSuperAdminRole(User user) {
+        return null;
+    }
+
+    @Override
+    public User addRegularEmployeeRole(User user) {
+        return null;
+    }
+
+    @Override
+    public User addManagerRole(User user) {
+        return null;
+    }
+
+    @Override
+    public User addHRAdminRole(User user) {
+        return null;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.efolder.model.dto.respones;
 
 import com.example.efolder.model.Employment;
-import com.example.efolder.model.UserInfo;
+import com.example.efolder.model.User;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,10 +20,10 @@ public class EmploymentResponse {
 
     private String positionDescription;
 
-    private String getFullName(UserInfo userInfo){
-        if(userInfo.getMiddleName()!=null)
-            return userInfo.getFirstname()+" "+userInfo.getMiddleName()+" "+userInfo.getLastname();
-        return userInfo.getFirstname()+" "+userInfo.getLastname();
+    private String getFullName(User user){
+        if(user.getMiddleName()!=null)
+            return user.getFirstname()+" "+user.getMiddleName()+" "+user.getLastname();
+        return user.getFirstname()+" "+user.getLastname();
     }
 
     @Builder

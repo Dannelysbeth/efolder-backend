@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @SpringBootApplication
 public class EfolderApplication {
@@ -19,7 +20,7 @@ public class EfolderApplication {
     }
 
 //    @Bean
-//    CommandLineRunner run(UserService userService, RoleService roleService, TeamService teamService, AddressService addressService, UserInfoService userInfoService){
+//    CommandLineRunner run(UserService userService, RoleService roleService, TeamService teamService, AddressService addressService, UserService userInfoService){
 //        return args ->{
 //            roleService.saveRole(new Role(null, "ROLE_REGULAR_EMPLOYEE"));
 //            roleService.saveRole(new Role(null, "ROLE_HR_ADMIN"));
@@ -30,9 +31,9 @@ public class EfolderApplication {
 ////            teamService.saveTeam(new Team(null, "Java", "Java Development", new ArrayList<>(), null));
 ////            teamService.saveTeam(new Team(null, "ZMiTAC", "The living hell", new ArrayList<>(), null));
 //
-//            userService.saveUser(new User(null,"jtravolta", "password", new ArrayList<>()));
-//            userService.saveUser(new User(null, "smiley", "password", new ArrayList<>()));
-//            userService.saveUser(new User(null, "epierre", "password", new ArrayList<>()));
+//            userService.saveUser(new User("John", "Travolta","jtravolta", "password", "jtravolta@test.com"));
+//            userService.saveUser(new User("Sarah", "Miley","smiley", "password", "smiley@test.com"));
+//            userService.saveUser(new User("Eduard", "Pierre","epierre", "password", "epierre@test.com"));
 ////            userService.saveUser(new User(null, "smiley", "password", new ArrayList<>(), null, null, null, null));
 ////            userService.saveUser(new User(null, "epierre", "password", new ArrayList<>(), null, null, null, null));
 //

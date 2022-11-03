@@ -3,11 +3,8 @@ package com.example.efolder.service.implementation;
 import com.example.efolder.exceptions.AddressNotFoundException;
 import com.example.efolder.model.Address;
 import com.example.efolder.model.User;
-import com.example.efolder.model.UserInfo;
-import com.example.efolder.model.dto.requests.CreateAddressRequest;
 import com.example.efolder.repository.AddressRepository;
 import com.example.efolder.service.definition.AddressService;
-import com.example.efolder.service.definition.UserInfoService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +18,13 @@ import javax.transaction.Transactional;
 @Transactional
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
-    private final UserInfoService userService;
+    private final UserService userService;
 
     @Override
     public Address saveAddress(Address address) {
-        UserInfo userInfo = userService.getUser(address.getUser().getUsername());
-        userInfo.setAddress(address);
-        userService.updateUser(userInfo);
+        User user = userService.getUser(address.getUser().getUsername());
+        user.setAddress(address);
+        userService.updateUser(user);
         return addressRepository.save(address);
     }
 

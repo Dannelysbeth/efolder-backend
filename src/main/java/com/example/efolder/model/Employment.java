@@ -20,7 +20,7 @@ public class Employment {
     @JoinColumn(name = "user_id")
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "employee_id", nullable = false)
-    private UserInfo user;
+    private User user;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class Employment {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hr_manager_id", nullable = false)
-    private UserInfo hrManager;
+    private User hrManager;
 
     @Setter
     @Column(name = "position_name")

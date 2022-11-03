@@ -2,9 +2,7 @@ package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.exceptions.NotMatchingPasswordException;
 import com.example.efolder.model.User;
-import com.example.efolder.model.UserInfo;
 import com.example.efolder.model.enums.Gender;
-import com.example.efolder.service.definition.UserInfoService;
 import com.example.efolder.service.definition.UserService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -73,8 +71,8 @@ public class CreateUserRequest {
         else
             return password;
     }
-    public UserInfo userRequest(UserService userService){
-        return UserInfo.builder()
+    public User userRequest(UserService userService){
+        return User.builder()
                 .username(createUserName(userService))
 //                .employment(null)
                 .birthdate(birthdate)

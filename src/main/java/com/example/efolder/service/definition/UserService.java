@@ -11,6 +11,8 @@ public interface UserService extends UserDetailsService {
 
     User saveUser(User user);
 
+    User createRegularEmployee(User user);
+
     List<User> getAllUsers();
 
     void addRoleToUser(String username, String roleName);
@@ -18,6 +20,18 @@ public interface UserService extends UserDetailsService {
     boolean usernameTaken(String username);
 
     User getLoggedUser();
+
+    User updateUser(User user);
+
+    User createSuperAdmin(User user);
+
+    User addSuperAdminRole(User user);
+
+    User addRegularEmployeeRole(User user);
+
+    User addManagerRole(User user);
+
+    User addHRAdminRole(User user);
 
     User changePassword(String username, String password);
 }

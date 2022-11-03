@@ -2,10 +2,10 @@ package com.example.efolder.service.implementation;
 
 import com.example.efolder.exceptions.EmploymentNotFoundException;
 import com.example.efolder.model.Employment;
-import com.example.efolder.model.UserInfo;
+import com.example.efolder.model.User;
 import com.example.efolder.repository.EmploymentRepository;
 import com.example.efolder.service.definition.EmploymentService;
-import com.example.efolder.service.definition.UserInfoService;
+import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class EmploymentImpl implements EmploymentService {
     private final EmploymentRepository employmentRepository;
-    private final UserInfoService userService;
+    private final UserService userService;
 
     @Override
     public Employment getEmployment(String username) {
@@ -29,9 +29,9 @@ public class EmploymentImpl implements EmploymentService {
 
     @Override
     public Employment saveEmployment(Employment employment) {
-        UserInfo userInfo = userService.getUser(employment.getUser().getUsername());
-        userInfo.setEmployment(employment);
-        userService.updateUser(userInfo);
+        User user = userService.getUser(employment.getUser().getUsername());
+        user.setEmployment(employment);
+        userService.updateUser(user);
         return employmentRepository.save(employment);
     }
 

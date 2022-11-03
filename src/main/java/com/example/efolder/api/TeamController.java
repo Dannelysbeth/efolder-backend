@@ -4,7 +4,7 @@ import com.example.efolder.model.Team;
 import com.example.efolder.model.dto.requests.CreateTeamRequest;
 import com.example.efolder.model.dto.respones.TeamResponse;
 import com.example.efolder.service.definition.TeamService;
-import com.example.efolder.service.definition.UserInfoService;
+import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/team")
 public class TeamController {
     private final TeamService teamService;
-    private final UserInfoService userInfoService;
+    private final UserService userService;
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
     @GetMapping("/all")
@@ -34,7 +34,7 @@ public class TeamController {
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
     @PostMapping()
     public ResponseEntity<TeamResponse>createTeam(@RequestBody CreateTeamRequest teamRequest){
-        Team team = teamRequest.teamRequest(userInfoService);
+        Team team = teamRequest.teamRequest(userService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/team").toUriString());
         return ResponseEntity.created(uri).body(TeamResponse.builder()
                         .team(teamService.saveTeam(team))

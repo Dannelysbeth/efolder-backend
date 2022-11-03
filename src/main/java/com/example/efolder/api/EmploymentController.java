@@ -2,13 +2,11 @@ package com.example.efolder.api;
 
 import com.example.efolder.model.Employment;
 import com.example.efolder.model.User;
-import com.example.efolder.model.UserInfo;
 import com.example.efolder.model.dto.requests.ChangeEmploymentRequest;
 import com.example.efolder.model.dto.requests.CreateEmploymentRequest;
 import com.example.efolder.model.dto.respones.EmploymentResponse;
 import com.example.efolder.service.definition.EmploymentService;
 import com.example.efolder.service.definition.TeamService;
-import com.example.efolder.service.definition.UserInfoService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +26,6 @@ import java.util.stream.Collectors;
 public class EmploymentController {
     private final EmploymentService employmentService;
     private final UserService userService;
-    private final UserInfoService userInfoService;
     private final TeamService teamService;
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
@@ -43,7 +40,7 @@ public class EmploymentController {
     @PutMapping("/{username}")
     public ResponseEntity<EmploymentResponse> getUserEmployment(@PathVariable String username, @RequestBody ChangeEmploymentRequest changeEmploymentRequest){
         Employment employment = employmentService.getEmployment(username);
-        employment = changeEmploymentRequest.employmentRequest(employment, teamService, userInfoService);
+        employment = changeEmploymentRequest.employmentRequest(employment, teamService, userService);
         return ResponseEntity.ok().body(
                 EmploymentResponse.builder()
                         .employment(employmentService.saveEmployment(employment))
@@ -84,7 +81,7 @@ public class EmploymentController {
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
     @PostMapping()
     public ResponseEntity<EmploymentResponse>createTeam(@RequestBody CreateEmploymentRequest employmentRequest){
-        Employment employment = employmentRequest.employmentRequest(userInfoService, teamService);
+        Employment employment = employmentRequest.employmentRequest(userService, teamService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/employment/"+employment.getId()).toUriString());
         return ResponseEntity.created(uri).body(EmploymentResponse.builder()
                 .employment(employmentService.saveEmployment(employment))

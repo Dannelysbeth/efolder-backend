@@ -37,6 +37,18 @@ public class ProfilePictureController {
                 .body(resource);
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadLoggedUserProfilePicture(){
+        ProfilePicture profilePicture = profilePictureService.getProfilePicture(
+                userService.getLoggedUser()
+                .getId());
+        ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + profilePicture.getName() + "\"")
+                .body(resource);
+    }
+
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
     @PostMapping("/upload")
     public ResponseEntity<ProfilePictureResponse> uploadMyProfilePicture(@RequestParam("file") MultipartFile file) throws IOException {

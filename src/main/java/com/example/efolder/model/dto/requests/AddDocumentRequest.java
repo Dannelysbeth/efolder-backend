@@ -21,6 +21,7 @@ public class AddDocumentRequest {
                 || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".ODT");
     }
     public Document documentRequest(MultipartFile file, User owner, String fileCategory) {
+        System.out.println("Print that");
         if(checkDocumentExtension(file)) {
             try {
                 return Document.builder()
@@ -33,6 +34,7 @@ public class AddDocumentRequest {
                         .owner(owner)
                         .build();
             } catch (IOException e) {
+                System.out.println("Problem detected");
                 throw new BusinessException(400, "Invalid file!");
             }
         }

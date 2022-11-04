@@ -25,6 +25,13 @@ public class DocumentController {
     private final DocumentService documentService;
     private final UserService userService;
 
+//    private ResponseEntity<DocumentResponse> uploadFile(MultipartFile file, String fileCategory, User fileOwner) {
+//        Document document = new AddDocumentRequest().documentRequest(file, fileOwner, fileCategory);
+//        return ResponseEntity.accepted().body(DocumentResponse.builder()
+//                .document(documentService.saveDocument(document))
+//                .build());
+
+
     @PreAuthorize("permitAll()")
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id){
@@ -53,7 +60,8 @@ public class DocumentController {
 
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
     @PostMapping("/A/upload")
-    public ResponseEntity<DocumentResponse> uploadMyAFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<DocumentResponse> uploadMyAFile(@RequestPart MultipartFile file) {
+        System.out.println("Hello");
         User loggedUser = userService.getLoggedUser();
         Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "A");
         return ResponseEntity.accepted().body(DocumentResponse.builder()

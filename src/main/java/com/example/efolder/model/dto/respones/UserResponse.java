@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class UserInfoResponse {
+public class UserResponse {
     private Long id;
     private String username;
     private String firstname;
@@ -20,7 +20,7 @@ public class UserInfoResponse {
     private String password;
 
     @Builder
-    UserInfoResponse(User user){
+    UserResponse(User user){
         this.id = user.getId();
         this.username = user.getUsername();
         this.firstname = user.getFirstname();

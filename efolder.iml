@@ -54,6 +54,7 @@
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:jaxb-runtime:2.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:txw2:2.3.6" level="project" />
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.12" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.21" level="project" />
@@ -87,16 +88,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.64" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.21" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.21" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web-services:2.7.1" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.xml.messaging.saaj:saaj-impl:1.5.3" level="project" />
-    <orderEntry type="library" name="Maven: jakarta.xml.soap:jakarta.xml.soap-api:1.4.2" level="project" />
-    <orderEntry type="library" name="Maven: org.jvnet.staxex:stax-ex:1.8.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
-    <orderEntry type="library" name="Maven: jakarta.xml.ws:jakarta.xml.ws-api:2.3.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: jakarta.jws:jakarta.jws-api:2.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:5.3.21" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.ws:spring-ws-core:3.1.3" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.ws:spring-xml:3.1.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.boot:spring-boot-devtools:2.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.7.1" level="project" />

@@ -4,6 +4,7 @@ import com.example.efolder.model.dto.requests.ChangePasswordRequest;
 import com.example.efolder.model.dto.requests.CreateUserRequest;
 import com.example.efolder.model.dto.requests.RoleToUserRequest;
 import com.example.efolder.model.User;
+import com.example.efolder.model.dto.respones.LoggedUserInfoResponse;
 import com.example.efolder.model.dto.respones.UserResponse;
 import com.example.efolder.model.dto.respones.UserRolesResponse;
 import com.example.efolder.service.definition.UserService;
@@ -41,6 +42,16 @@ public class UserController {
                         .user(user)
                         .build()
         ).collect(Collectors.toList()));
+    }
+
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
+    @GetMapping("/info")
+    public ResponseEntity<LoggedUserInfoResponse>getLoggedUserInfo(){
+        User loggedUser = userService.getLoggedUser();
+        return ResponseEntity.ok().body(LoggedUserInfoResponse.builder()
+                        .user(loggedUser)
+                        .build()
+        );
     }
 
     @Secured({"ROLE_SUPER_ADMIN"})

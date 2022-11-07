@@ -6,9 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
-
 @Data
-public class UserInfoResponse {
+public class LoggedUserInfoResponse {
     private Long id;
     private String username;
     private String firstname;
@@ -17,10 +16,9 @@ public class UserInfoResponse {
     private String email;
     private Date birthdate;
     private Gender gender;
-    private String password;
 
     @Builder
-    UserInfoResponse(User user){
+    LoggedUserInfoResponse(User user){
         this.id = user.getId();
         this.username = user.getUsername();
         this.firstname = user.getFirstname();
@@ -29,6 +27,5 @@ public class UserInfoResponse {
         this.email = user.getEmail();
         this.birthdate = user.getBirthdate();
         this.gender = user.getGender();
-        this.password = user.getPassword();
     }
 }

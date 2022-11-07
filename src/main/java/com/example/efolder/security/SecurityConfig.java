@@ -35,22 +35,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public static final String LOGIN_URL = "/api/login";
+    public static final String REFRESH_URL = "/api/auth/refreshToken";
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+//        super.configure(auth);
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-        http.cors();
-        http.csrf().disable();
+        customAuthenticationFilter.setFilterProcessesUrl(LOGIN_URL);
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "api/documents/**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+
+        http.authorizeRequests().antMatchers(LOGIN_URL).permitAll();
+        http.authorizeRequests().antMatchers(REFRESH_URL).permitAll();
         http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .cors().and()
+                .sessionManagement().sessionCreationPolicy(STATELESS).and()
+                .csrf().disable().formLogin().disable().httpBasic().disable();
+
+//        http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
     }
     @Bean
@@ -67,14 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Collections.unmodifiableList(Arrays.asList("*")));
-//        configuration.setAllowedOrigins(Collections.unmodifiableList(Arrays.asList("*")));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        configuration.addAllowedHeader(CorsConfiguration.ALL);
-        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
 }

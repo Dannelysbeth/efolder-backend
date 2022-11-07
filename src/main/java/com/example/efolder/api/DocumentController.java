@@ -61,7 +61,6 @@ public class DocumentController {
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
     @PostMapping("/A/upload")
     public ResponseEntity<DocumentResponse> uploadMyAFile(@RequestPart("file") MultipartFile file) {
-        System.out.println("Hello");
         User loggedUser = userService.getLoggedUser();
         Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "A");
         return ResponseEntity.accepted().body(DocumentResponse.builder()

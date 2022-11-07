@@ -4,7 +4,8 @@ import com.example.efolder.model.dto.requests.ChangePasswordRequest;
 import com.example.efolder.model.dto.requests.CreateUserRequest;
 import com.example.efolder.model.dto.requests.RoleToUserRequest;
 import com.example.efolder.model.User;
-import com.example.efolder.model.dto.respones.UserInfoResponse;
+import com.example.efolder.model.dto.respones.LoggedUserInfoResponse;
+import com.example.efolder.model.dto.respones.UserResponse;
 import com.example.efolder.model.dto.respones.UserRolesResponse;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +36,22 @@ public class UserController {
     }
     @Secured("ROLE_SUPER_ADMIN")
     @GetMapping("/employee/all")
-    public ResponseEntity<List<UserInfoResponse>>getAllEmployees(){
+    public ResponseEntity<List<UserResponse>>getAllEmployees(){
         return ResponseEntity.ok().body(userService.getAllUsers().stream().map(
-                user -> UserInfoResponse.builder()
+                user -> UserResponse.builder()
                         .user(user)
                         .build()
         ).collect(Collectors.toList()));
+    }
+
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
+    @GetMapping("/info")
+    public ResponseEntity<LoggedUserInfoResponse>getLoggedUserInfo(){
+        User loggedUser = userService.getLoggedUser();
+        return ResponseEntity.ok().body(LoggedUserInfoResponse.builder()
+                        .user(loggedUser)
+                        .build()
+        );
     }
 
     @Secured({"ROLE_SUPER_ADMIN"})
@@ -55,10 +66,10 @@ public class UserController {
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
     @PostMapping()
-    public ResponseEntity<UserInfoResponse>create(@RequestBody CreateUserRequest userRequest){
+    public ResponseEntity<UserResponse>create(@RequestBody CreateUserRequest userRequest){
         User user = userRequest.userRequest(userService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+user.getUsername()+"')").toUriString());
-        return ResponseEntity.created(uri).body(UserInfoResponse.builder()
+        return ResponseEntity.created(uri).body(UserResponse.builder()
                 .user(userService.createRegularEmployee(user))
                 .build());
     }

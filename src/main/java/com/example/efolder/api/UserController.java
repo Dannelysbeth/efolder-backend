@@ -11,6 +11,7 @@ import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -44,12 +45,16 @@ public class UserController {
         ).collect(Collectors.toList()));
     }
 
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
+//    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN','ROLE_REGULAR_EMPLOYEE')")
     @GetMapping("/info")
     public ResponseEntity<LoggedUserInfoResponse>getLoggedUserInfo(){
         User loggedUser = userService.getLoggedUser();
         return ResponseEntity.ok().body(LoggedUserInfoResponse.builder()
-                        .user(loggedUser)
+                        .username(loggedUser.getUsername())
+                        .firstName(loggedUser.getFirstname())
+                        .lastName(loggedUser.getLastname())
+                        .email(loggedUser.getEmail())
                         .build()
         );
     }

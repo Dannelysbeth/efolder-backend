@@ -32,8 +32,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String JWT_SECRET_KEY = "superSecretServerOnlyKeyThatProbablyShouldntBeHere#335";
+
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final CustomAuthorizationFilter customAuthorizationFilter;
 
     public static final String LOGIN_URL = "/api/login";
     public static final String REFRESH_URL = "/api/auth/refreshToken";
@@ -44,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(bCryptPasswordEncoder);
+
     }
 
     @Override
@@ -55,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(LOGIN_URL).permitAll();
         http.authorizeRequests().antMatchers(REFRESH_URL).permitAll();
         http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http
                 .cors().and()

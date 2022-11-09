@@ -89,6 +89,16 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         return userRepository.existsByUsername(username);
     }
 
+    @Transactional
+    @Override
+    public void deleteUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+        user.getRoles().remove(user);
+        userRepository.save(user);
+        userRepository.delete(user);
+    }
+
     @Override
     public User getLoggedUser() {
         Object principal = SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();

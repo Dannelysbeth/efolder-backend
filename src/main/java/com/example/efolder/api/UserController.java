@@ -45,8 +45,8 @@ public class UserController {
         ).collect(Collectors.toList()));
     }
 
-//    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN','ROLE_REGULAR_EMPLOYEE')")
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
+//    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN','ROLE_REGULAR_EMPLOYEE')")
     @GetMapping("/info")
     public ResponseEntity<LoggedUserInfoResponse>getLoggedUserInfo(){
         User loggedUser = userService.getLoggedUser();
@@ -55,6 +55,9 @@ public class UserController {
                         .firstName(loggedUser.getFirstname())
                         .lastName(loggedUser.getLastname())
                         .email(loggedUser.getEmail())
+                        .middleName(loggedUser.getMiddleName())
+                        .birthdate(loggedUser.getBirthdate())
+                        .gender(loggedUser.getGender())
                         .build()
         );
     }
@@ -104,6 +107,12 @@ public class UserController {
         return ResponseEntity.ok().body(UserRolesResponse.builder()
                 .user(userService.saveUser(user))
                 .build());
+    }
+
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
+    @DeleteMapping("/{username}")
+    public void deleteUser(@PathVariable String username){
+        userService.getUser(username);
     }
 
 }

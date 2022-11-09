@@ -12,11 +12,11 @@ public class LoggedUserInfoResponse {
     private String username;
     private String email;
     private String firstName;
-//    private String middleName;
+    private String middleName;
     private String lastName;
 
-//    private Date birthdate;
-//    private Gender gender;
+    private Date birthdate;
+    private Gender gender;
 
 //    @
 //    LoggedUserInfoResponse(User user){

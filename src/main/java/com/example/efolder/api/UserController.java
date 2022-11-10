@@ -112,7 +112,7 @@ public class UserController {
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
     @DeleteMapping("/{username}")
     public void deleteUser(@PathVariable String username){
-        userService.getUser(username);
+        userService.deleteUser(username);
     }
 
 }

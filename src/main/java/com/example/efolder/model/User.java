@@ -248,12 +248,12 @@ public class User {
     private Gender gender;
 
     //    @ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
     @JoinTable(name="users_roles",
             joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
             inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")}
     )
-    private Set<Role> roles = new HashSet<>();;
+    private Set<Role> roles = new HashSet<>();
 
     public User(String firstname, String lastname, String username, String password, String email){
         this.firstname = firstname;

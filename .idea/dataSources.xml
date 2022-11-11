@@ -31,5 +31,12 @@
       <jdbc-url>jdbc:mysql://azure-efolder-server.mysql.database.azure.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="e_folder_database@localhost [2]" uuid="c6995fd1-735b-48c9-9596-34821bd01a8c">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3307/e_folder_database</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

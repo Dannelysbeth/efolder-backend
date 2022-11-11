@@ -1,5 +1,6 @@
 package com.example.efolder.service.implementation;
 
+import com.example.efolder.exceptions.DocumentIsTooBigException;
 import com.example.efolder.exceptions.DocumentNotFoundException;
 import com.example.efolder.model.Document;
 import com.example.efolder.model.enums.FileCategory;
@@ -20,8 +21,14 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
 
+    private boolean checkIfFileExceedsMaxSize(Document document){
+        return document.getSize() > 10000000 ? true : false;
+    }
+
     @Override
     public Document saveDocument(Document document) {
+        if(checkIfFileExceedsMaxSize(document))
+            throw new DocumentIsTooBigException();
         return documentRepository.save(document);
     }
 

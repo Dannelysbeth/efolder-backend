@@ -19,7 +19,7 @@ public interface UserService extends UserDetailsService {
 
     boolean usernameTaken(String username);
 
-    void deleteUser(String username);
+    void  deleteUser(String username);
 
     User getLoggedUser();
 
@@ -27,13 +27,13 @@ public interface UserService extends UserDetailsService {
 
     User createSuperAdmin(User user);
 
-    User addSuperAdminRole(User user);
-
-    User addRegularEmployeeRole(User user);
-
-    User addManagerRole(User user);
-
-    User addHRAdminRole(User user);
-
+//    User addSuperAdminRole(User user);
+//
+//    User addRegularEmployeeRole(User user);
+//
+//    User addManagerRole(User user);
+//
+//    User addHRAdminRole(User user);
+//
     User changePassword(String username, String password);
 }

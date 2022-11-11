@@ -111,8 +111,12 @@ public class UserController {
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
     @DeleteMapping("/{username}")
-    public void deleteUser(@PathVariable String username){
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable String username){
+        User user = userService.getUser(username);
         userService.deleteUser(username);
+        return ResponseEntity.ok().body(UserResponse.builder()
+                .user(user)
+                .build());
     }
 
 }

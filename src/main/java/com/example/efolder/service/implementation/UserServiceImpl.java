@@ -32,10 +32,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     private boolean emailExistsInDatabase(User user){
-        return userRepository.existsByEmail(user.getEmail()) ? true : false;
-    }
-    private User setEncodedPassword(User user){
-        return user;
+        return userRepository.existsByEmail(user.getEmail());
     }
 
     @Override
@@ -94,9 +91,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public void deleteUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        user.getRoles().remove(user);
-        userRepository.save(user);
-        userRepository.delete(user);
+//        user.getRoles().remove(user);
+//        userRepository.save(user);
+       userRepository.delete(user);
     }
 
     @Override
@@ -120,26 +117,26 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public User createSuperAdmin(User user) {
         return null;
     }
-
-    @Override
-    public User addSuperAdminRole(User user) {
-        return null;
-    }
-
-    @Override
-    public User addRegularEmployeeRole(User user) {
-        return null;
-    }
-
-    @Override
-    public User addManagerRole(User user) {
-        return null;
-    }
-
-    @Override
-    public User addHRAdminRole(User user) {
-        return null;
-    }
+//
+//    @Override
+//    public User addSuperAdminRole(User user) {
+//        return null;
+//    }
+//
+//    @Override
+//    public User addRegularEmployeeRole(User user) {
+//        return null;
+//    }
+//
+//    @Override
+//    public User addManagerRole(User user) {
+//        return null;
+//    }
+//
+//    @Override
+//    public User addHRAdminRole(User user) {
+//        return null;
+//    }
 
     @Override
     public User changePassword(String username, String password) {

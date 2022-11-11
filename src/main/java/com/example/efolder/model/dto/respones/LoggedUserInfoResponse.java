@@ -2,6 +2,7 @@ package com.example.efolder.model.dto.respones;
 
 import com.example.efolder.model.User;
 import com.example.efolder.model.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class LoggedUserInfoResponse {
     private String middleName;
     private String lastName;
 
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date birthdate;
     private Gender gender;
 

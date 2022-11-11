@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Manages the document flow API
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/document")
@@ -25,29 +29,53 @@ public class DocumentController {
     private final DocumentService documentService;
     private final UserService userService;
 
-//    private ResponseEntity<DocumentResponse> uploadFile(MultipartFile file, String fileCategory, User fileOwner) {
-//        Document document = new AddDocumentRequest().documentRequest(file, fileOwner, fileCategory);
-//        return ResponseEntity.accepted().body(DocumentResponse.builder()
-//                .document(documentService.saveDocument(document))
-//                .build());
+    /**
+     * Views document in browser
+     * @param id - id of provided document
+     * @return resource in form of a viewable pdf document
+     */
+    @PreAuthorize("permitAll()")
+    @GetMapping("/view/{id}")
+    public ResponseEntity<Resource> viewDocument(@PathVariable Long id){
+        Document document = documentService.getDocument(id);
+        ByteArrayResource resource = new ByteArrayResource(document.getContent());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,  "filename=\"" + document.getName() + "\"")
+                .contentType(MediaType.parseMediaType("application/pdf"))
+                .body(resource);
+    }
 
-
+    /**
+     * Downloads the document from database
+     * @param id - the id of the document
+     * @return start downloading file
+     */
     @PreAuthorize("permitAll()")
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id){
         Document document = documentService.getDocument(id);
         ByteArrayResource resource = new ByteArrayResource(document.getContent());
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION,  "attachment; filename=\"" + document.getName() + "\"")
                 .body(resource);
     }
 
+    /**
+     * Gets the document information
+     * @param id - the id of the document
+     * @return the document information
+     */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
     @GetMapping("/{id}")
-    public ResponseEntity<Document> getDocument(@PathVariable Long id){
+    public ResponseEntity<Document> getDocumentInfo(@PathVariable Long id){
         return ResponseEntity.ok(documentService.getDocument(id));
     }
 
+    /**
+     * Gets all documents information from selected user
+     * @param username - username of user, from whom documents should be selected
+     * @return users documents' information
+     */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
     @GetMapping("/{username}")
     public ResponseEntity<List<DocumentResponse>> getAllDocumentsByUsername(@PathVariable String username){
@@ -58,77 +86,40 @@ public class DocumentController {
         ).collect(Collectors.toList()));
     }
 
+    /**
+     * Uploads own file to server
+     * @param type - the file category
+     * @param file the uploaded file
+     * @return information about uploaded file
+     */
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
-    @PostMapping("/A/upload")
-    public ResponseEntity<DocumentResponse> uploadMyAFile(@RequestPart("file") MultipartFile file) {
+    @PostMapping("/upload/{type}")
+    public ResponseEntity<DocumentResponse> uploadMyFile(@PathVariable String type,
+                                                         @RequestPart("file") MultipartFile file) {
         User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "A");
-        return ResponseEntity.accepted().body(DocumentResponse.builder()
-                .document(documentService.saveDocument(document))
-                .build());    }
-
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
-    @PostMapping("/B/upload")
-    public ResponseEntity<DocumentResponse> uploadMyBFile(@RequestParam("file") MultipartFile file) {
-        User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "B");
-        return ResponseEntity.accepted().body(DocumentResponse.builder()
-                .document(documentService.saveDocument(document))
-                .build());    }
-
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
-    @PostMapping("/C/upload")
-    public ResponseEntity<DocumentResponse> uploadMyCFile(@RequestParam("file") MultipartFile file) {
-        User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "C");
-        return ResponseEntity.accepted().body(DocumentResponse.builder()
-                .document(documentService.saveDocument(document))
-                .build());    }
-
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
-    @PostMapping("/D/upload")
-    public ResponseEntity<DocumentResponse> uploadMyDFile(@RequestParam("file") MultipartFile file) {
-        User loggedUser = userService.getLoggedUser();
-        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, "D");
-        return ResponseEntity.accepted().body(DocumentResponse.builder()
-                .document(documentService.saveDocument(document))
-                .build());    }
-
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @PostMapping("/{username}/A/upload")
-    public ResponseEntity<DocumentResponse> uploadAFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
-        User user = userService.getUser(username);
-        Document document = new AddDocumentRequest().documentRequest(file, user, "A");
-        return ResponseEntity.accepted().body(DocumentResponse.builder()
-                .document(documentService.saveDocument(document))
-                .build());    }
-
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @PostMapping("/{username}/B/upload")
-    public ResponseEntity<DocumentResponse> uploadBFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
-        User user = userService.getUser(username);
-        Document document = new AddDocumentRequest().documentRequest(file, user, "B");
-        return ResponseEntity.accepted().body(DocumentResponse.builder()
-                .document(documentService.saveDocument(document))
-                .build());    }
-
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @PostMapping("/{username}/C/upload")
-    public ResponseEntity<DocumentResponse> uploadCFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
-        User user = userService.getUser(username);
-        Document document = new AddDocumentRequest().documentRequest(file, user, "C");
+        Document document = new AddDocumentRequest().documentRequest(file, loggedUser, type);
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());
     }
 
+    /**
+     * Uploads given user's file to server
+     * @param file - the file, that should be uploaded
+     * @param username - the name of the given username
+     * @param type the category of the file
+     * @return information about the uploaded file
+     */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @PostMapping("/{username}/D/upload")
-    public ResponseEntity<DocumentResponse> uploadDFile(@RequestParam("file") MultipartFile file, @PathVariable String username) {
+    @PostMapping("/upload/{type}/{username}")
+    public ResponseEntity<DocumentResponse> uploadFile(@RequestParam("file") MultipartFile file,
+                                                       @PathVariable String username,
+                                                       @PathVariable String type) {
         User user = userService.getUser(username);
-        Document document = new AddDocumentRequest().documentRequest(file, user, "D");
+        Document document = new AddDocumentRequest().documentRequest(file, user, type);
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());
     }
+
 }

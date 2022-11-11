@@ -15,13 +15,12 @@ import java.util.Objects;
 @Data
 public class AddDocumentRequest {
     private boolean checkDocumentExtension(MultipartFile file) {
-        return Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".PDF")
-                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOC")
-                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOCX")
-                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".ODT");
+        return Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".PDF");
+//                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOC")
+//                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOCX")
+//                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".ODT");
     }
     public Document documentRequest(MultipartFile file, User owner, String fileCategory) {
-        System.out.println("Print that");
         if(checkDocumentExtension(file)) {
             try {
                 return Document.builder()

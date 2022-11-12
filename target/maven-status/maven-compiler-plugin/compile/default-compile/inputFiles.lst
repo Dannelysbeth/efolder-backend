@@ -23,6 +23,7 @@ D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\model\dto\re
 D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\model\dto\respones\DocumentResponse.java
 D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\repository\AddressRepository.java
 D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\service\definition\EmploymentService.java
+D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\exceptions\DocumentIsTooBigException.java
 D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\model\dto\requests\CreateEmploymentRequest.java
 D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\model\dto\requests\AddDocumentRequest.java
 D:\my_stuff\Repos\efolder-backend\src\main\java\com\example\efolder\service\definition\ProfilePictureService.java

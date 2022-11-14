@@ -16,9 +16,6 @@ import java.util.Objects;
 public class AddDocumentRequest {
     private boolean checkDocumentExtension(MultipartFile file) {
         return Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".PDF");
-//                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOC")
-//                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".DOCX")
-//                || Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".ODT");
     }
     public Document documentRequest(MultipartFile file, User owner, String fileCategory) {
         if(checkDocumentExtension(file)) {
@@ -33,7 +30,6 @@ public class AddDocumentRequest {
                         .owner(owner)
                         .build();
             } catch (IOException e) {
-                System.out.println("Problem detected");
                 throw new BusinessException(400, "Invalid file!");
             }
         }

@@ -10,129 +10,123 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class BusinessExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(BusinessException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorResponse businessExceptionHandler(BusinessException exception){
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(AddressNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse addressNotFoundExceptionHandler(AddressNotFoundException exception){
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(AuthException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ErrorResponse authExceptionHandler(AuthException exception){
+        return new ErrorResponse(exception);
+    }
+
+    @ExceptionHandler(DocumentCreationFailureException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse documentCreationFailureExceptionHandler(DocumentCreationFailureException exception){
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(DocumentIsTooBigException.class)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse documentIsTooBigExceptionExceptionHandler(DocumentIsTooBigException exception){
+        return new ErrorResponse(exception);
+    }
+
+    @ExceptionHandler(DocumentNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse documentNotFoundExceptionHandler(DocumentNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(EmailExistsException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse emailExistsExceptionHandler(EmailExistsException expireDateEarlierThanStartDateException) {
         return new ErrorResponse(expireDateEarlierThanStartDateException);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(EmploymentNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse employmentNotFoundExceptionHandler(EmploymentNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(JwtExpireException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ErrorResponse jwtExpireExceptionHandler(JwtExpireException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    @ExceptionHandler(JwtValidationException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ErrorResponse jwtValidationExceptionHandler(JwtValidationException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    @ExceptionHandler(NoSuchFileCategoryException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse noSuchFileCategoryExceptionHandler(NoSuchFileCategoryException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NotMatchingPasswordException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse notMatchingPasswordExceptionHandler(NotMatchingPasswordException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NotPersonFromHrPeoplePullException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse notPersonFromHrPeoplePullExceptionHandler(NotPersonFromHrPeoplePullException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NotValidDocumentExtensionException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorResponse notValidDocumentExtensionExceptionHandler(NotValidDocumentExtensionException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NotValidPictureException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorResponse notValidPictureExceptionHandler(NotValidPictureException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(ProfilePictureNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
     public ErrorResponse profilePictureNotFoundExceptionHandler(ProfilePictureNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(RoleNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
     public ErrorResponse roleNotFoundExceptionHandler(RoleNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(TeamNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse teamNotFoundExceptionHandler(TeamNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(UserHasRoleException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse userHasRoleExceptionHandler(UserHasRoleException exception) {
         return new ErrorResponse(exception);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse userNotFoundExceptionHandler(UserNotFoundException exception) {
         return new ErrorResponse(exception);
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//    public ErrorResponse CardInactiveExceptionHandler(CardInactiveException cardInactiveException) {
-//        return new ErrorResponse(cardInactiveException);
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//    public ErrorResponse UnsupportedSkiLiftScannerExceptionHandler(UnsupportedSkiliftScannerException unsupportedSkiliftScannerException) {
-//        return new ErrorResponse(unsupportedSkiliftScannerException);
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//    public ErrorResponse CardNotFoundExceptionHandler(CardNotFoundException cardNotFoundException) {
-//        return new ErrorResponse(cardNotFoundException);
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//    public ErrorResponse CardUnpaidExceptionHandler(CardUnpaidException cardUnpaidException) {
-//        return new ErrorResponse(cardUnpaidException);
-//    }
-//
-//    @ExceptionHandler
-//    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-//    public ErrorResponse CardUnpaidExceptionHandler(ScanNotFoundException scanNotFoundException) {
-//        return new ErrorResponse(scanNotFoundException);
-//    }
 }

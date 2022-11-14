@@ -5,36 +5,37 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 @Data
 public class DocumentResponse {
-    private Long fileId;
+    private Long id;
 
-    private String firstname;
+    private String name;
 
-    private String lastname;
+    private String category;
 
-    private String fileName;
-
-    private String fileCategory;
-
-    private long fileSize;
+    private String size;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Europe/Warsaw")
     private LocalDateTime uploadTime;
 
+    private String getFileSizeFromLong(long size) {
+        if(size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
+        int digitGroups = (int) (Math.log10(size)/Math.log10(1000));
+        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
     @Builder
     public DocumentResponse(Document document){
-        this.fileId = document.getId();
-        this.firstname = document.getOwner().getFirstname();
-        this.lastname = document.getOwner().getLastname();
-        this.fileName = document.getName();
-        this.fileCategory = document.getFileCategory().toString();
+        this.id = document.getId();
+        this.name = document.getName();
+        this.category = document.getFileCategory().toString();
         this.uploadTime = document.getUploadTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        this.fileSize = document.getSize();
+        this.size = getFileSizeFromLong(document.getSize());
 
     }
 }

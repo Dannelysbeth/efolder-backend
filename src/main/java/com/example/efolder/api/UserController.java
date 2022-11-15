@@ -11,7 +11,6 @@ import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -50,6 +49,9 @@ public class UserController {
     @GetMapping("/info")
     public ResponseEntity<LoggedUserInfoResponse>getLoggedUserInfo(){
         User loggedUser = userService.getLoggedUser();
+        String picUrl = null;
+        if(loggedUser.getProfilePicture()!=null)
+            picUrl = "http://localhost:8080/api/profilePicture/view/"+loggedUser.getId();
         return ResponseEntity.ok().body(LoggedUserInfoResponse.builder()
                         .username(loggedUser.getUsername())
                         .firstName(loggedUser.getFirstname())
@@ -58,6 +60,7 @@ public class UserController {
                         .middleName(loggedUser.getMiddleName())
                         .birthdate(loggedUser.getBirthdate())
                         .gender(loggedUser.getGender())
+                        .imageUrl(picUrl)
                         .build()
         );
     }

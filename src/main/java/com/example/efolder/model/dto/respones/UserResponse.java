@@ -21,6 +21,8 @@ public class UserResponse {
     private Gender gender;
     private String password;
 
+    private String imageUrl;
+
     @Builder
     UserResponse(User user){
         this.id = user.getId();
@@ -32,5 +34,9 @@ public class UserResponse {
         this.birthdate = user.getBirthdate();
         this.gender = user.getGender();
         this.password = user.getPassword();
+        if(user.getProfilePicture() != null)
+            this.imageUrl = "http:localhost:8080/api/profilePicture/view/" +user.getId();
+        else
+            this.imageUrl = null;
     }
 }

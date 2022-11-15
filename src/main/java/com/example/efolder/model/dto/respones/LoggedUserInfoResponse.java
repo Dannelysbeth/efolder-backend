@@ -19,6 +19,7 @@ public class LoggedUserInfoResponse {
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date birthdate;
     private Gender gender;
+    private String imageUrl;
 
 //    @
 //    LoggedUserInfoResponse(User user){

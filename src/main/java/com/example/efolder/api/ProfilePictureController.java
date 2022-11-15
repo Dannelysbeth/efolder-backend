@@ -20,6 +20,9 @@ import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class, that handles profile picture API
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/profilePicture")
@@ -28,26 +31,46 @@ public class ProfilePictureController {
 
     private final UserService userService;
 
+    /**
+     * Downloads profile picture of given user
+     * @param username - the username of the user
+     * @return start download of picture
+     */
     @PreAuthorize("permitAll()")
-    @GetMapping("/download/{id}")
-    public ResponseEntity<Resource> downloadProfilePicture(@PathVariable Long id){
-        ProfilePicture profilePicture = profilePictureService.getProfilePicture(id);
+    @GetMapping("/download/{username}")
+    public ResponseEntity<Resource> downloadProfilePicture(@PathVariable String username){
+        ProfilePicture profilePicture = profilePictureService.getProfilePicture(
+                userService.getUser(username)
+                .getId());
         ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + profilePicture.getName() + "\"")
                 .body(resource);
     }
 
+    /**
+     *
+     * @return the profile picture to view by user
+     */
     @PreAuthorize("permitAll()")
-//    @GetMapping("/download")
-    @GetMapping(
-            value = "/myPic",
-            produces = MediaType.IMAGE_JPEG_VALUE
-    )
+    @GetMapping(value = "/myPic", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> downloadLoggedUserProfilePicture(){
         ProfilePicture profilePicture = profilePictureService.getProfilePicture(
                 userService.getLoggedUser()
                 .getId());
+        ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + profilePicture.getName() + "\"")
+                .body(resource);
+    }
+    /**
+     *
+     * @return the profile picture to view by user
+     */
+    @PreAuthorize("permitAll()")
+    @GetMapping(value = "/view/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<Resource> viewUsersProfilePicture(@PathVariable Long id){
+        ProfilePicture profilePicture = profilePictureService.getProfilePicture(id);
         ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + profilePicture.getName() + "\"")
@@ -73,15 +96,5 @@ public class ProfilePictureController {
                 .profilePicture(profilePictureService.saveProfilePicture(profilePicture))
                 .build());
     }
-
-//    private boolean checkIfValidPicture(MultipartFile file){
-//        String filepath = file.getOriginalFilename();
-//        File f = new File(filepath);
-//        String mimetype= new MimetypesFileTypeMap().getContentType(f);
-//        String type = mimetype.split("/")[0];
-//        if(type.equals("image"))
-//            return true;
-//        return false;
-//    }
 
 }

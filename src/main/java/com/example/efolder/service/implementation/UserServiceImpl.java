@@ -53,6 +53,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User saveUser(User user) {
+        log.info("Password of updated user {} : {} ", user.getUsername(), user.getPassword());
+        User foundUser = userRepository.getById(user.getId());
+        log.info("Password of old user {} : {} ", foundUser.getUsername(), foundUser.getPassword());
+        if(foundUser!=null && foundUser.getPassword().equals(user.getPassword())){
+            log.info("Password of user {} match. No need for update", user.getUsername());
+                return userRepository.save(user);
+        }
+        log.info("Password of user {} must be updated", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -115,7 +123,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User createSuperAdmin(User user) {
-        return null;
+        if(emailExistsInDatabase(user))
+            throw new EmailExistsException();
+        user.addRole(roleRepository.findByRoleName("ROLE_SUPER_ADMIN")
+                .orElseThrow(RoleNotFoundException::new));
+        return saveUser(user);
     }
 //
 //    @Override
@@ -142,7 +154,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public User changePassword(String username, String password) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return saveUser(user);
     }
 

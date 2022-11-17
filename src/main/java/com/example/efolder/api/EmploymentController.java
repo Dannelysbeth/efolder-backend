@@ -4,6 +4,7 @@ import com.example.efolder.model.Employment;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.ChangeEmploymentRequest;
 import com.example.efolder.model.dto.requests.CreateEmploymentRequest;
+import com.example.efolder.model.dto.respones.EmployeeResponse;
 import com.example.efolder.model.dto.respones.EmploymentResponse;
 import com.example.efolder.service.definition.EmploymentService;
 import com.example.efolder.service.definition.TeamService;
@@ -73,6 +74,16 @@ public class EmploymentController {
         User loggedUser = userService.getLoggedUser();
         return ResponseEntity.ok().body(employmentService.getAllByHrManager(loggedUser.getUsername()).stream().map(
                 employment ->  EmploymentResponse.builder()
+                        .employment(employment)
+                        .build()
+        ).collect(Collectors.toList()));
+    }
+
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
+    @GetMapping("/employees")
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees(){
+        return ResponseEntity.ok().body(employmentService.getAllEmployments().stream().map(
+                employment ->  EmployeeResponse.builder()
                         .employment(employment)
                         .build()
         ).collect(Collectors.toList()));

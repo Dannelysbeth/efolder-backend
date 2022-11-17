@@ -39,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthorizationFilter customAuthorizationFilter;
 
+    public static final String BASE_URL = "http://localhost:8080/";
+
     public static final String LOGIN_URL = "/api/login";
     public static final String REFRESH_URL = "/api/auth/refreshToken";
 

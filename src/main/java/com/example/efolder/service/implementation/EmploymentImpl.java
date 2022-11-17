@@ -8,6 +8,7 @@ import com.example.efolder.service.definition.EmploymentService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,6 +45,11 @@ public class EmploymentImpl implements EmploymentService {
     @Override
     public List<Employment> getAllBySupervisor(String managerUsername) {
         return employmentRepository.findAllByTeam_TeamLeader_Username(managerUsername);
+    }
+
+    @Override
+    public List<Employment> getAllEmployments() {
+        return employmentRepository.findAll(Sort.by(Sort.Direction.ASC, "user_lastname"));
     }
 
     @Override

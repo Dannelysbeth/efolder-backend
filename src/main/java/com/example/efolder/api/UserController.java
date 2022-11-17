@@ -19,6 +19,8 @@ import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.example.efolder.security.SecurityConfig.BASE_URL;
+
 @Valid
 @RestController
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class UserController {
         User loggedUser = userService.getLoggedUser();
         String picUrl = null;
         if(loggedUser.getProfilePicture()!=null)
-            picUrl = "http://localhost:8080/api/profilePicture/view/"+loggedUser.getId();
+            picUrl = BASE_URL+"api/profilePicture/view/"+loggedUser.getId();
         return ResponseEntity.ok().body(LoggedUserInfoResponse.builder()
                         .username(loggedUser.getUsername())
                         .firstName(loggedUser.getFirstname())
@@ -96,9 +98,9 @@ public class UserController {
     @PutMapping("/changePassword")
     public ResponseEntity<UserRolesResponse>changePassword(@RequestBody ChangePasswordRequest passwordRequest){
         User loggedUser = userService.getLoggedUser();
-        loggedUser = passwordRequest.changePasswordRequest(loggedUser);
+        loggedUser = passwordRequest.changePasswordRequest(loggedUser);             //TODO fix here this password
         return ResponseEntity.ok().body(UserRolesResponse.builder()
-                .user(userService.saveUser(loggedUser))
+                .user(userService.changePassword(loggedUser.getUsername(), passwordRequest.getPassword()))
                 .build());
     }
 
@@ -106,9 +108,11 @@ public class UserController {
     @PutMapping("/changePassword/{username}")
     public ResponseEntity<UserRolesResponse>changeUsersPassword(@RequestBody ChangePasswordRequest passwordRequest, @PathVariable String username){
         User user = userService.getUser(username);
+        System.out.println(user.getPassword());
         user = passwordRequest.changePasswordRequest(user);
+        System.out.println(user.getPassword());
         return ResponseEntity.ok().body(UserRolesResponse.builder()
-                .user(userService.saveUser(user))
+                .user(userService.changePassword(user.getUsername(), user.getPassword()))
                 .build());
     }
 

@@ -15,7 +15,7 @@ public interface UserService extends UserDetailsService {
 
     List<User> getAllUsers();
 
-    void addRoleToUser(String username, String roleName);
+    User addRoleToUser(String username, String roleName);
 
     boolean usernameTaken(String username);
 

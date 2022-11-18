@@ -53,14 +53,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User saveUser(User user) {
-        log.info("Password of updated user {} : {} ", user.getUsername(), user.getPassword());
-        User foundUser = userRepository.getById(user.getId());
-        log.info("Password of old user {} : {} ", foundUser.getUsername(), foundUser.getPassword());
-        if(foundUser!=null && foundUser.getPassword().equals(user.getPassword())){
-            log.info("Password of user {} match. No need for update", user.getUsername());
-                return userRepository.save(user);
-        }
-        log.info("Password of user {} must be updated", user.getUsername());
+//        log.info("Password of updated user {} : {} ", user.getUsername(), user.getPassword());
+//        User foundUser = userRepository.getById(user.getId());
+//        log.info("Password of old user {} : {} ", foundUser.getUsername(), foundUser.getPassword());
+//        if(foundUser!=null && foundUser.getPassword().equals(user.getPassword())){
+//            log.info("Password of user {} match. No need for update", user.getUsername());
+//                return userRepository.save(user);
+//        }
+//        log.info("Password of user {} must be updated", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -80,13 +80,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public void addRoleToUser(String username, String roleName) {
+    public User addRoleToUser(String username, String roleName) {
         log.info("Adding role {} to user {}", roleName, username);
-        userRepository.findByUsername(username)
-                .orElseThrow(UserNotFoundException::new)
-                .getRoles()
-                .add(roleRepository.findByRoleName(roleName)
-                        .orElseThrow(RoleNotFoundException::new));
+       User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+       user.getRoles()
+               .add(roleRepository.findByRoleName(roleName)
+               .orElseThrow(RoleNotFoundException::new));
+       return userRepository.save(user);
     }
 
     @Override

@@ -57,13 +57,13 @@ public class RoleController {
         return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
 
-    @Secured({"ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
     @PostMapping("/addRole")
     public ResponseEntity<UserRolesResponse>addRoleToUser(@RequestBody RoleToUserRequest roleToUserRequest){
         User user = roleToUserRequest.addRoleToUserRequest(userService, roleService);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+user.getUsername()).toUriString());
-        return ResponseEntity.created(uri).body(UserRolesResponse.builder()
-                .user(userService.saveUser(user))
+        return ResponseEntity.ok().body(UserRolesResponse.builder()
+                .user(userService.addRoleToUser(user.getUsername(), roleToUserRequest.getRoleName()))
                 .build()
         );
     }

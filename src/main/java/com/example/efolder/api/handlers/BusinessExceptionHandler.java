@@ -123,6 +123,12 @@ public class BusinessExceptionHandler {
     public ErrorResponse userHasRoleExceptionHandler(UserHasRoleException exception) {
         return new ErrorResponse(exception);
     }
+    @ExceptionHandler(UsernameIsTakenException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorResponse usernameIsTakenExceptionHandler(UsernameIsTakenException exception) {
+        return new ErrorResponse(exception);
+    }
+
 
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

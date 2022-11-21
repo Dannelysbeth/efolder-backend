@@ -6,6 +6,7 @@ import com.example.efolder.repository.RoleRepository;
 import com.example.efolder.service.definition.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +32,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+        return roleRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 }

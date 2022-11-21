@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.Date;
 @Data
 @Builder
@@ -15,6 +16,7 @@ public class LoggedUserInfoResponse {
     private String firstName;
     private String middleName;
     private String lastName;
+    private Collection<String> roles;
 
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date birthdate;

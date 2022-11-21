@@ -17,15 +17,19 @@ import java.util.Date;
 @Getter
 public class CreateUserRequest {
     @NonNull
-    @JsonProperty("firstname")
-    private String firstname;
+    @JsonProperty("firstName")
+    private String firstName;
 
     @JsonProperty("middleName")
     private String middleName;
 
     @NonNull
-    @JsonProperty("lastname")
-    private String lastname;
+    @JsonProperty("lastName")
+    private String lastName;
+
+    @NonNull
+    @JsonProperty("username")
+    private String username;
 
     @NonNull
     @Email(message = "Email should be valid")
@@ -35,7 +39,7 @@ public class CreateUserRequest {
     @JsonProperty("birthdate")
     private Date birthdate;
 
-    @NonNull
+//    @NonNull
     @JsonProperty("gender")
     private Gender gender;
 
@@ -43,9 +47,9 @@ public class CreateUserRequest {
     @JsonProperty("password")
     private String password;
 
-    @NonNull
-    @JsonProperty("repeatPassword")
-    private String repeatPassword;
+//    @NonNull
+//    @JsonProperty("re_password")
+//    private String re_password;
 
     /**
      * Generates a username for given name and lastname
@@ -53,7 +57,7 @@ public class CreateUserRequest {
      * @return
      */
     private String createUserName(UserService userService){
-        String username = (firstname.charAt(0)+lastname).toLowerCase();
+        String username = (firstName.charAt(0)+ lastName).toLowerCase();
         if(!userService.usernameTaken(username))
             return username;
         int usernameNumber = 1;
@@ -65,26 +69,27 @@ public class CreateUserRequest {
         }
         return username;
     }
-    private String checkIfPasswordMatch(){
-        if(!password.equals(repeatPassword))
-            throw new NotMatchingPasswordException();
-        else
-            return password;
-    }
+//    private String checkIfPasswordMatch(){
+//        if(!password.equals(re_password))
+//            throw new NotMatchingPasswordException();
+//        else
+//            return password;
+//    }
     public User userRequest(UserService userService){
         return User.builder()
-                .username(createUserName(userService))
+                .username(username)
 //                .employment(null)
                 .birthdate(birthdate)
                 .address(null)
                 .email(email)
                 .address(null)
-                .firstname(firstname)
+                .firstname(firstName)
                 .middleName(middleName)
-                .lastname(lastname)
+                .lastname(lastName)
                 .gender(gender)
 //                .hrPeoplePull(null)
-                .password(checkIfPasswordMatch())
+                .password(password)
+//                .password(checkIfPasswordMatch())
                 .build();
     }
 

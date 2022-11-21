@@ -3,6 +3,7 @@ package com.example.efolder.service.implementation;
 import com.example.efolder.exceptions.EmailExistsException;
 import com.example.efolder.exceptions.RoleNotFoundException;
 import com.example.efolder.exceptions.UserNotFoundException;
+import com.example.efolder.exceptions.UsernameIsTakenException;
 import com.example.efolder.model.User;
 import com.example.efolder.repository.RoleRepository;
 import com.example.efolder.repository.UserRepository;
@@ -31,8 +32,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private boolean emailExistsInDatabase(User user){
-        return userRepository.existsByEmail(user.getEmail());
+    private boolean emailExistsInDatabase(String email){
+        return userRepository.existsByEmail(email);
+    }
+    private boolean usernameIsTaken(String username){
+        return userRepository.existsByUsername(username);
     }
 
     @Override
@@ -53,21 +57,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User saveUser(User user) {
-//        log.info("Password of updated user {} : {} ", user.getUsername(), user.getPassword());
-//        User foundUser = userRepository.getById(user.getId());
-//        log.info("Password of old user {} : {} ", foundUser.getUsername(), foundUser.getPassword());
-//        if(foundUser!=null && foundUser.getPassword().equals(user.getPassword())){
-//            log.info("Password of user {} match. No need for update", user.getUsername());
-//                return userRepository.save(user);
-//        }
-//        log.info("Password of user {} must be updated", user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public User createRegularEmployee(User user) {
-        if(emailExistsInDatabase(user))
+        if(usernameTaken(user.getUsername()))
+            throw new UsernameIsTakenException();
+        if(emailExistsInDatabase(user.getEmail()))
             throw new EmailExistsException();
         user.addRole(roleRepository.findByRoleName("ROLE_REGULAR_EMPLOYEE")
                 .orElseThrow(RoleNotFoundException::new));
@@ -100,8 +98,6 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public void deleteUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-//        user.getRoles().remove(user);
-//        userRepository.save(user);
        userRepository.delete(user);
     }
 
@@ -124,38 +120,20 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public User createSuperAdmin(User user) {
-        if(emailExistsInDatabase(user))
+        if(usernameTaken(user.getUsername()))
+            throw new UsernameIsTakenException();
+        if(emailExistsInDatabase(user.getEmail()))
             throw new EmailExistsException();
         user.addRole(roleRepository.findByRoleName("ROLE_SUPER_ADMIN")
                 .orElseThrow(RoleNotFoundException::new));
         return saveUser(user);
     }
-//
-//    @Override
-//    public User addSuperAdminRole(User user) {
-//        return null;
-//    }
-//
-//    @Override
-//    public User addRegularEmployeeRole(User user) {
-//        return null;
-//    }
-//
-//    @Override
-//    public User addManagerRole(User user) {
-//        return null;
-//    }
-//
-//    @Override
-//    public User addHRAdminRole(User user) {
-//        return null;
-//    }
 
     @Override
     public User changePassword(String username, String password) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(password);
         return saveUser(user);
     }
 

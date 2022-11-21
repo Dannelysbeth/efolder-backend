@@ -63,6 +63,9 @@ public class UserController {
                         .birthdate(loggedUser.getBirthdate())
                         .gender(loggedUser.getGender())
                         .imageUrl(picUrl)
+                        .roles(loggedUser.getRoles().stream().map(s ->
+                            String.valueOf(s.getRoleName()).toString()
+                ).collect(Collectors.toList()))
                         .build()
         );
     }

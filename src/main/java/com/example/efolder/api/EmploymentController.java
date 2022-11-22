@@ -1,5 +1,6 @@
 package com.example.efolder.api;
 
+import com.example.efolder.model.Address;
 import com.example.efolder.model.Employment;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.ChangeEmploymentRequest;
@@ -93,18 +94,21 @@ public class EmploymentController {
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
     @PostMapping("/create")
     public ResponseEntity<EmployeeExtendedResponse>createEmployee(@RequestBody CreateEmployeeRequest createEmployeeRequest){
+        createEmployeeRequest.checkIfAllRequiredAreAvailable();
         User user = createEmployeeRequest.returnBasicUser();
+//        Employment employment = createEmployeeRequest.returnEmployment(userService, teamService, user.getUsername());
+//        Address address = createEmployeeRequest.returnBasicAddress(user);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+user.getUsername()+"')").toUriString());
-        userService.createRegularEmployee(user);
+//        userService.createRegularEmployee(user);
         return ResponseEntity.created(uri).body(EmployeeExtendedResponse.builder()
                         .user(UserResponse.builder()
-                                .user(user)
+                                .user(userService.createRegularEmployee(user))
                                 .build())
                         .address(AddressResponse.builder()
                                 .address(addressService.saveAddress(createEmployeeRequest.returnBasicAddress(userService.getUser(user.getUsername()))))
                                 .build())
                         .employment(EmploymentResponse.builder()
-                                .employment(employmentService.saveEmployment(createEmployeeRequest.returnEmployment(userService, teamService)))
+                                .employment(employmentService.saveEmployment(createEmployeeRequest.returnEmployment(userService, teamService, user.getUsername())))
                                 .build())
                         .roles(user.getRoles().stream().map(s ->
                                 String.valueOf(s.getRoleName())
@@ -113,9 +117,9 @@ public class EmploymentController {
     }
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @PostMapping()
-    public ResponseEntity<EmploymentResponse>createTeam(@RequestBody CreateEmploymentRequest employmentRequest){
-        Employment employment = employmentRequest.employmentRequest(userService, teamService);
+    @PostMapping("/{username}")
+    public ResponseEntity<EmploymentResponse>createTeam(@RequestBody CreateEmploymentRequest employmentRequest, @PathVariable String username){
+        Employment employment = employmentRequest.employmentRequest(userService, teamService, username);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/employment/"+employment.getId()).toUriString());
         return ResponseEntity.created(uri).body(EmploymentResponse.builder()
                 .employment(employmentService.saveEmployment(employment))

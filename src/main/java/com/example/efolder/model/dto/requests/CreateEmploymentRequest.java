@@ -1,5 +1,6 @@
 package com.example.efolder.model.dto.requests;
 
+import com.example.efolder.exceptions.EmptyFieldException;
 import com.example.efolder.model.Employment;
 import com.example.efolder.model.User;
 import com.example.efolder.service.definition.TeamService;
@@ -8,26 +9,39 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.validation.constraints.NotBlank;
+
 
 @Getter
 @AllArgsConstructor
 public class CreateEmploymentRequest {
 
-    @NonNull
-    private String username;
+//    @NonNull
+//    private String username;
 
-    @NonNull
+    @NotBlank
     private String teamName;
 
-    @NonNull
+    @NotBlank
     private String hrManager;
 
-    @NonNull
+    @NotBlank
     private String positionName;
 
     private String positionDescription;
 
-    public Employment employmentRequest(UserService userService, TeamService teamService){
+    public boolean checkIfNotNull(){
+        if(teamName==null)
+            throw new EmptyFieldException("teamName");
+        if(hrManager==null)
+            throw new EmptyFieldException("hrManager");
+        if(positionName==null)
+            throw new EmptyFieldException("positionName");
+        return true;
+    }
+
+    public Employment employmentRequest(UserService userService, TeamService teamService, String username){
+        checkIfNotNull();
         User user = userService.getUser(username);
         return Employment.builder()
                 .id(user.getId())

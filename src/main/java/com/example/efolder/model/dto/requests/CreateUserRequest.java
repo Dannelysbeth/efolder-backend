@@ -1,5 +1,6 @@
 package com.example.efolder.model.dto.requests;
 
+import com.example.efolder.exceptions.EmptyFieldException;
 import com.example.efolder.exceptions.NotMatchingPasswordException;
 import com.example.efolder.model.User;
 import com.example.efolder.model.enums.Gender;
@@ -10,28 +11,29 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Date;
 
 @AllArgsConstructor
 @Getter
 public class CreateUserRequest {
-    @NonNull
+    @NotBlank
     @JsonProperty("firstName")
     private String firstName;
 
     @JsonProperty("middleName")
     private String middleName;
 
-    @NonNull
+    @NotBlank
     @JsonProperty("lastName")
     private String lastName;
 
-    @NonNull
+    @NotBlank
     @JsonProperty("username")
     private String username;
 
-    @NonNull
+    @NotBlank
     @Email(message = "Email should be valid")
     @JsonProperty("email")
     private String email;
@@ -43,7 +45,7 @@ public class CreateUserRequest {
     @JsonProperty("gender")
     private Gender gender;
 
-    @NonNull
+    @NotBlank
     @JsonProperty("password")
     private String password;
 
@@ -51,24 +53,39 @@ public class CreateUserRequest {
 //    @JsonProperty("re_password")
 //    private String re_password;
 
-    /**
-     * Generates a username for given name and lastname
-     * @param userService
-     * @return
-     */
-    private String createUserName(UserService userService){
-        String username = (firstName.charAt(0)+ lastName).toLowerCase();
-        if(!userService.usernameTaken(username))
-            return username;
-        int usernameNumber = 1;
-        username = username+usernameNumber;
-        while(userService.usernameTaken(username)){
-            username = Arrays.toString(username.split(String.valueOf(usernameNumber))).toString();
-            usernameNumber++;
-            username = username+usernameNumber;
-        }
-        return username;
+    public boolean checkIfNotEmpty(){
+        if(firstName==null)
+            throw new EmptyFieldException("firstName");
+        if(lastName==null)
+            throw new EmptyFieldException("lastName");
+        if(username==null)
+            throw new EmptyFieldException("username");
+        if(email==null)
+            throw new EmptyFieldException("email");
+        if(password==null)
+            throw new EmptyFieldException("password");
+        return true;
     }
+
+//    /**
+//     * Generates a username for given name and lastname
+//     * @param userService
+//     * @return
+//     */
+//    private String createUserName(UserService userService){
+//        String username = (firstName.charAt(0)+ lastName).toLowerCase();
+//
+//        if(!userService.usernameTaken(username))
+//            return username;
+//        int usernameNumber = 1;
+//        username = username+usernameNumber;
+//        while(userService.usernameTaken(username)){
+//            username = Arrays.toString(username.split(String.valueOf(usernameNumber))).toString();
+//            usernameNumber++;
+//            username = username+usernameNumber;
+//        }
+//        return username;
+//    }
 //    private String checkIfPasswordMatch(){
 //        if(!password.equals(re_password))
 //            throw new NotMatchingPasswordException();
@@ -76,6 +93,7 @@ public class CreateUserRequest {
 //            return password;
 //    }
     public User userRequest(){
+        checkIfNotEmpty();
         return User.builder()
                 .username(username)
 //                .employment(null)

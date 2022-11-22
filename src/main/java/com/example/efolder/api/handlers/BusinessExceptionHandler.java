@@ -58,6 +58,12 @@ public class BusinessExceptionHandler {
         return new ErrorResponse(exception);
     }
 
+    @ExceptionHandler(EmptyFieldException.class)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse emptyFieldExceptionHandler(EmptyFieldException exception) {
+        return new ErrorResponse(exception);
+    }
+
     @ExceptionHandler(JwtExpireException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorResponse jwtExpireExceptionHandler(JwtExpireException exception) {

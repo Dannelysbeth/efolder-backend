@@ -75,7 +75,7 @@ public class CreateUserRequest {
 //        else
 //            return password;
 //    }
-    public User userRequest(UserService userService){
+    public User userRequest(){
         return User.builder()
                 .username(username)
 //                .employment(null)

@@ -3,9 +3,10 @@ package com.example.efolder.api;
 import com.example.efolder.model.Employment;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.ChangeEmploymentRequest;
+import com.example.efolder.model.dto.requests.CreateEmployeeRequest;
 import com.example.efolder.model.dto.requests.CreateEmploymentRequest;
-import com.example.efolder.model.dto.respones.EmployeeResponse;
-import com.example.efolder.model.dto.respones.EmploymentResponse;
+import com.example.efolder.model.dto.respones.*;
+import com.example.efolder.service.definition.AddressService;
 import com.example.efolder.service.definition.EmploymentService;
 import com.example.efolder.service.definition.TeamService;
 import com.example.efolder.service.definition.UserService;
@@ -28,6 +29,7 @@ public class EmploymentController {
     private final EmploymentService employmentService;
     private final UserService userService;
     private final TeamService teamService;
+    private final AddressService addressService;
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
     @GetMapping("/{username}")
@@ -87,6 +89,27 @@ public class EmploymentController {
                         .employment(employment)
                         .build()
         ).collect(Collectors.toList()));
+    }
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
+    @PostMapping("/create")
+    public ResponseEntity<EmployeeExtendedResponse>createEmployee(@RequestBody CreateEmployeeRequest createEmployeeRequest){
+        User user = createEmployeeRequest.returnBasicUser();
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+user.getUsername()+"')").toUriString());
+        userService.createRegularEmployee(user);
+        return ResponseEntity.created(uri).body(EmployeeExtendedResponse.builder()
+                        .user(UserResponse.builder()
+                                .user(user)
+                                .build())
+                        .address(AddressResponse.builder()
+                                .address(addressService.saveAddress(createEmployeeRequest.returnBasicAddress(userService.getUser(user.getUsername()))))
+                                .build())
+                        .employment(EmploymentResponse.builder()
+                                .employment(employmentService.saveEmployment(createEmployeeRequest.returnEmployment(userService, teamService)))
+                                .build())
+                        .roles(user.getRoles().stream().map(s ->
+                                String.valueOf(s.getRoleName())
+                        ).collect(Collectors.toList()))
+                        .build());
     }
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))

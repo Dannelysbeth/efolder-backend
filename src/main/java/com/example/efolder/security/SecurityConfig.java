@@ -63,6 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(REFRESH_URL).permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+        //added code to handle password not found exception
+//        http.authorizeRequests()
+//                        .anyRequest().authenticated()
+//                        .and()
+//                                .formLogin()
+//                                        .failureHandler((request, response, exception) -> System.out.println(exception))
+//                                                .permitAll();
 
         http
                 .cors().and()

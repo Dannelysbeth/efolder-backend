@@ -4,6 +4,7 @@ import com.example.efolder.exceptions.EmailExistsException;
 import com.example.efolder.exceptions.RoleNotFoundException;
 import com.example.efolder.exceptions.UserNotFoundException;
 import com.example.efolder.exceptions.UsernameIsTakenException;
+import com.example.efolder.model.Role;
 import com.example.efolder.model.User;
 import com.example.efolder.repository.RoleRepository;
 import com.example.efolder.repository.UserRepository;
@@ -135,6 +136,13 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 .orElseThrow(UserNotFoundException::new);
         user.setPassword(password);
         return saveUser(user);
+    }
+
+    @Override
+    public List<User> getAllUsersThatHaveRole(String roleName) {
+        Role role = roleRepository.findByRoleName(roleName)
+                .orElseThrow(RoleNotFoundException::new);
+        return userRepository.getUserByRolesIsContaining(role);
     }
 
 

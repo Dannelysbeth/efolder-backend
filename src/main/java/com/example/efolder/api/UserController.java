@@ -45,6 +45,15 @@ public class UserController {
                         .build()
         ).collect(Collectors.toList()));
     }
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
+    @GetMapping("/all/{roleName}")
+    public ResponseEntity<List<UserResponse>>getAllUsersWithRole(@PathVariable String roleName){
+        return ResponseEntity.ok().body(userService.getAllUsersThatHaveRole(roleName).stream().map(
+                user -> UserResponse.builder()
+                        .user(user)
+                        .build()
+        ).collect(Collectors.toList()));
+    }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
 //    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN','ROLE_REGULAR_EMPLOYEE')")

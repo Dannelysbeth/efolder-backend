@@ -36,4 +36,6 @@ public interface UserService extends UserDetailsService {
 //    User addHRAdminRole(User user);
 //
     User changePassword(String username, String password);
+
+    List<User> getAllUsersThatHaveRole(String roleName);
 }

@@ -4,6 +4,7 @@ import com.example.efolder.model.Document;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.AddDocumentRequest;
 import com.example.efolder.model.dto.respones.DocumentResponse;
+import com.example.efolder.model.enums.FileCategory;
 import com.example.efolder.service.definition.DocumentService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class DocumentController {
      * @return the document information
      */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @GetMapping("/{id}")
+    @GetMapping("/id={id}")
     public ResponseEntity<Document> getDocumentInfo(@PathVariable Long id){
         return ResponseEntity.ok(documentService.getDocument(id));
     }
@@ -85,6 +86,39 @@ public class DocumentController {
                         .build()
         ).collect(Collectors.toList()));
     }
+    /**
+     * Gets all documents information from selected user
+     * @param username - username of user, from whom documents should be selected
+     * @return users documents' information
+     */
+    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
+    @GetMapping("info/all")
+    public ResponseEntity<List<DocumentResponse>> getAllDocuments(){
+        User loggedUser = userService.getLoggedUser();
+        return ResponseEntity.ok(documentService.getAllDocumentsByUsername(loggedUser.getUsername()).stream().map(
+                document -> DocumentResponse.builder()
+                        .document(document)
+                        .build()
+        ).collect(Collectors.toList()));
+    }
+    /**
+     * Gets all documents information from selected user
+     * @param username - username of user, from whom documents should be selected
+     * @return users documents' information
+     */
+    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
+    @GetMapping("info/{type}")
+    public ResponseEntity<List<DocumentResponse>> getAllDocumentsByCategory(@PathVariable String type){
+        User loggedUser = userService.getLoggedUser();
+        return ResponseEntity.ok(documentService.getAllDocumentsByUsernameAndFileCategory(loggedUser.getUsername(),
+                        FileCategory.transformStringToFileCategory(type))
+                .stream().map(
+                document -> DocumentResponse.builder()
+                        .document(document)
+                        .build()
+        ).collect(Collectors.toList()));
+    }
+
 
     /**
      * Uploads own file to server

@@ -28,7 +28,7 @@ public class EmployeeResponse {
     private String getImageUrl(User user){
         return user.getProfilePicture()==null ?
                 null :
-                BASE_URL+"api/profilePicture/"+user.getId();
+                BASE_URL+"api/profilePicture/view/"+user.getId();
     }
 
     @Builder

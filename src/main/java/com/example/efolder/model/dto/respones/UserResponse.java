@@ -8,6 +8,8 @@ import lombok.Data;
 
 import java.util.Date;
 
+import static com.example.efolder.security.SecurityConfig.BASE_URL;
+
 @Data
 public class UserResponse {
     private Long id;
@@ -19,7 +21,7 @@ public class UserResponse {
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date birthdate;
     private Gender gender;
-    private String password;
+//    private String password;
 
     private String imageUrl;
 
@@ -33,9 +35,9 @@ public class UserResponse {
         this.email = user.getEmail();
         this.birthdate = user.getBirthdate();
         this.gender = user.getGender();
-        this.password = user.getPassword();
+//        this.password = user.getPassword();
         if(user.getProfilePicture() != null)
-            this.imageUrl = "http:localhost:8080/api/profilePicture/view/" +user.getId();
+            this.imageUrl = BASE_URL+"api/profilePicture/view/"+user.getId();
         else
             this.imageUrl = null;
     }

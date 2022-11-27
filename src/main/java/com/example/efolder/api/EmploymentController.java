@@ -96,10 +96,7 @@ public class EmploymentController {
     public ResponseEntity<EmployeeExtendedResponse>createEmployee(@RequestBody CreateEmployeeRequest createEmployeeRequest){
         createEmployeeRequest.checkIfAllRequiredAreAvailable();
         User user = createEmployeeRequest.returnBasicUser();
-//        Employment employment = createEmployeeRequest.returnEmployment(userService, teamService, user.getUsername());
-//        Address address = createEmployeeRequest.returnBasicAddress(user);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+user.getUsername()+"')").toUriString());
-//        userService.createRegularEmployee(user);
         return ResponseEntity.created(uri).body(EmployeeExtendedResponse.builder()
                         .user(UserResponse.builder()
                                 .user(userService.createRegularEmployee(user))
@@ -114,6 +111,26 @@ public class EmploymentController {
                                 String.valueOf(s.getRoleName())
                         ).collect(Collectors.toList()))
                         .build());
+    }
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
+    @GetMapping("info/{username}")
+    public ResponseEntity<EmployeeExtendedResponse>viewEmployee(@PathVariable String username){
+        User user= userService.getUser(username);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user('"+username+"')").toUriString());
+        return ResponseEntity.created(uri).body(EmployeeExtendedResponse.builder()
+                .user(UserResponse.builder()
+                        .user(user)
+                        .build())
+                .address(AddressResponse.builder()
+                        .address(user.getAddress())
+                        .build())
+                .employment(EmploymentResponse.builder()
+                        .employment(user.getEmployment())
+                        .build())
+                .roles(user.getRoles().stream().map(s ->
+                        String.valueOf(s.getRoleName())
+                ).collect(Collectors.toList()))
+                .build());
     }
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))

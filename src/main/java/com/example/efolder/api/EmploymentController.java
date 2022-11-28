@@ -33,7 +33,7 @@ public class EmploymentController {
     private final AddressService addressService;
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
-    @GetMapping("/{username}")
+    @GetMapping("/user({username})")
     public ResponseEntity<EmploymentResponse> getUserEmployment(@PathVariable String username){
         return ResponseEntity.ok().body(
                 EmploymentResponse.builder()

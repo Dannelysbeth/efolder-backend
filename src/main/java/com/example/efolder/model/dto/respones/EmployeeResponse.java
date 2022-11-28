@@ -10,6 +10,8 @@ import static com.example.efolder.security.SecurityConfig.BASE_URL;
 @Data
 public class EmployeeResponse {
     private long id;
+
+    private String username;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -34,6 +36,7 @@ public class EmployeeResponse {
     @Builder
     public EmployeeResponse(Employment employment){
         this.id = employment.getId();
+        this.username = employment.getUser().getUsername();
         this.firstName = employment.getUser().getFirstname();
         this.middleName = employment.getUser().getMiddleName();
         this.lastName = employment.getUser().getLastname();

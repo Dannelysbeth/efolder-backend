@@ -14,4 +14,6 @@ public interface DocumentService {
 
     List<Document> getAllDocumentsByUsername(String username);
 
+    void delete(Long id);
+
 }

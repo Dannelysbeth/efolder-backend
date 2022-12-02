@@ -116,8 +116,8 @@ public class UserController {
                 .build());
     }
 
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
-    @PutMapping("/changePassword/{username}")
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
+    @PostMapping("/changePassword/{username}")
     public ResponseEntity<UserRolesResponse>changeUsersPassword(@RequestBody ChangePasswordRequest passwordRequest, @PathVariable String username){
         User user = userService.getUser(username);
         System.out.println(user.getPassword());

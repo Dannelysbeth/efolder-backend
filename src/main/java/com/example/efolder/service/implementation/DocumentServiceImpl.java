@@ -47,4 +47,11 @@ public class DocumentServiceImpl implements DocumentService {
     public List<Document> getAllDocumentsByUsername(String username) {
         return documentRepository.findAllByOwner_Username(username);
     }
+
+    @Override
+    public void delete(Long id) {
+        documentRepository.findById(id)
+                .orElseThrow(DocumentNotFoundException::new);
+        documentRepository.deleteById(id);
+    }
 }

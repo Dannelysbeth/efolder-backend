@@ -66,8 +66,8 @@ public class DocumentController {
      * @param id - the id of the document
      * @return the document information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
-    @GetMapping("/id={id}")
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @GetMapping("/info/{id}")
     public ResponseEntity<Document> getDocumentInfo(@PathVariable Long id){
         return ResponseEntity.ok(documentService.getDocument(id));
     }
@@ -77,7 +77,7 @@ public class DocumentController {
      * @param username - username of user, from whom documents should be selected
      * @return users documents' information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
     @GetMapping("/{username}")
     public ResponseEntity<List<DocumentResponse>> getAllDocumentsByUsername(@PathVariable String username){
         return ResponseEntity.ok(documentService.getAllDocumentsByUsername(username).stream().map(
@@ -144,7 +144,7 @@ public class DocumentController {
      * @param type the category of the file
      * @return information about the uploaded file
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN')"))
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN','ROLE_REGULAR_EMPLOYEE')"))
     @PostMapping("/upload/{type}/{username}")
     public ResponseEntity<DocumentResponse> uploadFile(@RequestParam("file") MultipartFile file,
                                                        @PathVariable String username,
@@ -154,6 +154,16 @@ public class DocumentController {
         return ResponseEntity.accepted().body(DocumentResponse.builder()
                 .document(documentService.saveDocument(document))
                 .build());
+    }
+    /**
+     * Deletes file by id
+     * @param id - the id of the file, that should be deleted
+     */
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @PostMapping("/{id}")
+    public void deleteDocument(@PathVariable Long id){
+        documentService.delete(id);
+
     }
 
 }

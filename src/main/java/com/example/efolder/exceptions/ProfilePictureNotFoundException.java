@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class ProfilePictureNotFoundException extends BusinessException{
     public ProfilePictureNotFoundException() {
-        super(HttpStatus.NOT_FOUND.value(), "Profile picture not found");
+        super(HttpStatus.NOT_FOUND.value(), "Nie znaleziono zdjęcia profilowego");
     }
 }

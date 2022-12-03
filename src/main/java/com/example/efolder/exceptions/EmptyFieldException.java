@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class EmptyFieldException extends BusinessException{
     public EmptyFieldException(String fieldName) {
-        super(HttpStatus.NOT_ACCEPTABLE.value(), "Field "+ fieldName+" cannot be null");
+        super(HttpStatus.NOT_ACCEPTABLE.value(), "Pole "+ fieldName+" nie może być puste");
     }
 }

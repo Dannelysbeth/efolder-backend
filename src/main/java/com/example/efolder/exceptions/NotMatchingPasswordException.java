@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class NotMatchingPasswordException extends BusinessException{
     public NotMatchingPasswordException() {
-        super(HttpStatus.BAD_REQUEST.value(), "Passwords don't match!");
+        super(HttpStatus.BAD_REQUEST.value(), "Hasła nie pasują!");
     }
 }

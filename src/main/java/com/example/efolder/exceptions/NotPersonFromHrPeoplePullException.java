@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class NotPersonFromHrPeoplePullException extends BusinessException{
     public NotPersonFromHrPeoplePullException() {
-        super(HttpStatus.FORBIDDEN.value(), "You are not allowed to access this person's employment information!");
+        super(HttpStatus.FORBIDDEN.value(), "Nie masz prawa dostępu do informacji o zatrudnieniu tej osoby!");
     }
 }

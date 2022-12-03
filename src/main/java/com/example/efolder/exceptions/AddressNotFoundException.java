@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class AddressNotFoundException extends BusinessException{
     public AddressNotFoundException() {
-        super(HttpStatus.NOT_FOUND.value(), "Address for given user doesn't exist");
+        super(HttpStatus.NOT_FOUND.value(), "Adres dla danego użytkownika nie istnieje!");
     }
 }

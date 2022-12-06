@@ -4,7 +4,7 @@ import com.example.efolder.model.Role;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.RoleRequest;
 import com.example.efolder.model.dto.requests.RoleToUserRequest;
-import com.example.efolder.model.dto.respones.UserRolesResponse;
+import com.example.efolder.model.dto.responses.UserRolesResponse;
 import com.example.efolder.service.definition.RoleService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;

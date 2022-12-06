@@ -1,6 +1,5 @@
-package com.example.efolder.model.dto.respones;
+package com.example.efolder.model.dto.responses;
 
-import com.example.efolder.model.User;
 import com.example.efolder.model.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

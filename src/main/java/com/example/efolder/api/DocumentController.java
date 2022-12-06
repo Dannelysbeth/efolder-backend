@@ -3,7 +3,7 @@ package com.example.efolder.api;
 import com.example.efolder.model.Document;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.AddDocumentRequest;
-import com.example.efolder.model.dto.respones.DocumentResponse;
+import com.example.efolder.model.dto.responses.DocumentResponse;
 import com.example.efolder.model.enums.FileCategory;
 import com.example.efolder.service.definition.DocumentService;
 import com.example.efolder.service.definition.UserService;
@@ -67,7 +67,7 @@ public class DocumentController {
      * @return the document information
      */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
-    @GetMapping("/info/{id}")
+    @GetMapping("/info/id={id}")
     public ResponseEntity<Document> getDocumentInfo(@PathVariable Long id){
         return ResponseEntity.ok(documentService.getDocument(id));
     }
@@ -78,7 +78,7 @@ public class DocumentController {
      * @return users documents' information
      */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
-    @GetMapping("/{username}")
+    @GetMapping("info/all/{username}")
     public ResponseEntity<List<DocumentResponse>> getAllDocumentsByUsername(@PathVariable String username){
         return ResponseEntity.ok(documentService.getAllDocumentsByUsername(username).stream().map(
                 document -> DocumentResponse.builder()
@@ -87,7 +87,7 @@ public class DocumentController {
         ).collect(Collectors.toList()));
     }
     /**
-     * Gets all documents information from selected user
+     * Gets all documents information from logged user
      * @param username - username of user, from whom documents should be selected
      * @return users documents' information
      */
@@ -102,8 +102,8 @@ public class DocumentController {
         ).collect(Collectors.toList()));
     }
     /**
-     * Gets all documents information from selected user
-     * @param username - username of user, from whom documents should be selected
+     * Gets all documents information from logged user
+     * @param type - the category of files that should be selected
      * @return users documents' information
      */
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
@@ -119,9 +119,28 @@ public class DocumentController {
         ).collect(Collectors.toList()));
     }
 
+    /**
+     * Gets all documents information from selected user
+     * @param type - the category of files that should be selected
+     * @param username - username of user, from whom documents should be selected
+     * @return users documents' information
+     */
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @GetMapping("info/{type}/{username}")
+    public ResponseEntity<List<DocumentResponse>> getAllDocumentsByCategoryAndUser(@PathVariable String type, @PathVariable String username){
+        User user = userService.getUser(username);
+        return ResponseEntity.ok(documentService.getAllDocumentsByUsernameAndFileCategory(user.getUsername(),
+                        FileCategory.transformStringToFileCategory(type))
+                .stream().map(
+                        document -> DocumentResponse.builder()
+                                .document(document)
+                                .build()
+                ).collect(Collectors.toList()));
+    }
+
 
     /**
-     * Uploads own file to server
+     * Uploads file to server from logged user
      * @param type - the file category
      * @param file the uploaded file
      * @return information about uploaded file

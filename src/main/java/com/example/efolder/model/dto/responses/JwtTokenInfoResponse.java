@@ -1,4 +1,4 @@
-package com.example.efolder.model.dto.respones;
+package com.example.efolder.model.dto.responses;
 
 import lombok.Data;
 

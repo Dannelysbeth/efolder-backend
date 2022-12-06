@@ -10,7 +10,7 @@ import com.example.efolder.exceptions.JwtValidationException;
 import com.example.efolder.model.Role;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.JwtTokenRequest;
-import com.example.efolder.model.dto.respones.JwtTokenInfoResponse;
+import com.example.efolder.model.dto.responses.JwtTokenInfoResponse;
 import com.example.efolder.service.definition.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

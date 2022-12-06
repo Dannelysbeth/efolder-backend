@@ -107,7 +107,7 @@ public class UserController {
     }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
-    @PutMapping("/changePassword")
+    @PostMapping("/changePassword")
     public ResponseEntity<UserRolesResponse>changePassword(@RequestBody ChangePasswordRequest passwordRequest){
         User loggedUser = userService.getLoggedUser();
         loggedUser = passwordRequest.changePasswordRequest(loggedUser);             //TODO fix here this password

@@ -3,7 +3,7 @@ package com.example.efolder.api;
 import com.example.efolder.model.ProfilePicture;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.AddProfilePictureRequest;
-import com.example.efolder.model.dto.respones.ProfilePictureResponse;
+import com.example.efolder.model.dto.responses.ProfilePictureResponse;
 import com.example.efolder.service.definition.ProfilePictureService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
-import java.io.File;
 import java.io.IOException;
 
 /**

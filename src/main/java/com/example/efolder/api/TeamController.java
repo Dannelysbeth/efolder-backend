@@ -2,7 +2,7 @@ package com.example.efolder.api;
 
 import com.example.efolder.model.Team;
 import com.example.efolder.model.dto.requests.CreateTeamRequest;
-import com.example.efolder.model.dto.respones.TeamResponse;
+import com.example.efolder.model.dto.responses.TeamResponse;
 import com.example.efolder.service.definition.TeamService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;

@@ -4,9 +4,9 @@ import com.example.efolder.model.dto.requests.ChangePasswordRequest;
 import com.example.efolder.model.dto.requests.CreateUserRequest;
 import com.example.efolder.model.dto.requests.RoleToUserRequest;
 import com.example.efolder.model.User;
-import com.example.efolder.model.dto.respones.LoggedUserInfoResponse;
-import com.example.efolder.model.dto.respones.UserResponse;
-import com.example.efolder.model.dto.respones.UserRolesResponse;
+import com.example.efolder.model.dto.responses.LoggedUserInfoResponse;
+import com.example.efolder.model.dto.responses.UserResponse;
+import com.example.efolder.model.dto.responses.UserRolesResponse;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -107,7 +107,7 @@ public class UserController {
     }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN", "ROLE_REGULAR_EMPLOYEE"})
-    @PutMapping("/changePassword")
+    @PostMapping("/changePassword")
     public ResponseEntity<UserRolesResponse>changePassword(@RequestBody ChangePasswordRequest passwordRequest){
         User loggedUser = userService.getLoggedUser();
         loggedUser = passwordRequest.changePasswordRequest(loggedUser);             //TODO fix here this password

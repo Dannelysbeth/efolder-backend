@@ -3,7 +3,7 @@ package com.example.efolder.api;
 import com.example.efolder.model.Address;
 import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.CreateAddressRequest;
-import com.example.efolder.model.dto.respones.AddressResponse;
+import com.example.efolder.model.dto.responses.AddressResponse;
 import com.example.efolder.service.definition.AddressService;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;

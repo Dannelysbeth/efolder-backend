@@ -39,7 +39,7 @@ public class UserController {
     @Secured("ROLE_SUPER_ADMIN")
     @GetMapping("/employee/all")
     public ResponseEntity<List<UserResponse>>getAllEmployees(){
-        return ResponseEntity.ok().body(userService.getAllUsers().stream().map(
+        return ResponseEntity.ok().body(userService.getAllUsersThatHaveRole("ROLE_REGULAR_EMPLOYEE").stream().map(
                 user -> UserResponse.builder()
                         .user(user)
                         .build()

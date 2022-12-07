@@ -14,9 +14,9 @@ import static com.example.efolder.security.SecurityConfig.BASE_URL;
 public class UserResponse {
     private Long id;
     private String username;
-    private String firstname;
+    private String firstName;
     private String middleName;
-    private String lastname;
+    private String lastName;
     private String email;
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date birthdate;
@@ -29,9 +29,9 @@ public class UserResponse {
     UserResponse(User user){
         this.id = user.getId();
         this.username = user.getUsername();
-        this.firstname = user.getFirstname();
+        this.firstName = user.getFirstname();
         this.middleName = user.getMiddleName();
-        this.lastname = user.getLastname();
+        this.lastName = user.getLastname();
         this.email = user.getEmail();
         this.birthdate = user.getBirthdate();
         this.gender = user.getGender();

@@ -67,5 +67,14 @@ public class RoleController {
                 .build()
         );
     }
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
+    @PostMapping("superAdmin/{username}")
+    public ResponseEntity<UserRolesResponse>giveSuperAdminRole(@PathVariable String username){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+username).toUriString());
+        return ResponseEntity.ok().body(UserRolesResponse.builder()
+                .user(userService.addRoleToUser(username, "ROLE_SUPER_ADMIN"))
+                .build()
+        );
+    }
 
 }

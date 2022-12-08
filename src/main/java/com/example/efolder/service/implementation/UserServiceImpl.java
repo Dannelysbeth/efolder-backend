@@ -1,9 +1,6 @@
 package com.example.efolder.service.implementation;
 
-import com.example.efolder.exceptions.EmailExistsException;
-import com.example.efolder.exceptions.RoleNotFoundException;
-import com.example.efolder.exceptions.UserNotFoundException;
-import com.example.efolder.exceptions.UsernameIsTakenException;
+import com.example.efolder.exceptions.*;
 import com.example.efolder.model.Role;
 import com.example.efolder.model.User;
 import com.example.efolder.repository.RoleRepository;
@@ -11,6 +8,7 @@ import com.example.efolder.repository.UserRepository;
 import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +36,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
     private boolean usernameIsTaken(String username){
         return userRepository.existsByUsername(username);
+    }
+
+
+    private boolean checkIfUserHasRole(User user, Role role){
+        for(Role r: user.getRoles()){
+            if(r.getRoleName().equals(role.getRoleName()))
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -83,9 +90,12 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         log.info("Adding role {} to user {}", roleName, username);
        User user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
+       Role role = roleRepository.findByRoleName(roleName)
+               .orElseThrow(RoleNotFoundException::new);
+       if(checkIfUserHasRole(user, role))
+           throw new BusinessException(HttpStatus.FORBIDDEN.value(), "Podany użytkownik już posiada rolę Administratora!");
        user.getRoles()
-               .add(roleRepository.findByRoleName(roleName)
-               .orElseThrow(RoleNotFoundException::new));
+               .add(role);
        return userRepository.save(user);
     }
 

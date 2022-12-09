@@ -67,14 +67,24 @@ public class RoleController {
                 .build()
         );
     }
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
-    @PostMapping("superAdmin/{username}")
-    public ResponseEntity<UserRolesResponse>giveSuperAdminRole(@PathVariable String username){
+    @Secured({"ROLE_SUPER_ADMIN"})
+    @PostMapping("addHRAdminRole/{username}")
+    public ResponseEntity<UserRolesResponse>giveHRAdminRole(@PathVariable String username){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+username).toUriString());
         return ResponseEntity.ok().body(UserRolesResponse.builder()
-                .user(userService.addRoleToUser(username, "ROLE_SUPER_ADMIN"))
+                .user(userService.addRoleToUser(username, "ROLE_HR_ADMIN"))
                 .build()
         );
     }
+    @Secured({"ROLE_SUPER_ADMIN"})
+    @PostMapping("deleteHRAdminRole/{username}")
+    public ResponseEntity<UserRolesResponse>deleteHRAdminRole(@PathVariable String username){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+username).toUriString());
+        return ResponseEntity.ok().body(UserRolesResponse.builder()
+                .user(userService.deleteRoleFromUser(username, "ROLE_HR_ADMIN"))
+                .build()
+        );
+    }
+
 
 }

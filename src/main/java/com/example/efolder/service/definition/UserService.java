@@ -27,14 +27,10 @@ public interface UserService extends UserDetailsService {
 
     User createSuperAdmin(User user);
 
-//    User addSuperAdminRole(User user);
-//
-//    User addRegularEmployeeRole(User user);
-//
-//    User addManagerRole(User user);
-//
-//    User addHRAdminRole(User user);
-//
+    boolean checkIfUserHasRole(String username, String roleName);
+
+    User deleteRoleFromUser(String username, String roleName);
+
     User changePassword(String username, String password);
 
     List<User> getAllUsersThatHaveRole(String roleName);

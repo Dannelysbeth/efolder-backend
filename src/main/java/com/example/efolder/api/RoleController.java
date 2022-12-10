@@ -39,7 +39,7 @@ public class RoleController {
         );
     }
 
-    @Secured({"ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN","ROLE_HR_ADMIN"})
     @GetMapping("/{username}")
     public ResponseEntity<UserRolesResponse> getUsersRoles(@PathVariable String username){
         User user = userService.getUser(username);

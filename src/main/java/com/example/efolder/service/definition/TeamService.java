@@ -11,4 +11,12 @@ public interface TeamService {
     Team getTeam(String name);
 
     List<Team> getAllTeams();
+
+    List<Team> getTeamsFromTeamLeader(String username);
+
+    Team updateTeam(Team team, String teamName);
+
+    Team deleteTeam(String teamName);
+
+
 }

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 public class TeamResponse {
     Long id;
@@ -14,13 +17,18 @@ public class TeamResponse {
     @JsonProperty("teamLeader")
     String teamLeaderUsername;
 
+    List<EmployeeResponse> employees;
+
     @Builder
-    public TeamResponse(Team team){
+    public TeamResponse(Team team) {
         this.id = team.getId();
         this.name = team.getName();
         this.description = team.getDescription();
-        if(team.getTeamLeader()!=null)
+        if (team.getTeamLeader() != null)
             this.teamLeaderUsername = team.getTeamLeader().getUsername();
+        this.employees = team.getEmployees().stream().map(employment -> EmployeeResponse.builder()
+                .employment(employment)
+                .build()).collect(Collectors.toList());
     }
 
 

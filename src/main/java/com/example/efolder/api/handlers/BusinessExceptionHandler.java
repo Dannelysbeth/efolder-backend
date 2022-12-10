@@ -112,9 +112,21 @@ public class BusinessExceptionHandler {
         return new ErrorResponse(exception);
     }
 
+    @ExceptionHandler(RoleNotAssignedToUserException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorResponse roleNotAssignedToUserExceptionHandler(RoleNotAssignedToUserException exception) {
+        return new ErrorResponse(exception);
+    }
+
     @ExceptionHandler(RoleNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
     public ErrorResponse roleNotFoundExceptionHandler(RoleNotFoundException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    @ExceptionHandler(TeamIncludesEmployeesException.class)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse teamIncludesEmployeesExceptionHandler(TeamIncludesEmployeesException exception) {
         return new ErrorResponse(exception);
     }
 

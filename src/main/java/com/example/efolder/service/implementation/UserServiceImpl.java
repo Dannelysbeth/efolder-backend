@@ -2,6 +2,7 @@ package com.example.efolder.service.implementation;
 
 import com.example.efolder.exceptions.*;
 import com.example.efolder.model.Role;
+import com.example.efolder.model.Team;
 import com.example.efolder.model.User;
 import com.example.efolder.repository.RoleRepository;
 import com.example.efolder.repository.UserRepository;
@@ -45,6 +46,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (r.getRoleName().equals(role.getRoleName())) return true;
         }
         return false;
+    }
+    private boolean checkIfUserIsNotManager(User user){
+        if(user.getTeams().isEmpty())
+            return true;
+        return false;
+    }
+
+    private String getAllTeamsNames(User user){
+        String teams = "";
+        if(!user.getTeams().isEmpty()){
+            for(Team t :user.getTeams() ){
+                teams = t.getName()+", ";
+            }
+        }
+        return teams;
     }
 
     @Override
@@ -99,7 +115,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void deleteUser(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+        if(!checkIfUserIsNotManager(user)){
+            throw new ManagerCannotBeDeletedException(getAllTeamsNames(user));
+        }
+
         userRepository.delete(user);
     }
 

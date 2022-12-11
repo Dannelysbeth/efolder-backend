@@ -75,6 +75,11 @@ public class BusinessExceptionHandler {
     public ErrorResponse jwtValidationExceptionHandler(JwtValidationException exception) {
         return new ErrorResponse(exception);
     }
+    @ExceptionHandler(ManagerCannotBeDeletedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ErrorResponse managerCannotBeDeletedExceptionHandler(ManagerCannotBeDeletedException exception) {
+        return new ErrorResponse(exception);
+    }
 
     @ExceptionHandler(NoSuchFileCategoryException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -121,6 +126,12 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(RoleNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
     public ErrorResponse roleNotFoundExceptionHandler(RoleNotFoundException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    @ExceptionHandler(TeamNameIsTakenException.class)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public ErrorResponse teamNameIsTakenExceptionHandler(TeamNameIsTakenException exception) {
         return new ErrorResponse(exception);
     }
 

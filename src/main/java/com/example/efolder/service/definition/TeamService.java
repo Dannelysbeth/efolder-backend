@@ -16,7 +16,7 @@ public interface TeamService {
 
     Team updateTeam(Team team, String teamName);
 
-    Team deleteTeam(String teamName);
+    Team deleteTeam(long id);
 
 
 }

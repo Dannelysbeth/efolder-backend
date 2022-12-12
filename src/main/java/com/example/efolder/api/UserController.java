@@ -38,7 +38,7 @@ public class UserController {
         ).collect(Collectors.toList()));
     }
 
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN", "ROLE_MANAGER"})
     @GetMapping("/employee/all")
     public ResponseEntity<List<UserResponse>> getAllEmployees() {
         return ResponseEntity.ok().body(userService.getAllUsersThatHaveRole("ROLE_REGULAR_EMPLOYEE").stream().map(

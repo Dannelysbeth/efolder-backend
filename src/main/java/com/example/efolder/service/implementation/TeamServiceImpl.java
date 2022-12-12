@@ -28,9 +28,9 @@ public class TeamServiceImpl implements TeamService {
 
     private Team updateTeamProperties(Team oldTeam, Team newTeam) {
         updateTeamLeader(oldTeam, newTeam);
-        oldTeam.setName(newTeam.getName() != null ? newTeam.getName() : oldTeam.getName());
+//        oldTeam.setName(newTeam.getName() != null ? newTeam.getName() : oldTeam.getName());
         oldTeam.setEmployees(newTeam.getEmployees() != null ? newTeam.getEmployees() : oldTeam.getEmployees());
-        oldTeam.setDescription(newTeam.getDescription() != null ? newTeam.getDescription() : oldTeam.getDescription());
+        oldTeam.setDescription(newTeam.getDescription() != null && newTeam.getDescription() != "" ? newTeam.getDescription() : oldTeam.getDescription());
         return oldTeam;
     }
 
@@ -41,7 +41,7 @@ public class TeamServiceImpl implements TeamService {
         return false;
     }
 
-    private boolean checkIfTeamNameTaken(Team team){
+    private boolean checkIfTeamNameTaken(Team team) {
         return teamRepository.existsByName(team.getName()) ? true : false;
     }
 
@@ -62,17 +62,17 @@ public class TeamServiceImpl implements TeamService {
             User newTeamLeader = newTeam.getTeamLeader();
             oldTeamLeader = deleteManagerRoleFromUser(oldTeamLeader, oldTeam);
             boolean hasManagerRole = false;
-            for(Role r: newTeamLeader.getRoles()){
-                if(r.getRoleName().equals("ROLE_MANAGER")){
+            for (Role r : newTeamLeader.getRoles()) {
+                if (r.getRoleName().equals("ROLE_MANAGER")) {
                     hasManagerRole = true;
                     break;
                 }
             }
-            if(!hasManagerRole){
+            if (!hasManagerRole) {
                 newTeamLeader.getRoles().add(roleService.getRole("ROLE_MANAGER"));
             }
-            userService.saveUser(oldTeamLeader);
-            userService.saveUser(newTeamLeader);
+            userService.updateUser(oldTeamLeader);
+            userService.updateUser(newTeamLeader);
             oldTeam.setTeamLeader(newTeamLeader);
         }
         return oldTeam;
@@ -80,11 +80,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team saveTeam(Team team) {
-        if(checkIfTeamNameTaken(team)){
+        if (checkIfTeamNameTaken(team)) {
             throw new TeamNameIsTakenException();
         }
         team.getTeamLeader().addRole(roleService.getRole("ROLE_MANAGER"));
-        userService.saveUser(team.getTeamLeader());
+        userService.updateUser(team.getTeamLeader());
         return teamRepository.save(team);
     }
 
@@ -117,7 +117,7 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamRepository.findById(id)
                 .orElseThrow(TeamNotFoundException::new);
         if (team.getEmployees().isEmpty()) {
-            userService.saveUser(deleteManagerRoleFromUser(team.getTeamLeader(), team));
+            userService.updateUser(deleteManagerRoleFromUser(team.getTeamLeader(), team));
             teamRepository.delete(team);
             return team;
         }

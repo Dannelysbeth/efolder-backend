@@ -33,9 +33,6 @@ public class UserResponse {
         this.middleName = user.getMiddleName();
         this.lastName = user.getLastname();
         this.email = user.getEmail();
-        this.birthdate = user.getBirthdate();
-        this.gender = user.getGender();
-//        this.password = user.getPassword();
         if(user.getProfilePicture() != null)
             this.imageUrl = BASE_URL+"api/profilePicture/view/"+user.getId();
         else

@@ -72,8 +72,6 @@ public class UserController {
                 .lastName(loggedUser.getLastname())
                 .email(loggedUser.getEmail())
                 .middleName(loggedUser.getMiddleName())
-                .birthdate(loggedUser.getBirthdate())
-                .gender(loggedUser.getGender())
                 .imageUrl(picUrl)
                 .roles(loggedUser.getRoles().stream().map(s ->
                         String.valueOf(s.getRoleName()).toString()

@@ -12,31 +12,31 @@ public class BusinessExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    public ErrorResponse businessExceptionHandler(BusinessException exception){
+    public ErrorResponse businessExceptionHandler(BusinessException exception) {
         return new ErrorResponse(exception);
     }
 
     @ExceptionHandler(AddressNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorResponse addressNotFoundExceptionHandler(AddressNotFoundException exception){
+    public ErrorResponse addressNotFoundExceptionHandler(AddressNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 
     @ExceptionHandler(AuthException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    public ErrorResponse authExceptionHandler(AuthException exception){
+    public ErrorResponse authExceptionHandler(AuthException exception) {
         return new ErrorResponse(exception);
     }
 
     @ExceptionHandler(DocumentCreationFailureException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorResponse documentCreationFailureExceptionHandler(DocumentCreationFailureException exception){
+    public ErrorResponse documentCreationFailureExceptionHandler(DocumentCreationFailureException exception) {
         return new ErrorResponse(exception);
     }
 
     @ExceptionHandler(DocumentIsTooBigException.class)
     @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-    public ErrorResponse documentIsTooBigExceptionExceptionHandler(DocumentIsTooBigException exception){
+    public ErrorResponse documentIsTooBigExceptionExceptionHandler(DocumentIsTooBigException exception) {
         return new ErrorResponse(exception);
     }
 
@@ -75,6 +75,7 @@ public class BusinessExceptionHandler {
     public ErrorResponse jwtValidationExceptionHandler(JwtValidationException exception) {
         return new ErrorResponse(exception);
     }
+
     @ExceptionHandler(ManagerCannotBeDeletedException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorResponse managerCannotBeDeletedExceptionHandler(ManagerCannotBeDeletedException exception) {
@@ -152,6 +153,7 @@ public class BusinessExceptionHandler {
     public ErrorResponse userHasRoleExceptionHandler(UserHasRoleException exception) {
         return new ErrorResponse(exception);
     }
+
     @ExceptionHandler(UsernameIsTakenException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorResponse usernameIsTakenExceptionHandler(UsernameIsTakenException exception) {

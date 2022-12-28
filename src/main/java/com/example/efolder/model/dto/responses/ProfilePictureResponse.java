@@ -18,7 +18,7 @@ public class ProfilePictureResponse {
 
 
     @Builder
-    public ProfilePictureResponse(ProfilePicture profilePicture){
+    public ProfilePictureResponse(ProfilePicture profilePicture) {
         this.fileId = profilePicture.getId();
         this.firstname = profilePicture.getUser().getFirstname();
         this.lastname = profilePicture.getUser().getLastname();

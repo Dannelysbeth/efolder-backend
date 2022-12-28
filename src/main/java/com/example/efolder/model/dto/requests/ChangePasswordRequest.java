@@ -11,15 +11,15 @@ public class ChangePasswordRequest {
     String password;
     String repeatPassword;
 
-    private String checkIfPasswordMatch(){
-        if(!password.equals(repeatPassword))
+    private String checkIfPasswordMatch() {
+        if (!password.equals(repeatPassword))
             throw new NotMatchingPasswordException();
         else
             return password;
     }
 
-    public User changePasswordRequest(User user){
+    public User changePasswordRequest(User user) {
         user.setPassword(checkIfPasswordMatch());
-        return  user;
+        return user;
     }
 }

@@ -20,14 +20,14 @@ public class EmploymentResponse {
 
     private String positionDescription;
 
-    private String getFullName(User user){
-        if(user.getMiddleName()!=null)
-            return user.getFirstname()+" "+user.getMiddleName()+" "+user.getLastname();
-        return user.getFirstname()+" "+user.getLastname();
+    private String getFullName(User user) {
+        if (user.getMiddleName() != null)
+            return user.getFirstname() + " " + user.getMiddleName() + " " + user.getLastname();
+        return user.getFirstname() + " " + user.getLastname();
     }
 
     @Builder
-    public EmploymentResponse(Employment employment){
+    public EmploymentResponse(Employment employment) {
         this.username = employment.getUser().getUsername();
         this.teamName = employment.getTeam().getName();
         this.supervisor = getFullName(employment.getTeam().getTeamLeader());

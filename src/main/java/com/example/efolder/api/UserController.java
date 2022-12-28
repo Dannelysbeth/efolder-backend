@@ -1,9 +1,9 @@
 package com.example.efolder.api;
 
+import com.example.efolder.model.User;
 import com.example.efolder.model.dto.requests.ChangePasswordRequest;
 import com.example.efolder.model.dto.requests.CreateUserRequest;
 import com.example.efolder.model.dto.requests.RoleToUserRequest;
-import com.example.efolder.model.User;
 import com.example.efolder.model.dto.responses.LoggedUserInfoResponse;
 import com.example.efolder.model.dto.responses.UserResponse;
 import com.example.efolder.model.dto.responses.UserRolesResponse;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.efolder.security.SecurityConfig.BASE_URL;
@@ -133,7 +133,7 @@ public class UserController {
     @PostMapping("/delete/{username}")
     public ResponseEntity<UserResponse> deleteUser(@PathVariable String username) {
         User user = userService.getUser(username);
-        if(!user.getTeams().isEmpty()){
+        if (!user.getTeams().isEmpty()) {
 
         }
         userService.deleteUser(username);

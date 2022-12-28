@@ -7,7 +7,6 @@ import com.example.efolder.service.definition.TeamService;
 import com.example.efolder.service.definition.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
 
@@ -30,17 +29,17 @@ public class CreateEmploymentRequest {
 
     private String positionDescription;
 
-    public boolean checkIfNotNull(){
-        if(teamName==null)
+    public boolean checkIfNotNull() {
+        if (teamName == null)
             throw new EmptyFieldException("teamName");
-        if(hrManager==null)
+        if (hrManager == null)
             throw new EmptyFieldException("hrManager");
-        if(positionName==null)
+        if (positionName == null)
             throw new EmptyFieldException("positionName");
         return true;
     }
 
-    public Employment employmentRequest(UserService userService, TeamService teamService, String username){
+    public Employment employmentRequest(UserService userService, TeamService teamService, String username) {
         checkIfNotNull();
         User user = userService.getUser(username);
         return Employment.builder()

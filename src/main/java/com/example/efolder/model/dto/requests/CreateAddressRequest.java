@@ -28,10 +28,10 @@ public class CreateAddressRequest {
 
     private String flatNumber;
 
-    public boolean checkIfEmpty(){
-        if(city==null)
+    public boolean checkIfEmpty() {
+        if (city == null)
             throw new EmptyFieldException("city");
-        if(country==null)
+        if (country == null)
             throw new EmptyFieldException("country");
         return true;
     }

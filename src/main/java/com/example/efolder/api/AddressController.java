@@ -24,7 +24,7 @@ public class AddressController {
 
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE', 'ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
     @GetMapping()
-    public ResponseEntity<AddressResponse> getMyAddress(){
+    public ResponseEntity<AddressResponse> getMyAddress() {
         User loggedUser = userService.getLoggedUser();
         return ResponseEntity.ok().body(AddressResponse.builder()
                 .address(addressService.getAddress(loggedUser.getUsername()))
@@ -33,7 +33,7 @@ public class AddressController {
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
     @GetMapping("/{username}")
-    public ResponseEntity<AddressResponse> getMyAddress(@PathVariable("username") String username){
+    public ResponseEntity<AddressResponse> getMyAddress(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(AddressResponse.builder()
                 .address(addressService.getAddress(username))
                 .build());
@@ -41,11 +41,11 @@ public class AddressController {
 
     @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE', 'ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
     @PostMapping()
-    public ResponseEntity<AddressResponse>saveMyAddress(@RequestBody CreateAddressRequest addressRequest){
+    public ResponseEntity<AddressResponse> saveMyAddress(@RequestBody CreateAddressRequest addressRequest) {
         User loggedUser = userService.getLoggedUser();
 //        User userInfo = userInfoService.getUser(loggedUser.getUsername());
         Address address = addressRequest.addressRequest(loggedUser);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/"+loggedUser.getUsername()).toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + loggedUser.getUsername()).toUriString());
         return ResponseEntity.created(uri).body(AddressResponse.builder()
                 .address(addressService.saveAddress(address))
                 .build());
@@ -54,10 +54,10 @@ public class AddressController {
 
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
     @PostMapping("/{username}")
-    public ResponseEntity<AddressResponse>saveMyAddress(@PathVariable("username") String username, @RequestBody CreateAddressRequest addressRequest){
+    public ResponseEntity<AddressResponse> saveMyAddress(@PathVariable("username") String username, @RequestBody CreateAddressRequest addressRequest) {
         User user = userService.getUser(username);
         Address address = addressRequest.addressRequest(user);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/"+username).toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + username).toUriString());
         return ResponseEntity.created(uri).body(AddressResponse.builder()
                 .address(addressService.saveAddress(address))
                 .build());

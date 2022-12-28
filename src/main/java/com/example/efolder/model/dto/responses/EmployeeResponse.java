@@ -22,19 +22,20 @@ public class EmployeeResponse {
     private String positionName;
     private String positionDescription;
 
-    private String getFullName(User user){
-        if(user.getMiddleName()!=null)
-            return user.getFirstname()+" "+user.getMiddleName()+" "+user.getLastname();
-        return user.getFirstname()+" "+user.getLastname();
+    private String getFullName(User user) {
+        if (user.getMiddleName() != null)
+            return user.getFirstname() + " " + user.getMiddleName() + " " + user.getLastname();
+        return user.getFirstname() + " " + user.getLastname();
     }
-    private String getImageUrl(User user){
-        return user.getProfilePicture()==null ?
+
+    private String getImageUrl(User user) {
+        return user.getProfilePicture() == null ?
                 null :
-                BASE_URL+"api/profilePicture/view/"+user.getId();
+                BASE_URL + "api/profilePicture/view/" + user.getId();
     }
 
     @Builder
-    public EmployeeResponse(Employment employment){
+    public EmployeeResponse(Employment employment) {
         this.id = employment.getId();
         this.username = employment.getUser().getUsername();
         this.firstName = employment.getUser().getFirstname();

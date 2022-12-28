@@ -13,18 +13,19 @@ import java.io.IOException;
 @Data
 public class AddProfilePictureRequest {
 
-    private boolean checkIfValidPicture(MultipartFile file){
+    private boolean checkIfValidPicture(MultipartFile file) {
         String filepath = file.getOriginalFilename();
         assert filepath != null;
         File f = new File(filepath);
-        String mimetype= new MimetypesFileTypeMap().getContentType(f);
+        String mimetype = new MimetypesFileTypeMap().getContentType(f);
         String type = mimetype.split("/")[0];
         return type.equals("image");
     }
+
     public ProfilePicture profilePictureRequest(MultipartFile file, User owner) throws IOException {
-        if(!checkIfValidPicture(file))
+        if (!checkIfValidPicture(file))
             throw new NotValidPictureException();
-        else{
+        else {
             return ProfilePicture.builder()
                     .user(owner)
                     .id(owner.getId())

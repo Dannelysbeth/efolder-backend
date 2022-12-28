@@ -18,7 +18,7 @@ public class AddressResponse {
     private String zipcode;
 
     @Builder
-    public AddressResponse(Address address){
+    public AddressResponse(Address address) {
         this.firstname = address.getUser().getFirstname();
         this.lastname = address.getUser().getLastname();
         this.country = address.getCountry();

@@ -1,18 +1,14 @@
 package com.example.efolder.model.dto.requests;
 
 import com.example.efolder.exceptions.EmptyFieldException;
-import com.example.efolder.exceptions.NotMatchingPasswordException;
 import com.example.efolder.model.User;
 import com.example.efolder.model.enums.Gender;
-import com.example.efolder.service.definition.UserService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Arrays;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -41,7 +37,7 @@ public class CreateUserRequest {
     @JsonProperty("birthdate")
     private Date birthdate;
 
-//    @NonNull
+    //    @NonNull
     @JsonProperty("gender")
     private Gender gender;
 
@@ -53,21 +49,21 @@ public class CreateUserRequest {
 //    @JsonProperty("re_password")
 //    private String re_password;
 
-    public boolean checkIfNotEmpty(){
-        if(firstName==null)
+    public boolean checkIfNotEmpty() {
+        if (firstName == null)
             throw new EmptyFieldException("firstName");
-        if(lastName==null)
+        if (lastName == null)
             throw new EmptyFieldException("lastName");
-        if(username==null)
+        if (username == null)
             throw new EmptyFieldException("username");
-        if(email==null)
+        if (email == null)
             throw new EmptyFieldException("email");
-        if(password==null)
+        if (password == null)
             throw new EmptyFieldException("password");
         return true;
     }
 
-//    /**
+    //    /**
 //     * Generates a username for given name and lastname
 //     * @param userService
 //     * @return
@@ -92,7 +88,7 @@ public class CreateUserRequest {
 //        else
 //            return password;
 //    }
-    public User userRequest(){
+    public User userRequest() {
         checkIfNotEmpty();
         return User.builder()
                 .username(username)

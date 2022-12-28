@@ -11,7 +11,7 @@ public class RoleRequest {
     @NonNull
     private String roleName;
 
-    public Role roleRequest(){
+    public Role roleRequest() {
         return Role.builder()
                 .id(null)
                 .roleName(roleName)

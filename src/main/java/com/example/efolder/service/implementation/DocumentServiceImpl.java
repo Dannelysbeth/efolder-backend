@@ -21,13 +21,13 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
 
-    private boolean checkIfFileExceedsMaxSize(Document document){
+    private boolean checkIfFileExceedsMaxSize(Document document) {
         return document.getSize() > 10000000 ? true : false;
     }
 
     @Override
     public Document saveDocument(Document document) {
-        if(checkIfFileExceedsMaxSize(document))
+        if (checkIfFileExceedsMaxSize(document))
             throw new DocumentIsTooBigException();
         return documentRepository.save(document);
     }

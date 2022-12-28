@@ -21,10 +21,10 @@ public class TeamResponse {
 
     int teamSize;
 
-    private int countTeamMembers(Team team){
+    private int countTeamMembers(Team team) {
         int teamSize = 0;
-        if(!team.getEmployees().isEmpty()){
-            for(int i=0; i<team.getEmployees().size(); i++){
+        if (!team.getEmployees().isEmpty()) {
+            for (int i = 0; i < team.getEmployees().size(); i++) {
                 teamSize++;
             }
         }

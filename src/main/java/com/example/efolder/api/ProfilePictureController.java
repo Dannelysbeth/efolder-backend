@@ -31,15 +31,16 @@ public class ProfilePictureController {
 
     /**
      * Downloads profile picture of given user
+     *
      * @param username - the username of the user
      * @return start download of picture
      */
     @PreAuthorize("permitAll()")
     @GetMapping("/download/{username}")
-    public ResponseEntity<Resource> downloadProfilePicture(@PathVariable String username){
+    public ResponseEntity<Resource> downloadProfilePicture(@PathVariable String username) {
         ProfilePicture profilePicture = profilePictureService.getProfilePicture(
                 userService.getUser(username)
-                .getId());
+                        .getId());
         ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + profilePicture.getName() + "\"")
@@ -47,27 +48,26 @@ public class ProfilePictureController {
     }
 
     /**
-     *
      * @return the profile picture to view by user
      */
     @PreAuthorize("permitAll()")
     @GetMapping(value = "/myPic", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<Resource> downloadLoggedUserProfilePicture(){
+    public ResponseEntity<Resource> downloadLoggedUserProfilePicture() {
         ProfilePicture profilePicture = profilePictureService.getProfilePicture(
                 userService.getLoggedUser()
-                .getId());
+                        .getId());
         ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + profilePicture.getName() + "\"")
                 .body(resource);
     }
+
     /**
-     *
      * @return the profile picture to view by user
      */
     @PreAuthorize("permitAll()")
     @GetMapping(value = "/view/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<Resource> viewUsersProfilePicture(@PathVariable Long id){
+    public ResponseEntity<Resource> viewUsersProfilePicture(@PathVariable Long id) {
         ProfilePicture profilePicture = profilePictureService.getProfilePicture(id);
         ByteArrayResource resource = new ByteArrayResource(profilePicture.getContent());
         return ResponseEntity.ok()

@@ -22,16 +22,15 @@ public class CreateTeamRequest {
     @JsonProperty("teamLeader")
     private String teamLeaderUsername;
 
-    public Team teamRequest(UserService userService){
+    public Team teamRequest(UserService userService) {
         return Team.builder()
                 .id(null)
                 .name(name)
                 .description(description)
-                .teamLeader(teamLeaderUsername!=null ? userService.getUser(teamLeaderUsername) : null)
+                .teamLeader(teamLeaderUsername != null ? userService.getUser(teamLeaderUsername) : null)
                 .employees(new ArrayList<>())
                 .build();
     }
-
 
 
 }

@@ -11,7 +11,7 @@ public class RoleToUserRequest {
     private String username;
     private String roleName;
 
-    public User addRoleToUserRequest(UserService userService, RoleService roleService){
+    public User addRoleToUserRequest(UserService userService, RoleService roleService) {
         User user = userService.getUser(username);
         if (!user.getRoles().contains(roleService.getRole(roleName))) {
             user.getRoles().add(roleService.getRole(roleName));

@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.util.Collection;
 import java.util.Date;
+
 @Data
 @Builder
 public class LoggedUserInfoResponse {
@@ -17,7 +18,7 @@ public class LoggedUserInfoResponse {
     private String lastName;
     private Collection<String> roles;
 
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthdate;
     private Gender gender;
     private String imageUrl;

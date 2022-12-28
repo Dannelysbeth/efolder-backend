@@ -20,14 +20,14 @@ public class ChangeTeamRequest {
     @JsonProperty("teamLeader")
     private String teamLeaderUsername;
 
-    private Team getChangedTeam(Team team, UserService userService){
-        team.setName(name!=null? name : team.getName());
-        team.setDescription(description!=null? description : team.getDescription());
-        team.setTeamLeader(teamLeaderUsername!=null ? userService.getUser(teamLeaderUsername) : team.getTeamLeader());
+    private Team getChangedTeam(Team team, UserService userService) {
+        team.setName(name != null ? name : team.getName());
+        team.setDescription(description != null ? description : team.getDescription());
+        team.setTeamLeader(teamLeaderUsername != null ? userService.getUser(teamLeaderUsername) : team.getTeamLeader());
         return team;
     }
 
-    public Team teamRequest(Team team, UserService userInfoService){
+    public Team teamRequest(Team team, UserService userInfoService) {
         return getChangedTeam(team, userInfoService);
     }
 }

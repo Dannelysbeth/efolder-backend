@@ -14,7 +14,7 @@ public class UserRolesResponse {
     Collection<Role> roles;
 
     @Builder
-    public UserRolesResponse(User user){
+    public UserRolesResponse(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.roles = user.getRoles();

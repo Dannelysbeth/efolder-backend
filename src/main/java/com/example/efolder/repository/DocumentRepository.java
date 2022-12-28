@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findAllByOwner_Username(String username);
+
     List<Document> findAllByOwner_UsernameAndAndFileCategory(String username, FileCategory fileCategory);
 }

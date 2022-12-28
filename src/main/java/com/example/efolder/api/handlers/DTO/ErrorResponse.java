@@ -12,7 +12,7 @@ public class ErrorResponse {
     private int status;
     private String message;
 
-    public ErrorResponse(BusinessException businessException){
+    public ErrorResponse(BusinessException businessException) {
         this.status = businessException.getStatus();
         this.message = businessException.getMessage();
     }

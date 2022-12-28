@@ -1,12 +1,8 @@
 package com.example.efolder.model;
 
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.persistence.*;
-import java.io.File;
-import java.io.IOException;
 
 
 @Builder
@@ -14,7 +10,7 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="profile_pictures")
+@Table(name = "profile_pictures")
 public class ProfilePicture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

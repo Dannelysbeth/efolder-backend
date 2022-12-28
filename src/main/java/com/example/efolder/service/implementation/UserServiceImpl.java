@@ -47,17 +47,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return false;
     }
-    private boolean checkIfUserIsNotManager(User user){
-        if(user.getTeams().isEmpty())
+
+    private boolean checkIfUserIsNotManager(User user) {
+        if (user.getTeams().isEmpty())
             return true;
         return false;
     }
 
-    private String getAllTeamsNames(User user){
+    private String getAllTeamsNames(User user) {
         String teams = "";
-        if(!user.getTeams().isEmpty()){
-            for(Team t :user.getTeams() ){
-                teams = t.getName()+", ";
+        if (!user.getTeams().isEmpty()) {
+            for (Team t : user.getTeams()) {
+                teams = t.getName() + ", ";
             }
         }
         return teams;
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        if(!checkIfUserIsNotManager(user)){
+        if (!checkIfUserIsNotManager(user)) {
             throw new ManagerCannotBeDeletedException(getAllTeamsNames(user));
         }
 

@@ -17,8 +17,9 @@ public class AddDocumentRequest {
     private boolean checkDocumentExtension(MultipartFile file) {
         return Objects.requireNonNull(file.getOriginalFilename()).toUpperCase().endsWith(".PDF");
     }
+
     public Document documentRequest(MultipartFile file, User owner, String fileCategory) {
-        if(checkDocumentExtension(file)) {
+        if (checkDocumentExtension(file)) {
             try {
                 return Document.builder()
                         .id(null)

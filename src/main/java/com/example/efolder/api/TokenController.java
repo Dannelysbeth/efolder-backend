@@ -43,8 +43,8 @@ public class TokenController {
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-            try{
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
                 String refreshToken = authorizationHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
@@ -60,29 +60,29 @@ public class TokenController {
                                 .map(Role::getRoleName)
                                 .collect(Collectors.toList()))
                         .sign(algorithm);
-                Map<String, String> tokens =  new HashMap<>();
+                Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", accessToken);
                 tokens.put("refresh_token", refreshToken);
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-            }catch(Exception exception){
+            } catch (Exception exception) {
                 setResponseHeaders(response, exception);
             }
-        } else{
+        } else {
             throw new RuntimeException("Refresh token in missing");
         }
     }
 
     @PreAuthorize("permitAll()")
     @PostMapping("auth/verify")
-    public JwtTokenInfoResponse isJWTValid(@Valid @NonNull @RequestBody JwtTokenRequest token){
+    public JwtTokenInfoResponse isJWTValid(@Valid @NonNull @RequestBody JwtTokenRequest token) {
 
         //String username = "";
-        try{
-            DecodedJWT decodedJWT =  JWT.require(Algorithm.HMAC256(JWT_SECRET_KEY.getBytes())).build().verify(token.getToken());
-        }catch(TokenExpiredException exception){
+        try {
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(JWT_SECRET_KEY.getBytes())).build().verify(token.getToken());
+        } catch (TokenExpiredException exception) {
             throw new JwtExpireException();
-        } catch(Exception exception){
+        } catch (Exception exception) {
             throw new JwtValidationException();
         }
         return new JwtTokenInfoResponse(HttpStatus.OK.value(), "Valid JWT");
@@ -91,7 +91,7 @@ public class TokenController {
     public static void setResponseHeaders(HttpServletResponse response, Exception exception) throws IOException {
         response.setHeader("Error", exception.getMessage());
         response.setStatus(FORBIDDEN.value());
-        Map<String, String> error =  new HashMap<>();
+        Map<String, String> error = new HashMap<>();
         error.put("error_message", exception.getMessage());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), error);

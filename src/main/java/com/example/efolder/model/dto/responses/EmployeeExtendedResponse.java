@@ -14,5 +14,4 @@ public class EmployeeExtendedResponse {
     Collection<String> roles;
 
 
-
 }

@@ -4,7 +4,10 @@ import com.example.efolder.model.enums.Gender;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 
 @Getter
@@ -15,7 +18,7 @@ import java.util.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     protected Long id;
 
     @Setter
@@ -64,14 +67,14 @@ public class User {
     @Setter
     @Column(name = "email", nullable = false)
     private String email;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-    @JoinTable(name="users_roles",
-            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
-            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")}
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "users_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private Collection<Role> roles = new ArrayDeque<>();
 
-    public User(String firstname, String lastname, String username, String password, String email){
+    public User(String firstname, String lastname, String username, String password, String email) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
@@ -106,9 +109,9 @@ public class User {
         this.email = email;
     }
 
-    public void addRole(Role role){
-        for(Role r: this.roles){
-            if(r.getRoleName().equals(role.getRoleName()))
+    public void addRole(Role role) {
+        for (Role r : this.roles) {
+            if (r.getRoleName().equals(role.getRoleName()))
                 return;
         }
         this.roles.add(role);

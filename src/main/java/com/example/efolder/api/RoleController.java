@@ -25,13 +25,13 @@ public class RoleController {
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
     @GetMapping("/all")
-    public ResponseEntity<List<Role>> getAllRoles(){
+    public ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok().body(roleService.getAllRoles());
     }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN", "ROLE_MANAGER", "ROLE_REGULAR_EMPLOYEE"})
     @GetMapping()
-    public ResponseEntity<UserRolesResponse> getLoggedUsersRoles(){
+    public ResponseEntity<UserRolesResponse> getLoggedUsersRoles() {
         User loggedUser = userService.getLoggedUser();
         return ResponseEntity.ok().body(UserRolesResponse.builder()
                 .user(loggedUser)
@@ -39,9 +39,9 @@ public class RoleController {
         );
     }
 
-    @Secured({"ROLE_SUPER_ADMIN","ROLE_HR_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
     @GetMapping("/{username}")
-    public ResponseEntity<UserRolesResponse> getUsersRoles(@PathVariable String username){
+    public ResponseEntity<UserRolesResponse> getUsersRoles(@PathVariable String username) {
         User user = userService.getUser(username);
         return ResponseEntity.ok().body(UserRolesResponse.builder()
                 .user(user)
@@ -51,35 +51,37 @@ public class RoleController {
 
     @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping()
-    public ResponseEntity<Role>saveRole(@RequestBody RoleRequest roleRequest){
+    public ResponseEntity<Role> saveRole(@RequestBody RoleRequest roleRequest) {
         Role role = roleRequest.roleRequest();
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/"+role.getId()).toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/" + role.getId()).toUriString());
         return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_HR_ADMIN"})
     @PostMapping("/addRole")
-    public ResponseEntity<UserRolesResponse>addRoleToUser(@RequestBody RoleToUserRequest roleToUserRequest){
+    public ResponseEntity<UserRolesResponse> addRoleToUser(@RequestBody RoleToUserRequest roleToUserRequest) {
         User user = roleToUserRequest.addRoleToUserRequest(userService, roleService);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+user.getUsername()).toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/" + user.getUsername()).toUriString());
         return ResponseEntity.ok().body(UserRolesResponse.builder()
                 .user(userService.addRoleToUser(user.getUsername(), roleToUserRequest.getRoleName()))
                 .build()
         );
     }
+
     @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping("addHRAdminRole/{username}")
-    public ResponseEntity<UserRolesResponse>giveHRAdminRole(@PathVariable String username){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+username).toUriString());
+    public ResponseEntity<UserRolesResponse> giveHRAdminRole(@PathVariable String username) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/" + username).toUriString());
         return ResponseEntity.ok().body(UserRolesResponse.builder()
                 .user(userService.addRoleToUser(username, "ROLE_HR_ADMIN"))
                 .build()
         );
     }
+
     @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping("deleteHRAdminRole/{username}")
-    public ResponseEntity<UserRolesResponse>deleteHRAdminRole(@PathVariable String username){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/"+username).toUriString());
+    public ResponseEntity<UserRolesResponse> deleteHRAdminRole(@PathVariable String username) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/" + username).toUriString());
         return ResponseEntity.ok().body(UserRolesResponse.builder()
                 .user(userService.deleteRoleFromUser(username, "ROLE_HR_ADMIN"))
                 .build()

@@ -9,10 +9,10 @@ public enum FileCategory {
     D("D");
     private static final String[] categories = new String[]{"A", "B", "C", "D"};
 
-    FileCategory(String fileCategoryString){
+    FileCategory(String fileCategoryString) {
     }
 
-    public static FileCategory transformStringToFileCategory(String fileCategoryString){
+    public static FileCategory transformStringToFileCategory(String fileCategoryString) {
         return switch (fileCategoryString) {
             case "A" -> A;
             case "B" -> B;
@@ -21,7 +21,8 @@ public enum FileCategory {
             default -> throw new NoSuchFileCategoryException();
         };
     }
-    public static String[] getAllCategories(){
+
+    public static String[] getAllCategories() {
         return categories;
     }
 

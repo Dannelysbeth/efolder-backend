@@ -16,15 +16,15 @@ public class ChangeEmploymentRequest {
 
     private String positionDescription;
 
-    private Employment setParamsIfNull(Employment employment, TeamService teamService, UserService userService){
-        employment.setTeam(teamName!=null ? teamService.getTeam(teamName) : employment.getTeam());
-        employment.setHrManager(hrManager!=null ? userService.getUser(hrManager) : employment.getHrManager());
-        employment.setPositionName(positionName!=null ? positionName : employment.getPositionName());
-        employment.setPositionDescription(positionDescription!=null ? positionDescription : employment.getPositionDescription());
+    private Employment setParamsIfNull(Employment employment, TeamService teamService, UserService userService) {
+        employment.setTeam(teamName != null ? teamService.getTeam(teamName) : employment.getTeam());
+        employment.setHrManager(hrManager != null ? userService.getUser(hrManager) : employment.getHrManager());
+        employment.setPositionName(positionName != null ? positionName : employment.getPositionName());
+        employment.setPositionDescription(positionDescription != null ? positionDescription : employment.getPositionDescription());
         return employment;
     }
 
-    public Employment employmentRequest(Employment employment, TeamService teamService, UserService userService){
+    public Employment employmentRequest(Employment employment, TeamService teamService, UserService userService) {
         return setParamsIfNull(employment, teamService, userService);
     }
 }

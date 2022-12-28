@@ -32,6 +32,6 @@ public class Team {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="manager_id")
+    @JoinColumn(name = "manager_id")
     private User teamLeader;
 }

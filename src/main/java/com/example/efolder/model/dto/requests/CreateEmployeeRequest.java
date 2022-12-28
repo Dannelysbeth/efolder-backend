@@ -4,18 +4,11 @@ import com.example.efolder.exceptions.BusinessException;
 import com.example.efolder.model.Address;
 import com.example.efolder.model.Employment;
 import com.example.efolder.model.User;
-import com.example.efolder.model.enums.Gender;
-import com.example.efolder.service.definition.AddressService;
 import com.example.efolder.service.definition.TeamService;
 import com.example.efolder.service.definition.UserService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import org.springframework.http.HttpStatus;
-
-import javax.validation.constraints.Email;
-import java.util.Date;
 
 @Getter
 @AllArgsConstructor
@@ -32,19 +25,19 @@ public class CreateEmployeeRequest {
     }
 
 
-    public User returnBasicUser(){
+    public User returnBasicUser() {
         return this.user.userRequest();
     }
 
-    public Employment returnEmployment(UserService userService, TeamService teamService, String username){
+    public Employment returnEmployment(UserService userService, TeamService teamService, String username) {
         return employment.employmentRequest(userService, teamService, username);
     }
 
-    public Address returnBasicAddress(User user){
+    public Address returnBasicAddress(User user) {
         return address.addressRequest(user);
     }
 
-    public User employeeRequest(UserService userService, TeamService teamService){
+    public User employeeRequest(UserService userService, TeamService teamService) {
         User user = this.user.userRequest();
         Employment employment = this.employment.employmentRequest(userService, teamService, user.getUsername());
         Address address = this.address.addressRequest(user);

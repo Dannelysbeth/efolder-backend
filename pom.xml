@@ -109,6 +109,16 @@
         </dependency>
 
     </dependencies>
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <plugins>
@@ -191,24 +201,24 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>io.github.robwin</groupId>
-                <artifactId>swagger2markup-maven-plugin</artifactId>
-                <version>0.9.3</version>
-                <configuration>
-                    <inputDirectory>${project.build.directory}/api</inputDirectory>
-                    <outputDirectory>${generated.asciidoc.directory}</outputDirectory>
-                    <markupLanguage>asciidoc</markupLanguage>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>process-swagger</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>io.github.robwin</groupId>-->
+<!--                <artifactId>swagger2markup-maven-plugin</artifactId>-->
+<!--                <version>0.9.3</version>-->
+<!--                <configuration>-->
+<!--                    <inputDirectory>${project.build.directory}/api</inputDirectory>-->
+<!--                    <outputDirectory>${generated.asciidoc.directory}</outputDirectory>-->
+<!--                    <markupLanguage>asciidoc</markupLanguage>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>process-swagger</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -245,7 +255,9 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
+
     </build>
 
 </project>

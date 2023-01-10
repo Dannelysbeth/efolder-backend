@@ -44,7 +44,7 @@ public class EmployeeResponse {
         this.imageUrl = getImageUrl(employment.getUser());
         this.teamName = employment.getTeam().getName();
         this.supervisor = getFullName(employment.getTeam().getTeamLeader());
-        this.hrManager = getFullName(employment.getHrManager());
+//        this.hrManager = getFullName(employment.getHrManager());
         this.positionName = employment.getPositionName();
         this.positionDescription = employment.getPositionDescription();
     }

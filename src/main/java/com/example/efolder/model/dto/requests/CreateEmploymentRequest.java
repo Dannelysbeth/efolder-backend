@@ -21,8 +21,8 @@ public class CreateEmploymentRequest {
     @NotBlank
     private String teamName;
 
-    @NotBlank
-    private String hrManager;
+//    @NotBlank
+//    private String hrManager;
 
     @NotBlank
     private String positionName;
@@ -32,8 +32,8 @@ public class CreateEmploymentRequest {
     public boolean checkIfNotNull() {
         if (teamName == null)
             throw new EmptyFieldException("teamName");
-        if (hrManager == null)
-            throw new EmptyFieldException("hrManager");
+//        if (hrManager == null)
+//            throw new EmptyFieldException("hrManager");
         if (positionName == null)
             throw new EmptyFieldException("positionName");
         return true;
@@ -46,7 +46,7 @@ public class CreateEmploymentRequest {
                 .id(user.getId())
                 .user(user)
                 .team(teamService.getTeam(teamName))
-                .hrManager(userService.getUser(hrManager))
+//                .hrManager(userService.getUser(hrManager))
                 .positionName(positionName)
                 .positionDescription(positionDescription)
                 .build();

@@ -10,7 +10,7 @@ import lombok.Data;
 public class ChangeEmploymentRequest {
     private String teamName;
 
-    private String hrManager;
+//    private String hrManager;
 
     private String positionName;
 
@@ -18,7 +18,7 @@ public class ChangeEmploymentRequest {
 
     private Employment setParamsIfNull(Employment employment, TeamService teamService, UserService userService) {
         employment.setTeam(teamName != null ? teamService.getTeam(teamName) : employment.getTeam());
-        employment.setHrManager(hrManager != null ? userService.getUser(hrManager) : employment.getHrManager());
+//        employment.setHrManager(hrManager != null ? userService.getUser(hrManager) : employment.getHrManager());
         employment.setPositionName(positionName != null ? positionName : employment.getPositionName());
         employment.setPositionDescription(positionDescription != null ? positionDescription : employment.getPositionDescription());
         return employment;

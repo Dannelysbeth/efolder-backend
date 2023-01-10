@@ -75,7 +75,7 @@ public class ProfilePictureController {
                 .body(resource);
     }
 
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("permitAll()")
     @PostMapping("/upload")
     public ResponseEntity<ProfilePictureResponse> uploadMyProfilePicture(@RequestParam("file") MultipartFile file) throws IOException {
         User loggedUser = userService.getLoggedUser();
@@ -85,7 +85,7 @@ public class ProfilePictureController {
                 .build());
     }
 
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
+    @PreAuthorize("permitAll()")
     @PostMapping("/upload/{username}")
     public ResponseEntity<ProfilePictureResponse> uploadUsersProfilePicture(@PathVariable String username, @RequestParam("file") MultipartFile file) throws IOException {
         User user = userService.getUser(username);

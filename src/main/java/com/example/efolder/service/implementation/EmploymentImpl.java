@@ -37,10 +37,10 @@ public class EmploymentImpl implements EmploymentService {
     }
 
 
-    @Override
-    public List<Employment> getAllByHrManager(String hrManagerName) {
-        return employmentRepository.findAllByHrManager_Username(hrManagerName);
-    }
+//    @Override
+//    public List<Employment> getAllByHrManager(String hrManagerName) {
+//        return employmentRepository.findAllByHrManager_Username(hrManagerName);
+//    }
 
     @Override
     public List<Employment> getAllBySupervisor(String managerUsername) {

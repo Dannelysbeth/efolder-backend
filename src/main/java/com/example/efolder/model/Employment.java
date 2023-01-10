@@ -27,10 +27,10 @@ public class Employment {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hr_manager_id", nullable = false)
-    private User hrManager;
+//    @Setter
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "hr_manager_id", nullable = false)
+//    private User hrManager;
 
     @Setter
     @Column(name = "position_name")

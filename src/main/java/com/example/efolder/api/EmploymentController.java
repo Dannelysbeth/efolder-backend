@@ -72,16 +72,16 @@ public class EmploymentController {
         ).collect(Collectors.toList()));
     }
 
-    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
-    @GetMapping("/hrPeoplePull")
-    public ResponseEntity<List<EmploymentResponse>> getHrPeoplePullEmployments() {
-        User loggedUser = userService.getLoggedUser();
-        return ResponseEntity.ok().body(employmentService.getAllByHrManager(loggedUser.getUsername()).stream().map(
-                employment -> EmploymentResponse.builder()
-                        .employment(employment)
-                        .build()
-        ).collect(Collectors.toList()));
-    }
+//    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
+//    @GetMapping("/hrPeoplePull")
+//    public ResponseEntity<List<EmploymentResponse>> getHrPeoplePullEmployments() {
+//        User loggedUser = userService.getLoggedUser();
+//        return ResponseEntity.ok().body(employmentService.getAllByHrManager(loggedUser.getUsername()).stream().map(
+//                employment -> EmploymentResponse.builder()
+//                        .employment(employment)
+//                        .build()
+//        ).collect(Collectors.toList()));
+//    }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
     @GetMapping("/employees")

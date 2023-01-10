@@ -9,7 +9,7 @@ public interface EmploymentService {
 
     Employment saveEmployment(Employment employment);
 
-    List<Employment> getAllByHrManager(String hrManagerName);
+//    List<Employment> getAllByHrManager(String hrManagerName);
 
     List<Employment> getAllBySupervisor(String managerUsername);
 

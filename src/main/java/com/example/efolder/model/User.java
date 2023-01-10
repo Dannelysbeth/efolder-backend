@@ -42,8 +42,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
     private Collection<Document> documents = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hrManager")
-    private Collection<Employment> hrPeoplePull = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hrManager")
+//    private Collection<Employment> hrPeoplePull = new ArrayList<>();
 
     @Column(nullable = false)
     protected String username;
@@ -101,7 +101,7 @@ public class User {
         this.address = address;
         this.profilePicture = profilePicture;
         this.teams = teams;
-        this.hrPeoplePull = hrPeoplePull;
+//        this.hrPeoplePull = hrPeoplePull;
         this.documents = documents;
         this.firstname = firstname;
         this.middleName = middleName;

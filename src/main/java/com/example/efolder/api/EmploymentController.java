@@ -21,7 +21,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Handles API requests of Employment Entity
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/employment")
@@ -31,6 +33,36 @@ public class EmploymentController {
     private final TeamService teamService;
     private final AddressService addressService;
 
+    /**
+     * Gets the extended response of the employee's information
+     *
+     * @param user – the user, for whom the information should be returned
+     * @param uri – uri for the request
+     * @return extended employee information
+     */
+    private ResponseEntity<EmployeeExtendedResponse> getEmployeeExtendedResponseResponseEntity(User user, URI uri) {
+        return ResponseEntity.created(uri).body(EmployeeExtendedResponse.builder()
+                .user(UserResponse.builder()
+                        .user(user)
+                        .build())
+                .address(AddressResponse.builder()
+                        .address(user.getAddress())
+                        .build())
+                .employment(EmploymentResponse.builder()
+                        .employment(user.getEmployment())
+                        .build())
+                .roles(user.getRoles().stream().map(s ->
+                        String.valueOf(s.getRoleName())
+                ).collect(Collectors.toList()))
+                .build());
+    }
+
+    /**
+     * Gets the employment of the selected user
+     *
+     * @param username – username of the selected user
+     * @return the employment information of the user
+     */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
     @GetMapping("/{username}")
     public ResponseEntity<EmploymentResponse> getUserEmployment(@PathVariable String username) {
@@ -40,9 +72,16 @@ public class EmploymentController {
                         .build());
     }
 
+    /**
+     * Updates user's employment
+     *
+     * @param username – the username of the user
+     * @param changeEmploymentRequest
+     * @return
+     */
     @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN')"))
     @PutMapping("/{username}")
-    public ResponseEntity<EmploymentResponse> getUserEmployment(@PathVariable String username, @RequestBody ChangeEmploymentRequest changeEmploymentRequest) {
+    public ResponseEntity<EmploymentResponse> updateUserEmployment(@PathVariable String username, @RequestBody ChangeEmploymentRequest changeEmploymentRequest) {
         Employment employment = employmentService.getEmployment(username);
         employment = changeEmploymentRequest.employmentRequest(employment, teamService, userService);
         return ResponseEntity.ok().body(
@@ -72,16 +111,6 @@ public class EmploymentController {
         ).collect(Collectors.toList()));
     }
 
-//    @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
-//    @GetMapping("/hrPeoplePull")
-//    public ResponseEntity<List<EmploymentResponse>> getHrPeoplePullEmployments() {
-//        User loggedUser = userService.getLoggedUser();
-//        return ResponseEntity.ok().body(employmentService.getAllByHrManager(loggedUser.getUsername()).stream().map(
-//                employment -> EmploymentResponse.builder()
-//                        .employment(employment)
-//                        .build()
-//        ).collect(Collectors.toList()));
-//    }
 
     @Secured({"ROLE_SUPER_ADMIN", "ROLE_MANAGER", "ROLE_HR_ADMIN"})
     @GetMapping("/employees")
@@ -142,20 +171,5 @@ public class EmploymentController {
                 .build());
     }
 
-    private ResponseEntity<EmployeeExtendedResponse> getEmployeeExtendedResponseResponseEntity(User user, URI uri) {
-        return ResponseEntity.created(uri).body(EmployeeExtendedResponse.builder()
-                .user(UserResponse.builder()
-                        .user(user)
-                        .build())
-                .address(AddressResponse.builder()
-                        .address(user.getAddress())
-                        .build())
-                .employment(EmploymentResponse.builder()
-                        .employment(user.getEmployment())
-                        .build())
-                .roles(user.getRoles().stream().map(s ->
-                        String.valueOf(s.getRoleName())
-                ).collect(Collectors.toList()))
-                .build());
-    }
+
 }

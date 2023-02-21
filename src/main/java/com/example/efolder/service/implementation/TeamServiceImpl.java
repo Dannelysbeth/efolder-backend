@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,26 +29,22 @@ public class TeamServiceImpl implements TeamService {
 
     private Team updateTeamProperties(Team oldTeam, Team newTeam) {
         updateTeamLeader(oldTeam, newTeam);
-//        oldTeam.setName(newTeam.getName() != null ? newTeam.getName() : oldTeam.getName());
         oldTeam.setEmployees(newTeam.getEmployees() != null ? newTeam.getEmployees() : oldTeam.getEmployees());
-        oldTeam.setDescription(newTeam.getDescription() != null && newTeam.getDescription() != "" ? newTeam.getDescription() : oldTeam.getDescription());
+        oldTeam.setDescription(newTeam.getDescription() != null && !Objects.equals(newTeam.getDescription(), "") ? newTeam.getDescription() : oldTeam.getDescription());
         return oldTeam;
     }
 
-    private boolean checkIfUsersOnlyTeam(User user, Team team) {
-        if (user.getTeams().size() <= 1) {
-            return true;
-        }
-        return false;
+    private boolean checkIfUsersOnlyTeam(User user) {
+        return user.getTeams().size() <= 1;
     }
 
     private boolean checkIfTeamNameTaken(Team team) {
-        return teamRepository.existsByName(team.getName()) ? true : false;
+        return teamRepository.existsByName(team.getName());
     }
 
     private User deleteManagerRoleFromUser(User user, Team team) {
 
-        if (checkIfUsersOnlyTeam(user, team)) {
+        if (checkIfUsersOnlyTeam(user)) {
             user.getRoles().remove(roleService.getRole("ROLE_MANAGER"));
         }
         user.getTeams().remove(team);
@@ -57,10 +54,10 @@ public class TeamServiceImpl implements TeamService {
     private Team updateTeamLeader(Team oldTeam, Team newTeam) {
         if (oldTeam.getTeamLeader() != null &&
                 newTeam.getTeamLeader() != null &&
-                oldTeam.getTeamLeader().getUsername() != newTeam.getTeamLeader().getUsername()) {
+                !Objects.equals(oldTeam.getTeamLeader().getUsername(), newTeam.getTeamLeader().getUsername())) {
             User oldTeamLeader = oldTeam.getTeamLeader();
             User newTeamLeader = newTeam.getTeamLeader();
-            oldTeamLeader = deleteManagerRoleFromUser(oldTeamLeader, oldTeam);
+            deleteManagerRoleFromUser(oldTeamLeader, oldTeam);
             boolean hasManagerRole = false;
             for (Role r : newTeamLeader.getRoles()) {
                 if (r.getRoleName().equals("ROLE_MANAGER")) {

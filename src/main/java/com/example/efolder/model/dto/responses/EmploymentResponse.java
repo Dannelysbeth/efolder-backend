@@ -20,12 +20,6 @@ public class EmploymentResponse {
 
     private String positionDescription;
 
-    private String getFullName(User user) {
-        if (user.getMiddleName() != null)
-            return user.getFirstname() + " " + user.getMiddleName() + " " + user.getLastname();
-        return user.getFirstname() + " " + user.getLastname();
-    }
-
     @Builder
     public EmploymentResponse(Employment employment) {
         this.username = employment.getUser().getUsername();
@@ -34,5 +28,11 @@ public class EmploymentResponse {
 //        this.hrManager = getFullName(employment.getHrManager());
         this.positionName = employment.getPositionName();
         this.positionDescription = employment.getPositionDescription();
+    }
+
+    private String getFullName(User user) {
+        if (user.getMiddleName() != null)
+            return user.getFirstname() + " " + user.getMiddleName() + " " + user.getLastname();
+        return user.getFirstname() + " " + user.getLastname();
     }
 }

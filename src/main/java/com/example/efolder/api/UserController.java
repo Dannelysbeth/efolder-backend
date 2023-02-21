@@ -74,7 +74,7 @@ public class UserController {
                 .middleName(loggedUser.getMiddleName())
                 .imageUrl(picUrl)
                 .roles(loggedUser.getRoles().stream().map(s ->
-                        String.valueOf(s.getRoleName()).toString()
+                        String.valueOf(s.getRoleName())
                 ).collect(Collectors.toList()))
                 .build()
         );

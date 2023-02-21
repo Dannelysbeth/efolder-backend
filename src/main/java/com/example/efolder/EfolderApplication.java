@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * main class of application
- * */
+ */
 @SpringBootApplication
 public class EfolderApplication {
 

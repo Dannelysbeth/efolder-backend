@@ -21,16 +21,6 @@ public class TeamResponse {
 
     int teamSize;
 
-    private int countTeamMembers(Team team) {
-        int teamSize = 0;
-        if (!team.getEmployees().isEmpty()) {
-            for (int i = 0; i < team.getEmployees().size(); i++) {
-                teamSize++;
-            }
-        }
-        return teamSize;
-    }
-
     @Builder
     public TeamResponse(Team team) {
         this.id = team.getId();
@@ -44,6 +34,16 @@ public class TeamResponse {
         this.employees = team.getEmployees().stream().map(employment -> EmployeeResponse.builder()
                 .employment(employment)
                 .build()).collect(Collectors.toList());
+    }
+
+    private int countTeamMembers(Team team) {
+        int teamSize = 0;
+        if (!team.getEmployees().isEmpty()) {
+            for (int i = 0; i < team.getEmployees().size(); i++) {
+                teamSize++;
+            }
+        }
+        return teamSize;
     }
 
 

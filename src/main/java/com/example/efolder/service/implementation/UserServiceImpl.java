@@ -36,10 +36,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-    private boolean usernameIsTaken(String username) {
-        return userRepository.existsByUsername(username);
-    }
-
 
     private boolean checkIfUserHasRole(User user, Role role) {
         for (Role r : user.getRoles()) {
@@ -49,9 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private boolean checkIfUserIsNotManager(User user) {
-        if (user.getTeams().isEmpty())
-            return true;
-        return false;
+        return user.getTeams().isEmpty();
     }
 
     private String getAllTeamsNames(User user) {

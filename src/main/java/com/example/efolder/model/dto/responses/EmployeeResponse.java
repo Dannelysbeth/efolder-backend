@@ -22,18 +22,6 @@ public class EmployeeResponse {
     private String positionName;
     private String positionDescription;
 
-    private String getFullName(User user) {
-        if (user.getMiddleName() != null)
-            return user.getFirstname() + " " + user.getMiddleName() + " " + user.getLastname();
-        return user.getFirstname() + " " + user.getLastname();
-    }
-
-    private String getImageUrl(User user) {
-        return user.getProfilePicture() == null ?
-                null :
-                BASE_URL + "api/profilePicture/view/" + user.getId();
-    }
-
     @Builder
     public EmployeeResponse(Employment employment) {
         this.id = employment.getId();
@@ -47,5 +35,17 @@ public class EmployeeResponse {
 //        this.hrManager = getFullName(employment.getHrManager());
         this.positionName = employment.getPositionName();
         this.positionDescription = employment.getPositionDescription();
+    }
+
+    private String getFullName(User user) {
+        if (user.getMiddleName() != null)
+            return user.getFirstname() + " " + user.getMiddleName() + " " + user.getLastname();
+        return user.getFirstname() + " " + user.getLastname();
+    }
+
+    private String getImageUrl(User user) {
+        return user.getProfilePicture() == null ?
+                null :
+                BASE_URL + "api/profilePicture/view/" + user.getId();
     }
 }

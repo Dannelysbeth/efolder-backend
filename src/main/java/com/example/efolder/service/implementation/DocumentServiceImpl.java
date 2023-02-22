@@ -22,7 +22,7 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
 
     private boolean checkIfFileExceedsMaxSize(Document document) {
-        return document.getSize() > 10000000 ? true : false;
+        return document.getSize() > 10000000;
     }
 
     @Override

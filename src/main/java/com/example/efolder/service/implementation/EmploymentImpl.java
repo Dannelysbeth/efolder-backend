@@ -36,12 +36,6 @@ public class EmploymentImpl implements EmploymentService {
         return employmentRepository.save(employment);
     }
 
-
-//    @Override
-//    public List<Employment> getAllByHrManager(String hrManagerName) {
-//        return employmentRepository.findAllByHrManager_Username(hrManagerName);
-//    }
-
     @Override
     public List<Employment> getAllBySupervisor(String managerUsername) {
         return employmentRepository.findAllByTeam_TeamLeader_Username(managerUsername);

@@ -20,38 +20,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     protected Long id;
-
+    @Column(nullable = false)
+    protected String username;
+    @Setter
+    @Column(nullable = false)
+    protected String password;
     @Setter
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Address address;
-
     @Setter
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Employment employment;
-
     @Setter
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private ProfilePicture profilePicture;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teamLeader")
-    private Collection<Team> teams = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
-    private Collection<Document> documents = new ArrayList<>();
-
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hrManager")
 //    private Collection<Employment> hrPeoplePull = new ArrayList<>();
-
-    @Column(nullable = false)
-    protected String username;
-
-    @Setter
-    @Column(nullable = false)
-    protected String password;
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teamLeader")
+    private Collection<Team> teams = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
+    private Collection<Document> documents = new ArrayList<>();
     @Setter
     @Column(name = "firstname", nullable = false)
     private String firstname;

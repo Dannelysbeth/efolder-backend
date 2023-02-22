@@ -40,6 +40,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class TokenController {
     private final UserService userService;
 
+    public static void setResponseHeaders(HttpServletResponse response, Exception exception) throws IOException {
+        response.setHeader("Error", exception.getMessage());
+        response.setStatus(FORBIDDEN.value());
+        Map<String, String> error = new HashMap<>();
+        error.put("error_message", exception.getMessage());
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), error);
+    }
+
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -86,14 +95,5 @@ public class TokenController {
             throw new JwtValidationException();
         }
         return new JwtTokenInfoResponse(HttpStatus.OK.value(), "Valid JWT");
-    }
-
-    public static void setResponseHeaders(HttpServletResponse response, Exception exception) throws IOException {
-        response.setHeader("Error", exception.getMessage());
-        response.setStatus(FORBIDDEN.value());
-        Map<String, String> error = new HashMap<>();
-        error.put("error_message", exception.getMessage());
-        response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), error);
     }
 }

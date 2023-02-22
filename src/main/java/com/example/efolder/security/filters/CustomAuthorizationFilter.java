@@ -34,9 +34,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Service
 @RequiredArgsConstructor
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
-
-    private final UserService userService;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals("api/login") || request.getServletPath().equals("api/token/refresh") || request.getServletPath().startsWith("api/token/documents/")) {
@@ -60,49 +57,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     log.error(exception.getMessage());
                     TokenController.setResponseHeaders(response, exception);
                 }
-//            }
-//            if(isAuthorizationHeaderCorrect(authorizationHeader)) {
-//                try {
-//                    String token = authorizationHeader.substring("Bearer ".length());
-//
-//                    DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(JWT_SECRET_KEY.getBytes())).build().verify(token);
-//                    String username = decodedJWT.getSubject();
-//
-//                    Map<String, Claim> JWTClaims = decodedJWT.getClaims();
-//                    UsernamePasswordAuthenticationToken authenticationToken;
-//                    User user = userService.getUser(username);
-//                    //TODO fix this issue
-//                    authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-//
-//                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-//                    filterChain.doFilter(request, response);
-//
-//                } catch (TokenExpiredException exception) {
-//                    addErrorMessageToResponse(response, HttpStatus.FORBIDDEN.value(), "JWT expired");
-//
-//                } catch (JWTVerificationException exception) {
-//                    addErrorMessageToResponse(response, HttpStatus.FORBIDDEN.value(), "JWT validation error");
-//
-//                } catch (Exception exception) {
-//                    addErrorMessageToResponse(response, HttpStatus.FORBIDDEN.value(), "Authorization denied. Error occured.");
-//                }
             } else {
                 filterChain.doFilter(request, response);
             }
         }
-    }
-
-    private void addErrorMessageToResponse(HttpServletResponse response, int errorCode, String errorMessage) throws IOException {
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), new ErrorResponse(errorCode, errorMessage));
-    }
-
-    private boolean isRequestURLAvailableForNotLoggedInUsers(HttpServletRequest request) {
-        return request.getServletPath().equals(LOGIN_URL) || request.getServletPath().equals(REFRESH_URL);
-    }
-
-    private boolean isAuthorizationHeaderCorrect(String authorizationHeader) {
-        return authorizationHeader != null && authorizationHeader.startsWith("Bearer ");
     }
 }

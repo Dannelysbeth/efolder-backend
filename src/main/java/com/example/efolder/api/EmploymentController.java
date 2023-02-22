@@ -37,7 +37,7 @@ public class EmploymentController {
      * Gets the extended response of the employee's information
      *
      * @param user – the user, for whom the information should be returned
-     * @param uri – uri for the request
+     * @param uri  – uri for the request
      * @return extended employee information
      */
     private ResponseEntity<EmployeeExtendedResponse> getEmployeeExtendedResponseResponseEntity(User user, URI uri) {
@@ -75,7 +75,7 @@ public class EmploymentController {
     /**
      * Updates user's employment
      *
-     * @param username – the username of the user
+     * @param username                – the username of the user
      * @param changeEmploymentRequest
      * @return
      */

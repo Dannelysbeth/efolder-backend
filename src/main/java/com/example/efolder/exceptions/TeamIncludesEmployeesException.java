@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class TeamIncludesEmployeesException extends BusinessException {
     public TeamIncludesEmployeesException() {
-        super(HttpStatus.NOT_ACCEPTABLE.value(), "Zespół posiada pracowników, więc nie może zostać usunięty");
+        super(HttpStatus.NOT_ACCEPTABLE.value(), "This teams has team members, so it cannot be deleted!");
     }
 }

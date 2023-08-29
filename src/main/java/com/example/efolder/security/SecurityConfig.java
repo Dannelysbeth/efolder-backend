@@ -30,16 +30,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String JWT_SECRET_KEY = "superSecretServerOnlyKeyThatProbablyShouldntBeHere#335";
-
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    private final CustomAuthorizationFilter customAuthorizationFilter;
-
     public static final String BASE_URL = "http://localhost:8080/";
-
     public static final String LOGIN_URL = "/api/login";
     public static final String REFRESH_URL = "/api/auth/refreshToken";
+    private final UserDetailsService userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CustomAuthorizationFilter customAuthorizationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -60,20 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(REFRESH_URL).permitAll();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-        //added code to handle password not found exception
-//        http.authorizeRequests()
-//                        .anyRequest().authenticated()
-//                        .and()
-//                                .formLogin()
-//                                        .failureHandler((request, response, exception) -> System.out.println(exception))
-//                                                .permitAll();
 
         http
                 .cors().and()
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
                 .csrf().disable().formLogin().disable().httpBasic().disable();
 
-//        http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
     }
 

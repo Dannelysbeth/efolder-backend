@@ -38,7 +38,7 @@ public class User {
     @PrimaryKeyJoinColumn
     private ProfilePicture profilePicture;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hrManager")
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "hrManager")
 //    private Collection<Employment> hrPeoplePull = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teamLeader")
     private Collection<Team> teams = new ArrayList<>();

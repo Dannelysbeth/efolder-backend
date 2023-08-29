@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -14,7 +14,8 @@
     <name>efolder</name>
     <description>efolder</description>
     <properties>
-        <java.version>17</java.version><spring-security.version>5.3.4.RELEASE</spring-security.version>
+        <java.version>17</java.version>
+        <spring-security.version>5.3.4.RELEASE</spring-security.version>
         <spring.version>5.2.8.RELEASE</spring.version>
 
     </properties>
@@ -205,24 +206,24 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>io.github.robwin</groupId>-->
-<!--                <artifactId>swagger2markup-maven-plugin</artifactId>-->
-<!--                <version>0.9.3</version>-->
-<!--                <configuration>-->
-<!--                    <inputDirectory>${project.build.directory}/api</inputDirectory>-->
-<!--                    <outputDirectory>${generated.asciidoc.directory}</outputDirectory>-->
-<!--                    <markupLanguage>asciidoc</markupLanguage>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>process-swagger</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>io.github.robwin</groupId>-->
+            <!--                <artifactId>swagger2markup-maven-plugin</artifactId>-->
+            <!--                <version>0.9.3</version>-->
+            <!--                <configuration>-->
+            <!--                    <inputDirectory>${project.build.directory}/api</inputDirectory>-->
+            <!--                    <outputDirectory>${generated.asciidoc.directory}</outputDirectory>-->
+            <!--                    <markupLanguage>asciidoc</markupLanguage>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>process-swagger</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>

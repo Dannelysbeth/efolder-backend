@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>c6995fd1-735b-48c9-9596-34821bd01a8c</OriginalElement>
+  <nodes>
+    <node x="311.06588235294123" y="156.83623529411767">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.teams</node>
+    <node x="541.2496470588237" y="90.83623529411767">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.documents</node>
+    <node x="2.1967058823529726" y="-298.2903529411765">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.profile_pictures</node>
+    <node x="550.7656470588238" y="-346.9755294117647">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.roles</node>
+    <node x="197.63529411764713" y="-240.83529411764707">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users</node>
+    <node x="9.594352941176481" y="33.4588235294118">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.employments</node>
+    <node x="397.0611764705884" y="-346.4755294117647">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users_roles</node>
+    <node x="518.2496470588237" y="-218.83529411764707">c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.addresses</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users_roles" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users" relationship="REFERENCES">
+      <point x="-28.0" y="-38.0" />
+      <point x="425.0611764705884" y="-293.68023529411767" />
+      <point x="344.3019607843138" y="-293.68023529411767" />
+      <point x="58.66666666666666" y="115.5" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.employments" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users" relationship="REFERENCES">
+      <point x="71.66666666666667" y="-71.5" />
+      <point x="188.76101960784314" y="-44.82329411764705" />
+      <point x="344.3019607843138" y="-44.82329411764705" />
+      <point x="58.66666666666666" y="115.5" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users_roles" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.roles" relationship="REFERENCES">
+      <point x="28.0" y="-38.0" />
+      <point x="481.0611764705884" y="-308.4755294117647" />
+      <point x="612.2656470588238" y="-308.4755294117647" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.documents" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users" relationship="REFERENCES">
+      <point x="0.0" y="-93.5" />
+      <point x="628.2496470588237" y="75.97182352941168" />
+      <point x="499.1593725490197" y="75.97182352941168" />
+      <point x="499.1593725490197" y="-85.55417647058827" />
+      <point x="344.3019607843138" y="-85.55417647058827" />
+      <point x="58.66666666666666" y="115.5" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.addresses" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users" relationship="REFERENCES">
+      <point x="0.0" y="-104.5" />
+      <point x="616.7496470588237" y="-153.98776470588234" />
+      <point x="344.3019607843138" y="-153.98776470588234" />
+      <point x="58.66666666666666" y="115.5" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.teams" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users" relationship="REFERENCES">
+      <point x="-49.52588235294121" y="-61.77011764705884" />
+      <point x="344.04" y="-20.991058823529386" />
+      <point x="59.39105882352936" y="104.34423529411768" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.profile_pictures" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.users" relationship="REFERENCES">
+      <point x="0.0" y="-60.5" />
+      <point x="76.69670588235297" y="-125.33529411764707" />
+      <point x="344.3019607843138" y="-125.33529411764707" />
+      <point x="58.66666666666666" y="115.5" />
+    </edge>
+    <edge source="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.employments" target="c6995fd1-735b-48c9-9596-34821bd01a8c.TABLE:e_folder_database.teams" relationship="REFERENCES">
+      <point x="-1.437882352941159" y="47.648235294117626" />
+      <point x="115.65647058823532" y="222.48376470588232" />
+      <point x="393.56588235294123" y="222.48376470588232" />
+      <point x="0.0" y="60.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8110687022900763" showDependencies="false" x="578.0127890672941" y="90.57647058823534" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

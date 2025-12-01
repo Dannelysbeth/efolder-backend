@@ -133,7 +133,7 @@ public class EmploymentController {
                         .user(userService.createRegularEmployee(user))
                         .build())
                 .address(AddressResponse.builder()
-                        .address(addressService.saveAddress(createEmployeeRequest.returnBasicAddress(userService.getUser(user.getUsername()))))
+                        .address(addressService.saveAnyAddress(createEmployeeRequest.returnBasicAddress(userService.getUser(user.getUsername()))))
                         .build())
                 .employment(EmploymentResponse.builder()
                         .employment(employmentService.saveEmployment(createEmployeeRequest.returnEmployment(userService, teamService, user.getUsername())))

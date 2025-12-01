@@ -30,12 +30,11 @@ public class AddressController {
      *
      * @return the address information of logged user
      */
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE', 'ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
+    @PreAuthorize("isAuthenticated()")
     @GetMapping()
-    public ResponseEntity<AddressResponse> getMyAddress() {
-        User loggedUser = userService.getLoggedUser();
+    public ResponseEntity<AddressResponse> getOwnAddress() {
         return ResponseEntity.ok().body(AddressResponse.builder()
-                .address(addressService.getAddress(loggedUser.getUsername()))
+                .address(addressService.getOwnAddress())
                 .build());
     }
 
@@ -45,11 +44,11 @@ public class AddressController {
      * @param username – the username of the user, for whom the address should be returned
      * @return the address of the selected user
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{username}")
-    public ResponseEntity<AddressResponse> getMyAddress(@PathVariable("username") String username) {
+    public ResponseEntity<AddressResponse> getAddress(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(AddressResponse.builder()
-                .address(addressService.getAddress(username))
+                .address(addressService.getAnyAddress(username))
                 .build());
     }
 
@@ -59,14 +58,14 @@ public class AddressController {
      * @param addressRequest – new address information for selected user
      * @return address of the logged user
      */
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE', 'ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
+    @PreAuthorize("isAuthenticated()")
     @PostMapping()
-    public ResponseEntity<AddressResponse> saveMyAddress(@RequestBody CreateAddressRequest addressRequest) {
+    public ResponseEntity<AddressResponse> saveAddress(@RequestBody CreateAddressRequest addressRequest) {
         User loggedUser = userService.getLoggedUser();
         Address address = addressRequest.addressRequest(loggedUser);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + loggedUser.getUsername()).toUriString());
         return ResponseEntity.created(uri).body(AddressResponse.builder()
-                .address(addressService.saveAddress(address))
+                .address(addressService.saveOwnAddress(address))
                 .build());
     }
 
@@ -78,14 +77,14 @@ public class AddressController {
      * @param addressRequest – the new address for the selected user
      * @return the address of the selected user
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_MANAGER')"))
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/{username}")
-    public ResponseEntity<AddressResponse> saveMyAddress(@PathVariable("username") String username, @RequestBody CreateAddressRequest addressRequest) {
+    public ResponseEntity<AddressResponse> saveAddress(@PathVariable("username") String username, @RequestBody CreateAddressRequest addressRequest) {
         User user = userService.getUser(username);
         Address address = addressRequest.addressRequest(user);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + username).toUriString());
         return ResponseEntity.created(uri).body(AddressResponse.builder()
-                .address(addressService.saveAddress(address))
+                .address(addressService.saveAnyAddress(address))
                 .build());
     }
 }

@@ -1,11 +1,9 @@
 package com.example.efolder.api;
 
 import com.example.efolder.model.Address;
-import com.example.efolder.model.User;
-import com.example.efolder.model.dto.requests.CreateAddressRequest;
+import com.example.efolder.model.dto.requests.AddressRequest;
 import com.example.efolder.model.dto.responses.AddressResponse;
 import com.example.efolder.service.definition.AddressService;
-import com.example.efolder.service.definition.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +21,6 @@ import java.net.URI;
 public class AddressController {
 
     private final AddressService addressService;
-    private final UserService userService;
 
     /**
      * Gets the address of the logged user
@@ -60,12 +57,11 @@ public class AddressController {
      */
     @PreAuthorize("isAuthenticated()")
     @PostMapping()
-    public ResponseEntity<AddressResponse> saveAddress(@RequestBody CreateAddressRequest addressRequest) {
-        User loggedUser = userService.getLoggedUser();
-        Address address = addressRequest.addressRequest(loggedUser);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + loggedUser.getUsername()).toUriString());
+    public ResponseEntity<AddressResponse> saveOwnAddress(@RequestBody AddressRequest addressRequest) {
+        Address address = addressService.saveOwnAddress(addressRequest);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + address.getUser().getUsername()).toUriString());
         return ResponseEntity.created(uri).body(AddressResponse.builder()
-                .address(addressService.saveOwnAddress(address))
+                .address(address)
                 .build());
     }
 
@@ -79,12 +75,10 @@ public class AddressController {
      */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{username}")
-    public ResponseEntity<AddressResponse> saveAddress(@PathVariable("username") String username, @RequestBody CreateAddressRequest addressRequest) {
-        User user = userService.getUser(username);
-        Address address = addressRequest.addressRequest(user);
+    public ResponseEntity<AddressResponse> saveAddress(@PathVariable("username") String username, @RequestBody AddressRequest addressRequest) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/address/" + username).toUriString());
         return ResponseEntity.created(uri).body(AddressResponse.builder()
-                .address(addressService.saveAnyAddress(address))
+                .address(addressService.saveAnyAddress(addressRequest, username))
                 .build());
     }
 }

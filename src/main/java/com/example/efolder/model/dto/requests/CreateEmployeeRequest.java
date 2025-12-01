@@ -16,7 +16,7 @@ public class CreateEmployeeRequest {
 
     CreateUserRequest user;
     CreateEmploymentRequest employment;
-    CreateAddressRequest address;
+    AddressRequest address;
 
     public boolean checkIfAllRequiredAreAvailable() {
         if (user.checkIfNotEmpty() && employment.checkIfNotNull() && address.checkIfEmpty())
@@ -34,13 +34,13 @@ public class CreateEmployeeRequest {
     }
 
     public Address returnBasicAddress(User user) {
-        return address.addressRequest(user);
+        return address.buildAddress(user);
     }
 
     public User employeeRequest(UserService userService, TeamService teamService) {
         User user = this.user.userRequest();
         Employment employment = this.employment.employmentRequest(userService, teamService, user.getUsername());
-        Address address = this.address.addressRequest(user);
+        Address address = this.address.buildAddress(user);
         user.setEmployment(employment);
         user.setAddress(address);
         return user;

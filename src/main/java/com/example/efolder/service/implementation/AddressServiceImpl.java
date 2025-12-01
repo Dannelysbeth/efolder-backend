@@ -3,6 +3,7 @@ package com.example.efolder.service.implementation;
 import com.example.efolder.exceptions.AddressNotFoundException;
 import com.example.efolder.model.Address;
 import com.example.efolder.model.User;
+import com.example.efolder.model.dto.requests.AddressRequest;
 import com.example.efolder.repository.AddressRepository;
 import com.example.efolder.service.definition.AddressService;
 import com.example.efolder.service.definition.UserService;
@@ -20,6 +21,16 @@ import javax.transaction.Transactional;
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final UserService userService;
+
+    @Override
+    @PreAuthorize("hasAuthority('ADDRESS_WRITE_ANY')")
+    public Address saveAnyAddress(AddressRequest request, String username) {
+        User user = userService.getUser(username);
+        Address address = request.buildAddress(user);
+        user.setAddress(address);
+        userService.updateUser(user);
+        return addressRepository.save(address);
+    }
 
     @Override
     @PreAuthorize("hasAuthority('ADDRESS_WRITE_ANY')")
@@ -48,8 +59,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     @PreAuthorize("hasAuthority('ADDRESS_WRITE_OWN')")
-    public Address saveOwnAddress(Address address) {
+    public Address saveOwnAddress(AddressRequest request) {
         User user = userService.getLoggedUser();
+        Address address = request.buildAddress(user);
         user.setAddress(address);
         userService.updateUser(user);
         return addressRepository.save(address);

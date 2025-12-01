@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @AllArgsConstructor
-public class CreateAddressRequest {
+public class AddressRequest {
 
     @NotBlank
     private String country;
@@ -36,11 +36,11 @@ public class CreateAddressRequest {
         return true;
     }
 
-    public Address addressRequest(User user) {
+    public Address buildAddress(User user) {
         checkIfEmpty();
         return Address.builder()
-                .user(user)
                 .id(user.getId())
+                .user(user)
                 .country(country)
                 .city(city)
                 .buildingNumber(buildingNumber)

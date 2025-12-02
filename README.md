@@ -1,3 +1,3 @@
 # efolder-backend
 
-REST API backend program for e-Folder application
+REST API backend program for e-Folder application.

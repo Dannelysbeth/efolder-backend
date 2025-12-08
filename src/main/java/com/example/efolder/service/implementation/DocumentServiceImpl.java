@@ -8,6 +8,7 @@ import com.example.efolder.repository.DocumentRepository;
 import com.example.efolder.service.definition.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -33,6 +34,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
     public Document getDocument(Long id) {
         return documentRepository.findById(id)
                 .orElseThrow(DocumentNotFoundException::new);

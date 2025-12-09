@@ -36,7 +36,8 @@ public class DocumentController {
      * @param id - id of provided document
      * @return resource in form of a viewable pdf document
      */
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/view/{id}")
     public ResponseEntity<Resource> viewDocument(@PathVariable Long id) {
         Document document = documentService.getDocument(id);

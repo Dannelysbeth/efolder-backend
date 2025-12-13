@@ -54,7 +54,8 @@ public class DocumentController {
      * @param id - the id of the document
      * @return start downloading file
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+//    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) {
         Document document = documentService.getDocument(id);

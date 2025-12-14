@@ -71,7 +71,8 @@ public class DocumentController {
      * @param id - the id of the document
      * @return the document information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
     @GetMapping("/info/id={id}")
     public ResponseEntity<Document> getDocumentInfo(@PathVariable Long id) {
         return ResponseEntity.ok(documentService.getDocument(id));

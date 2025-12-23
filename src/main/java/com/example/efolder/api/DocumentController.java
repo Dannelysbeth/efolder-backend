@@ -84,7 +84,8 @@ public class DocumentController {
      * @param username - username of user, from whom documents should be selected
      * @return users documents' information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
     @GetMapping("info/all/{username}")
     public ResponseEntity<List<DocumentResponse>> getAllDocumentsByUsername(@PathVariable String username) {
         return ResponseEntity.ok(documentService.getAllDocumentsByUsername(username).stream().map(

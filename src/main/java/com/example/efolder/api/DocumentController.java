@@ -101,7 +101,8 @@ public class DocumentController {
      * @param username - username of user, from whom documents should be selected
      * @return users documents' information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
     @GetMapping("info/all")
     public ResponseEntity<List<DocumentResponse>> getAllDocuments() {
         User loggedUser = userService.getLoggedUser();

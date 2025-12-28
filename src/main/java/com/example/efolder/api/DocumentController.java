@@ -119,7 +119,8 @@ public class DocumentController {
      * @param type - the category of files that should be selected
      * @return users documents' information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize(("hasAnyRole('ROLE_REGULAR_EMPLOYEE')"))
     @GetMapping("info/{type}")
     public ResponseEntity<List<DocumentResponse>> getAllDocumentsByCategory(@PathVariable String type) {
         User loggedUser = userService.getLoggedUser();

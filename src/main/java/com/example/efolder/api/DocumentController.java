@@ -140,7 +140,8 @@ public class DocumentController {
      * @param username - username of user, from whom documents should be selected
      * @return users documents' information
      */
-    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
+    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize(("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_REGULAR_EMPLOYEE')"))
     @GetMapping("info/{type}/{username}")
     public ResponseEntity<List<DocumentResponse>> getAllDocumentsByCategoryAndUser(@PathVariable String type, @PathVariable String username) {
         User user = userService.getUser(username);
